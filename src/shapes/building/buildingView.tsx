@@ -1,7 +1,7 @@
 export const BuildingView = () => {
 	return (
 		<>
-			<div>Building View</div>
+			<div className="border-2 rounded-md h-full">Building View</div>
 		</>
 	);
 };

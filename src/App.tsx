@@ -1,5 +1,6 @@
 import { type Editor, Tldraw, toRichText } from "tldraw";
 import "tldraw/tldraw.css";
+import "./styles/index.css";
 import { BuildingShapeUtil } from "./shapes/building/buildingShapeUtil";
 
 const CustomShapesUtils = [BuildingShapeUtil];
