@@ -1,4 +1,4 @@
-import { createShapeId, type Editor, type TLArrowShape, Tldraw } from "tldraw"
+import { type Editor, Tldraw } from "tldraw"
 import "tldraw/tldraw.css"
 import "./styles/index.css"
 import { BuildingShapeUtil } from "./shapes/building/buildingShapeUtil"
