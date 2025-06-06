@@ -7,8 +7,8 @@ export class BuildingShapeUtil extends ShapeUtil<BuildingShape> {
 
 	getDefaultProps(): BuildingShape["props"] {
 		return {
-			w: 100,
-			h: 100,
+			w: 400,
+			h: 300,
 		};
 	}
 
@@ -20,8 +20,8 @@ export class BuildingShapeUtil extends ShapeUtil<BuildingShape> {
 		});
 	}
 
-	component() {
-		return <BuildingView />;
+	component(shape: BuildingShape) {
+		return <BuildingView shape={shape} />;
 	}
 
 	indicator(shape: BuildingShape) {
