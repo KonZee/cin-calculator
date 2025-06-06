@@ -7,19 +7,19 @@ const input = [
 	{
 		id: uuid(),
 		name: "Iron Crushed",
-		file: "/game/48px-IronCrushed.png",
+		file: "game/48px-IronCrushed.png",
 		quantity: 24,
 	},
 	{
 		id: uuid(),
 		name: "Limestone",
-		file: "/game/48px-Limestone.png",
+		file: "game/48px-Limestone.png",
 		quantity: 3,
 	},
 	{
 		id: uuid(),
 		name: "Graphite",
-		file: "/game/48px-Graphite.png",
+		file: "game/48px-Graphite.png",
 		quantity: 3,
 	},
 ]
@@ -28,19 +28,19 @@ const outputs = [
 	{
 		id: uuid(),
 		name: "Iron Molten",
-		file: "/game/48px-IronMolten.png",
+		file: "game/48px-IronMolten.png",
 		quantity: 24,
 	},
 	{
 		id: uuid(),
 		name: "Slag",
-		file: "/game/48px-Slag.png",
+		file: "game/48px-Slag.png",
 		quantity: 9,
 	},
 	{
 		id: uuid(),
 		name: "Exhaust",
-		file: "/game/48px-Exhaust.png",
+		file: "game/48px-Exhaust.png",
 		quantity: 6,
 	},
 ]
@@ -171,7 +171,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 					<div className="flex mr-2">
 						<div className="mr-1">
 							<img
-								src="/game/16px-Worker.png"
+								src="game/16px-Worker.png"
 								className="w-4 h-4 mr-1"
 								alt="Workers"
 							/>
@@ -180,7 +180,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 					</div>
 					<div className="flex mr-2 items-center">
 						<img
-							src="/game/48px-Electricity.png"
+							src="game/48px-Electricity.png"
 							className="w-4 h-4 mr-1"
 							alt="Electricity"
 						/>
@@ -188,7 +188,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 					</div>
 					<div className="flex mr-2">
 						<img
-							src="/game/48px-Maintenance_I.png"
+							src="game/48px-Maintenance_I.png"
 							className="w-4 h-4 mr-1"
 							alt="Maintenance"
 						/>
@@ -196,7 +196,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 					</div>
 					<div className="flex mr-2">
 						<img
-							src="/game/48px-Construction_Parts_III.png"
+							src="game/48px-Construction_Parts_III.png"
 							className="w-4 h-4 mr-1"
 							alt="Construction Parts III"
 						/>
