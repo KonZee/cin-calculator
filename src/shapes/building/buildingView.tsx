@@ -105,105 +105,100 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	}
 
 	return (
-		<>
-			<div
-				className="border rounded-md h-full bg-gray-500 text-white flex flex-col"
-				style={{ pointerEvents: "none" }}
-				onPointerDown={(e) => e.stopPropagation()}
-				onTouchStart={(e) => e.stopPropagation()}
-				onTouchEnd={(e) => e.stopPropagation()}
-			>
-				<div className="w-full p-4 flex grow-0">
-					<div className="flex justify-center text-center flex-grow">
-						Arc Furnace
-					</div>
-					{/* <TrashIcon className="w-4 h-4 cursor-pointer" /> */}
-				</div>
-				<div className="p-4 grow">
-					<div>
-						<div className="text-center mb-2">Recipes</div>
-						<div className="flex justify-between">
-							<div className="flex flex-col">
-								<div>Inputs</div>
-								{input.map((i, idx) => (
-									<div
-										key={i.id}
-										className="flex items-center cursor-pointer hover:bg-gray-600"
-										style={{ pointerEvents: "all" }}
-										onClick={() => handleInputClick(idx)}
-										onKeyDown={() => handleInputClick(idx)}
-									>
-										<PlusIcon className="w-4 h-4" />
+		<div
+			className="bg-gradient-to-b from-gray-700 to-gray-800 text-white rounded-lg shadow-lg flex flex-col select-none"
+			style={{ pointerEvents: "none" }}
+			onPointerDown={(e) => e.stopPropagation()}
+			onTouchStart={(e) => e.stopPropagation()}
+			onTouchEnd={(e) => e.stopPropagation()}
+		>
+			{/* Header */}
+			<div className="p-4 border-b border-gray-600 flex justify-center items-center text-xl font-semibold select-text">
+				Arc Furnace
+			</div>
 
-										<img
-											src={i.file}
-											className="w-8 h-8 mx-1 my-1"
-											alt={i.name}
-										/>
-										<span>{i.quantity}</span>
-									</div>
-								))}
+			{/* Recipes Section */}
+			<div className="flex flex-grow p-4 gap-6 overflow-auto">
+				{/* Inputs */}
+				<div className="flex flex-col flex-1">
+					<div className="mb-2 text-center font-medium">Inputs</div>
+					<div className="flex flex-col gap-2">
+						{input.map((i, idx) => (
+							<div
+								key={i.id}
+								className="flex items-center cursor-pointer rounded-md px-2 py-1 hover:bg-gray-600 transition-colors"
+								style={{ pointerEvents: "all" }}
+								onClick={() => handleInputClick(idx)}
+								onKeyDown={() => handleInputClick(idx)}
+							>
+								<PlusIcon className="w-4 h-4 mr-2 flex-shrink-0" />
+								<img
+									src={i.file}
+									alt={i.name}
+									className="w-8 h-8 rounded-sm object-cover"
+								/>
+								<span className="ml-2">{i.quantity}</span>
 							</div>
-							<div className="flex flex-col items-end">
-								<div>Outputs</div>
-								{outputs.map((i, idx) => (
-									<div
-										key={i.id}
-										className="flex items-center cursor-pointer hover:bg-gray-600"
-										style={{ pointerEvents: "all" }}
-										onClick={() => handleOutputClick(idx)}
-										onKeyDown={() => handleOutputClick(idx)}
-									>
-										<span>{i.quantity}</span>
-										<img
-											src={i.file}
-											className="w-8 h-8 mx-1 my-1"
-											alt={i.name}
-										/>
-										<PlusIcon className="w-4 h-4" />
-									</div>
-								))}
-							</div>
-						</div>
+						))}
 					</div>
 				</div>
-				<div className="p-4 flex">
-					<div className="flex mr-2">
-						<div className="mr-1">
-							<img
-								src="game/16px-Worker.png"
-								className="w-4 h-4 mr-1"
-								alt="Workers"
-							/>
-						</div>
-						<span>5</span>
-					</div>
-					<div className="flex mr-2 items-center">
-						<img
-							src="game/48px-Electricity.png"
-							className="w-4 h-4 mr-1"
-							alt="Electricity"
-						/>
-						<span>400kWt</span>
-					</div>
-					<div className="flex mr-2">
-						<img
-							src="game/48px-Maintenance_I.png"
-							className="w-4 h-4 mr-1"
-							alt="Maintenance"
-						/>
-						<span>2</span>
-					</div>
-					<div className="flex mr-2">
-						<img
-							src="game/48px-Construction_Parts_III.png"
-							className="w-4 h-4 mr-1"
-							alt="Construction Parts III"
-						/>
-						<span>160</span>
+
+				{/* Outputs */}
+				<div className="flex flex-col flex-1 items-end">
+					<div className="mb-2 text-center font-medium w-full">Outputs</div>
+					<div className="flex flex-col gap-2 w-full">
+						{outputs.map((i, idx) => (
+							<div
+								key={i.id}
+								className="flex items-center cursor-pointer rounded-md px-2 py-1 hover:bg-gray-600 transition-colors justify-end"
+								style={{ pointerEvents: "all" }}
+								onClick={() => handleOutputClick(idx)}
+								onKeyDown={() => handleOutputClick(idx)}
+							>
+								<span className="mr-2">{i.quantity}</span>
+								<img
+									src={i.file}
+									alt={i.name}
+									className="w-8 h-8 rounded-sm object-cover"
+								/>
+								<PlusIcon className="w-4 h-4 ml-2 flex-shrink-0" />
+							</div>
+						))}
 					</div>
 				</div>
 			</div>
-		</>
+
+			{/* Footer Stats */}
+			<div className="flex p-4 border-t border-gray-600 gap-6 text-sm items-center select-text">
+				<div className="flex items-center gap-1">
+					<img src="game/16px-Worker.png" alt="Workers" className="w-4 h-4" />
+					<span>5</span>
+				</div>
+				<div className="flex items-center gap-1">
+					<img
+						src="game/48px-Electricity.png"
+						alt="Electricity"
+						className="w-4 h-4"
+					/>
+					<span>400kWt</span>
+				</div>
+				<div className="flex items-center gap-1">
+					<img
+						src="game/48px-Maintenance_I.png"
+						alt="Maintenance"
+						className="w-4 h-4"
+					/>
+					<span>2</span>
+				</div>
+				<div className="flex items-center gap-1">
+					<img
+						src="game/48px-Construction_Parts_III.png"
+						alt="Construction Parts III"
+						className="w-4 h-4"
+					/>
+					<span>160</span>
+				</div>
+			</div>
+		</div>
 	)
 }
