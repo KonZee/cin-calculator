@@ -1,8 +1,8 @@
 import { PlusIcon } from "@heroicons/react/24/outline"
 import type { BuildingShape } from "./buildingShape"
 import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
-import buildings from "../../data/machines_and_buildings.json"
-import products from "../../data/products.json"
+import buildings from "@/data/machines_and_buildings.json"
+import products from "@/data/products.json"
 
 // Some hardcode before we put selector here
 const building = buildings.machines_and_buildings.find(
