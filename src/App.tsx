@@ -21,6 +21,9 @@ export default function App() {
 	}
 
 	const components: TLComponents = {
+		ActionsMenu: undefined,
+		MainMenu: undefined,
+		StylePanel: undefined,
 		Toolbar: (props) => {
 			return (
 				<DefaultToolbar {...props}>
