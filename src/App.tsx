@@ -1,11 +1,17 @@
-import { DefaultToolbar, type Editor, type TLComponents, Tldraw } from "tldraw"
+import {
+	DefaultToolbar,
+	DefaultToolbarContent,
+	type Editor,
+	type TLComponents,
+	Tldraw,
+	type TLUiOverrides,
+} from "tldraw"
 import "tldraw/tldraw.css"
 import "./styles/index.css"
 import { BuildingShapeUtil } from "./shapes/building/buildingShapeUtil"
 import { MantineProvider } from "@mantine/core"
-import { Button } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { Modal } from "@mantine/core"
+import RecipeModal from "@/components/recipe-modal"
 
 const CustomShapesUtils = [BuildingShapeUtil]
 
@@ -20,6 +26,15 @@ export default function App() {
 		})
 	}
 
+	const overrides: TLUiOverrides = {
+		tools(_, tools) {
+			return {
+				select: tools.select,
+				arrow: tools.arrow,
+			}
+		},
+	}
+
 	const components: TLComponents = {
 		ActionsMenu: undefined,
 		MainMenu: undefined,
@@ -27,12 +42,14 @@ export default function App() {
 		Toolbar: (props) => {
 			return (
 				<DefaultToolbar {...props}>
-					<Button
-						className="h-12 cursor-pointer hover:bg-gray-200 rounded-[11px]"
+					<button
+						type="button"
+						className="flex px-3 cursor-pointer hover:bg-gray-100 rounded-[11px] justify-center h-10 items-center m-1"
 						onClick={open}
 					>
-						Select Recipe
-					</Button>
+						<span className="">Select Recipe</span>
+					</button>
+					<DefaultToolbarContent />
 				</DefaultToolbar>
 			)
 		},
@@ -40,14 +57,13 @@ export default function App() {
 
 	return (
 		<MantineProvider>
-			<Modal opened={opened} onClose={close} title="Add New Recipe" centered>
-				Modal content
-			</Modal>
+			<RecipeModal opened={opened} onClose={close} />
 
 			<div style={{ position: "fixed", inset: 0 }}>
 				<Tldraw
 					components={components}
 					shapeUtils={CustomShapesUtils}
+					overrides={overrides}
 					onMount={handleMount}
 				/>
 			</div>
