@@ -1,7 +1,6 @@
 import {
 	DefaultToolbar,
 	DefaultToolbarContent,
-	type Editor,
 	type TLComponents,
 	Tldraw,
 	type TLUiOverrides,
@@ -17,14 +16,6 @@ const CustomShapesUtils = [BuildingShapeUtil]
 
 export default function App() {
 	const [opened, { open, close }] = useDisclosure(false)
-
-	const handleMount = (editor: Editor) => {
-		editor.createShape({
-			type: "building",
-			x: 300,
-			y: 300,
-		})
-	}
 
 	const overrides: TLUiOverrides = {
 		tools(_, tools) {
@@ -57,15 +48,14 @@ export default function App() {
 
 	return (
 		<MantineProvider>
-			<RecipeModal opened={opened} onClose={close} />
-
 			<div style={{ position: "fixed", inset: 0 }}>
 				<Tldraw
 					components={components}
 					shapeUtils={CustomShapesUtils}
 					overrides={overrides}
-					onMount={handleMount}
-				/>
+				>
+					<RecipeModal opened={opened} onClose={close} />
+				</Tldraw>
 			</div>
 		</MantineProvider>
 	)

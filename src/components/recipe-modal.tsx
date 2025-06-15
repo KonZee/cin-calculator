@@ -3,6 +3,8 @@ import buildings from "@/data/machines_and_buildings.json"
 import products from "@/data/products.json"
 import { useState } from "react"
 import { v4 as uuidv4 } from "uuid"
+import { useEditor } from "tldraw"
+import type { BuildingShape } from "@/shapes/building/buildingShape"
 
 interface BuildCost {
 	product: string
@@ -111,14 +113,15 @@ function searchRelatedBuildings(productName: string) {
 	}
 }
 
-const getProductData = (name: string | undefined) => {
-	return products.products.find((p) => p.name === name)
+const getProductData = (name: string): Product => {
+	return products.products.find((p) => p.name === name) as Product
 }
 
 export default function RecipeModal({
 	opened,
 	onClose,
 }: { opened: boolean; onClose: () => void }) {
+	const editor = useEditor()
 	const [value, setValue] = useState<string>("")
 	const [searching, setSearching] = useState<boolean>(false)
 	const [products, setProducts] = useState<(Product | Building)[]>([])
@@ -155,6 +158,39 @@ export default function RecipeModal({
 		setProducts([])
 	}
 
+	const onCreateBuilding = (b: Building) => {
+		editor.createShape<BuildingShape>({
+			type: "building",
+			x: 300,
+			y: 300,
+			props: {
+				w: 400,
+				h: 300,
+				...b,
+				build_costs: b.build_costs.map((c) => ({
+					...c,
+					icon_path: getProductData(c.product).icon_path,
+				})),
+				recipe: {
+					...b.recipes[0],
+					inputs: b.recipes[0].inputs.map((r) => ({
+						...r,
+						id: uuidv4(),
+						type: getProductData(r.name).type,
+						icon_path: getProductData(r.name).icon_path,
+					})),
+					outputs: b.recipes[0].outputs.map((r) => ({
+						...r,
+						id: uuidv4(),
+						type: getProductData(r.name).type,
+						icon_path: getProductData(r.name).icon_path,
+					})),
+				},
+			},
+		})
+		onCloseHandler()
+	}
+
 	return (
 		<Modal
 			opened={opened}
@@ -180,7 +216,7 @@ export default function RecipeModal({
 									src={p.icon_path}
 									alt={p.name}
 									title={p.name}
-									className="w-8 h-8 rounded-sm object-cover"
+									className="w-8 h-8 object-cover"
 								/>
 								<span>{p.name}</span>
 							</div>
@@ -190,13 +226,18 @@ export default function RecipeModal({
 					<>
 						<div className="text-lg font-bold">Production: </div>
 						{inputRecipes.map((b) => (
-							<div key={b.uuid}>
+							<div
+								key={b.uuid}
+								className="p-2 cursor-pointer rounded-xl hover:bg-gray-100"
+								onClick={() => onCreateBuilding(b)}
+								onKeyDown={() => onCreateBuilding(b)}
+							>
 								<div className="flex gap-2 p-2 items-center">
 									<img
 										src={b.icon_path}
 										alt={b.name}
 										title={b.name}
-										className="w-8 h-8 rounded-sm object-cover"
+										className="w-8 h-8 object-cover"
 									/>
 									<span>:</span>
 									{b.recipes[0].inputs.map((i, idx) => (
@@ -206,7 +247,7 @@ export default function RecipeModal({
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8 rounded-sm object-cover"
+												className="w-8 h-8 object-cover"
 											/>
 										</div>
 									))}
@@ -218,7 +259,7 @@ export default function RecipeModal({
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8 rounded-sm object-cover"
+												className="w-8 h-8  object-cover"
 											/>
 										</div>
 									))}
@@ -231,13 +272,18 @@ export default function RecipeModal({
 					<>
 						<div className="text-lg font-bold">Consumption: </div>
 						{outputRecipes.map((b) => (
-							<div key={b.uuid}>
+							<div
+								key={b.uuid}
+								className="p-2 cursor-pointer rounded-xl hover:bg-gray-100"
+								onClick={() => onCreateBuilding(b)}
+								onKeyDown={() => onCreateBuilding(b)}
+							>
 								<div className="flex gap-2 p-2 items-center">
 									<img
 										src={b.icon_path}
 										alt={b.name}
 										title={b.name}
-										className="w-8 h-8 rounded-sm object-cover"
+										className="w-8 h-8 object-cover"
 									/>
 									<span>:</span>
 									{b.recipes[0].inputs.map((i, idx) => (
@@ -247,7 +293,7 @@ export default function RecipeModal({
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8 rounded-sm object-cover"
+												className="w-8 h-8 object-cover"
 											/>
 										</div>
 									))}
@@ -259,7 +305,7 @@ export default function RecipeModal({
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8 rounded-sm object-cover"
+												className="w-8 h-8 object-cover"
 											/>
 										</div>
 									))}

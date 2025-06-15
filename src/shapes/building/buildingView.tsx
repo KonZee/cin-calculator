@@ -1,15 +1,6 @@
 import { PlusIcon } from "@heroicons/react/24/outline"
 import type { BuildingShape } from "./buildingShape"
 import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
-import buildings from "@/data/machines_and_buildings.json"
-import products from "@/data/products.json"
-
-// Some hardcode before we put selector here
-const building = buildings.machines_and_buildings.find(
-	(b) => b.id === "ArcFurnace",
-)
-
-const recipe = building?.recipes[1]
 
 const gap = 100
 
@@ -17,10 +8,7 @@ const arrowPositions = [130, 170, 210]
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	const editor = useEditor()
-
-	const getProductData = (name: string | undefined) => {
-		return products.products.find((p) => p.name === name)
-	}
+	console.log(shape)
 
 	const getFormattedElectricity = (amount: number | undefined) => {
 		if (!amount) return
@@ -28,6 +16,17 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 			return `${amount} KW`
 		}
 		return `${amount / 1000} MW`
+	}
+
+	const getMaintenanceIcon = () => {
+		switch (shape.props.maintenance_cost_units) {
+			case "Maintenance III":
+				return "products/Maintenance3.png"
+			case "Maintenance II":
+				return "products/Maintenance2.png"
+			default:
+				return "products/Maintenance1.png"
+		}
 	}
 
 	const handleInputClick = (_: number) => {
@@ -91,11 +90,11 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 			{/* Header */}
 			<div className="p-4 border-b border-gray-600 flex justify-center items-center text-xl font-semibold select-text gap-2">
 				<img
-					src={building?.icon_path}
-					alt={building?.name}
+					src={shape.props.icon_path}
+					alt={shape.props.name}
 					className="w-8 h-8 rounded-sm object-cover"
 				/>
-				{building?.name}
+				{shape.props.name}
 			</div>
 
 			{/* Recipes Section */}
@@ -104,7 +103,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 				<div className="flex flex-col flex-1">
 					<div className="mb-2 text-center font-medium">Inputs</div>
 					<div className="flex flex-col gap-2">
-						{recipe?.inputs.map((r, idx) => (
+						{shape.props.recipe.inputs.map((r, idx) => (
 							<div
 								key={r.name}
 								className="flex items-center cursor-pointer rounded-md px-2 py-1 hover:bg-gray-600 transition-colors"
@@ -114,7 +113,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 							>
 								<PlusIcon className="w-4 h-4 mr-2 flex-shrink-0" />
 								<img
-									src={getProductData(r.name)?.icon_path}
+									src={r.icon_path}
 									alt={r.name}
 									className="w-8 h-8 rounded-sm object-cover"
 								/>
@@ -128,7 +127,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 				<div className="flex flex-col flex-1 items-end">
 					<div className="mb-2 text-center font-medium w-full">Outputs</div>
 					<div className="flex flex-col gap-2 w-full">
-						{recipe?.outputs.map((r, idx) => (
+						{shape.props.recipe.outputs.map((r, idx) => (
 							<div
 								key={r.name}
 								className="flex items-center cursor-pointer rounded-md px-2 py-1 hover:bg-gray-600 transition-colors justify-end"
@@ -138,7 +137,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 							>
 								<span className="mr-2">{r.quantity}</span>
 								<img
-									src={getProductData(r.name)?.icon_path}
+									src={r.icon_path}
 									alt={r.name}
 									className="w-8 h-8 rounded-sm object-cover"
 								/>
@@ -151,11 +150,13 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 
 			{/* Footer Stats */}
 			<div className="flex p-4 border-t border-gray-600 gap-6 text-sm items-center select-text">
-				<div className="flex items-center gap-1">
-					<img src="products/Worker.png" alt="Workers" className="w-4 h-4" />
-					<span>{building?.workers}</span>
-				</div>
-				{!!building?.electricity_consumed && (
+				{!!shape.props.workers && (
+					<div className="flex items-center gap-1">
+						<img src="products/Worker.png" alt="Workers" className="w-4 h-4" />
+						<span>{shape.props.workers}</span>
+					</div>
+				)}
+				{!!shape.props.electricity_consumed && (
 					<div className="flex items-center gap-1">
 						<img
 							src="products/Electricity.png"
@@ -163,36 +164,34 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 							className="w-4 h-4"
 						/>
 						<span>
-							{getFormattedElectricity(building?.electricity_consumed)}
+							{getFormattedElectricity(shape.props.electricity_consumed)}
 						</span>
 					</div>
 				)}
-				<div className="flex items-center gap-1">
-					<img
-						src={getProductData(building?.maintenance_cost_units)?.icon_path}
-						alt="Maintenance"
-						className="w-4 h-4"
-					/>
-					<span>{building?.maintenance_cost_quantity}</span>
-				</div>
-				{building?.build_costs.map((p) => (
-					<div key={p.product} className="flex items-center gap-1">
+				{!!shape.props.maintenance_cost_quantity && (
+					<div className="flex items-center gap-1">
 						<img
-							src={getProductData(p.product)?.icon_path}
-							alt="Construction Parts III"
+							src={getMaintenanceIcon()}
+							alt="Maintenance"
 							className="w-4 h-4"
 						/>
+						<span>{shape.props.maintenance_cost_quantity}</span>
+					</div>
+				)}
+				{shape.props.build_costs.map((p) => (
+					<div key={p.product} className="flex items-center gap-1">
+						<img src={p.icon_path} alt={p.product} className="w-4 h-4" />
 						<span>{p.quantity}</span>
 					</div>
 				))}
-				{!!building?.computing_consumed && (
+				{!!shape.props.computing_consumed && (
 					<div className="flex items-center gap-1">
 						<img
 							src="products/Computing.png"
 							alt="Computing"
 							className="w-4 h-4"
 						/>
-						<span>{building?.computing_consumed}</span>
+						<span>{shape.props.computing_consumed}</span>
 					</div>
 				)}
 			</div>
