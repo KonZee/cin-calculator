@@ -9,8 +9,6 @@ const building = buildings.machines_and_buildings.find(
 	(b) => b.id === "ArcFurnace",
 )
 
-console.log(building)
-
 const recipe = building?.recipes[1]
 
 const gap = 100
@@ -32,8 +30,8 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 		return `${amount / 1000} MW`
 	}
 
-	const handleInputClick = (index: number) => {
-		console.log(index)
+	const handleInputClick = (_: number) => {
+		// console.log(index)
 	}
 
 	const handleOutputClick = (index: number) => {
