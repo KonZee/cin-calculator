@@ -18,7 +18,10 @@ import RecipeModal from "@/components/recipe-modal"
 const CustomShapesUtils = [BuildingShapeUtil]
 
 function TldrawApp() {
-	const [opened, { open, close }] = useDisclosureContext()
+	const {
+		opened,
+		actions: { open, close },
+	} = useDisclosureContext()
 
 	const overrides: TLUiOverrides = {
 		tools(_, tools) {

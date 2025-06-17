@@ -117,10 +117,13 @@ const getProductData = (name: string): Product => {
 	return products.products.find((p) => p.name === name) as Product
 }
 
-export default function RecipeModal({
-	opened,
-	onClose,
-}: { opened: boolean; onClose: () => void }) {
+interface RecipeModalProps {
+	opened: boolean
+	onClose: () => void
+	searchRecipes?: boolean
+}
+
+export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 	const editor = useEditor()
 	const [value, setValue] = useState<string>("")
 	const [searching, setSearching] = useState<boolean>(false)

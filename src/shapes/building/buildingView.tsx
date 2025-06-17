@@ -9,7 +9,9 @@ const arrowPositions = [130, 170, 210]
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	const editor = useEditor()
-	const [_, { open }] = useDisclosureContext()
+	const {
+		actions: { open },
+	} = useDisclosureContext()
 
 	const getFormattedElectricity = (amount: number | undefined) => {
 		if (!amount) return
