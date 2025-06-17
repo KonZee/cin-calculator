@@ -1,7 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline"
 import type { BuildingShape } from "./buildingShape"
 import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
-import { useModalContext } from "@/context/disclosure-context"
+import { useModalContext } from "@/context/modal-context"
 
 const gap = 100
 

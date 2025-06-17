@@ -9,7 +9,7 @@ import "tldraw/tldraw.css"
 import "./styles/index.css"
 import { BuildingShapeUtil } from "./shapes/building/buildingShapeUtil"
 import { MantineProvider } from "@mantine/core"
-import { ModalProvider, useModalContext } from "./context/disclosure-context"
+import { ModalProvider, useModalContext } from "./context/modal-context"
 import RecipeModal from "@/components/recipe-modal"
 
 const CustomShapesUtils = [BuildingShapeUtil]
