@@ -9,13 +9,16 @@ import "tldraw/tldraw.css"
 import "./styles/index.css"
 import { BuildingShapeUtil } from "./shapes/building/buildingShapeUtil"
 import { MantineProvider } from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks"
+import {
+	DisclosureProvider,
+	useDisclosureContext,
+} from "./context/disclosure-context"
 import RecipeModal from "@/components/recipe-modal"
 
 const CustomShapesUtils = [BuildingShapeUtil]
 
-export default function App() {
-	const [opened, { open, close }] = useDisclosure(false)
+function TldrawApp() {
+	const [opened, { open, close }] = useDisclosureContext()
 
 	const overrides: TLUiOverrides = {
 		tools(_, tools) {
@@ -47,16 +50,24 @@ export default function App() {
 	}
 
 	return (
+		<div style={{ position: "fixed", inset: 0 }}>
+			<Tldraw
+				components={components}
+				shapeUtils={CustomShapesUtils}
+				overrides={overrides}
+			>
+				<RecipeModal opened={opened} onClose={close} />
+			</Tldraw>
+		</div>
+	)
+}
+
+export default function App() {
+	return (
 		<MantineProvider>
-			<div style={{ position: "fixed", inset: 0 }}>
-				<Tldraw
-					components={components}
-					shapeUtils={CustomShapesUtils}
-					overrides={overrides}
-				>
-					<RecipeModal opened={opened} onClose={close} />
-				</Tldraw>
-			</div>
+			<DisclosureProvider>
+				<TldrawApp />
+			</DisclosureProvider>
 		</MantineProvider>
 	)
 }

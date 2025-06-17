@@ -1,6 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline"
 import type { BuildingShape } from "./buildingShape"
 import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
+import { useDisclosureContext } from "@/context/disclosure-context"
 
 const gap = 100
 
@@ -8,7 +9,7 @@ const arrowPositions = [130, 170, 210]
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	const editor = useEditor()
-	console.log(shape)
+	const [_, { open }] = useDisclosureContext()
 
 	const getFormattedElectricity = (amount: number | undefined) => {
 		if (!amount) return
@@ -34,6 +35,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	}
 
 	const handleOutputClick = (index: number) => {
+		open()
 		const newBuildingId = createShapeId()
 		const arrowId = createShapeId()
 		const newShapeXPosition = shape.x + shape.props.w + gap
