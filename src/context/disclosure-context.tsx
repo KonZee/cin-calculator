@@ -5,20 +5,20 @@ import type { UseDisclosureReturnValue } from "@mantine/hooks"
 type DisclosureState = UseDisclosureReturnValue[0]
 type DisclosureActions = UseDisclosureReturnValue[1]
 
-interface DisclosureContextValue {
+interface ModalContextValue {
 	opened: DisclosureState
 	actions: DisclosureActions
 	searchRecipes: boolean
 	setSearchRecipes: (value: boolean) => void
 }
 
-interface DisclosureProviderProps {
+interface ModalProviderProps {
 	children: React.ReactNode
 	initialOpened?: boolean
 }
 
 // Context
-const defaultDisclosureValue: DisclosureContextValue = {
+const defaultModalValue: ModalContextValue = {
 	opened: false,
 	actions: {
 		open: () => {},
@@ -29,12 +29,10 @@ const defaultDisclosureValue: DisclosureContextValue = {
 	setSearchRecipes: () => {},
 }
 
-const DisclosureContext = React.createContext<DisclosureContextValue>(
-	defaultDisclosureValue,
-)
+const ModalContext = React.createContext<ModalContextValue>(defaultModalValue)
 
 // Provided
-export const DisclosureProvider: React.FC<DisclosureProviderProps> = ({
+export const ModalProvider: React.FC<ModalProviderProps> = ({
 	children,
 	initialOpened = false,
 }) => {
@@ -42,12 +40,12 @@ export const DisclosureProvider: React.FC<DisclosureProviderProps> = ({
 	const [searchRecipes, setSearchRecipes] = React.useState(true)
 
 	return (
-		<DisclosureContext.Provider
+		<ModalContext.Provider
 			value={{ opened, actions, searchRecipes, setSearchRecipes }}
 		>
 			{children}
-		</DisclosureContext.Provider>
+		</ModalContext.Provider>
 	)
 }
 // Hook
-export const useDisclosureContext = () => React.useContext(DisclosureContext)
+export const useModalContext = () => React.useContext(ModalContext)

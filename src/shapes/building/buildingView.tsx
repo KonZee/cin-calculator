@@ -1,7 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline"
 import type { BuildingShape } from "./buildingShape"
 import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
-import { useDisclosureContext } from "@/context/disclosure-context"
+import { useModalContext } from "@/context/disclosure-context"
 
 const gap = 100
 
@@ -11,7 +11,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	const editor = useEditor()
 	const {
 		actions: { open },
-	} = useDisclosureContext()
+	} = useModalContext()
 
 	const getFormattedElectricity = (amount: number | undefined) => {
 		if (!amount) return

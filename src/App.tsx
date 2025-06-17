@@ -9,10 +9,7 @@ import "tldraw/tldraw.css"
 import "./styles/index.css"
 import { BuildingShapeUtil } from "./shapes/building/buildingShapeUtil"
 import { MantineProvider } from "@mantine/core"
-import {
-	DisclosureProvider,
-	useDisclosureContext,
-} from "./context/disclosure-context"
+import { ModalProvider, useModalContext } from "./context/disclosure-context"
 import RecipeModal from "@/components/recipe-modal"
 
 const CustomShapesUtils = [BuildingShapeUtil]
@@ -21,7 +18,7 @@ function TldrawApp() {
 	const {
 		opened,
 		actions: { open, close },
-	} = useDisclosureContext()
+	} = useModalContext()
 
 	const overrides: TLUiOverrides = {
 		tools(_, tools) {
@@ -68,9 +65,9 @@ function TldrawApp() {
 export default function App() {
 	return (
 		<MantineProvider>
-			<DisclosureProvider>
+			<ModalProvider>
 				<TldrawApp />
-			</DisclosureProvider>
+			</ModalProvider>
 		</MantineProvider>
 	)
 }
