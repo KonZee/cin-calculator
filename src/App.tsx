@@ -10,15 +10,18 @@ import "./styles/index.css"
 import { BuildingShapeUtil } from "./shapes/building/buildingShapeUtil"
 import { MantineProvider } from "@mantine/core"
 import { ModalProvider, useModalContext } from "./context/modal-context"
-import RecipeModal from "@/components/recipe-modal"
+import NewRecipeModal from "@/components/new-recipe-modal"
+import { useDisclosure } from "@mantine/hooks"
 
 const CustomShapesUtils = [BuildingShapeUtil]
 
 function TldrawApp() {
-	const {
-		opened,
-		actions: { open, close },
-	} = useModalContext()
+	const [newModalOpened, { open: openNewModal, close: closeNewModal }] =
+		useDisclosure()
+	// const {
+	// 	opened: relatedRecipesModalOpened,
+	// 	actions: { open: openRelatedRecipesModal, close: closeRelatedRecipesModal },
+	// } = useModalContext()
 
 	const overrides: TLUiOverrides = {
 		tools(_, tools) {
@@ -39,7 +42,7 @@ function TldrawApp() {
 					<button
 						type="button"
 						className="flex px-3 cursor-pointer hover:bg-gray-100 rounded-[11px] justify-center h-10 items-center m-1"
-						onClick={open}
+						onClick={openNewModal}
 					>
 						<span className="">Select Recipe</span>
 					</button>
@@ -56,7 +59,7 @@ function TldrawApp() {
 				shapeUtils={CustomShapesUtils}
 				overrides={overrides}
 			>
-				<RecipeModal opened={opened} onClose={close} />
+				<NewRecipeModal opened={newModalOpened} onClose={closeNewModal} />
 			</Tldraw>
 		</div>
 	)
