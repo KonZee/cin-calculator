@@ -1,6 +1,7 @@
 import { useDisclosure } from "@mantine/hooks"
-import React from "react"
+import React, { useState } from "react"
 import type { UseDisclosureReturnValue } from "@mantine/hooks"
+import type { BuildingShape } from "@/shapes/building/buildingShape"
 
 type DisclosureState = UseDisclosureReturnValue[0]
 type DisclosureActions = UseDisclosureReturnValue[1]
@@ -8,8 +9,12 @@ type DisclosureActions = UseDisclosureReturnValue[1]
 interface ModalContextValue {
 	opened: DisclosureState
 	actions: DisclosureActions
-	searchRecipes: boolean
-	setSearchRecipes: (value: boolean) => void
+	fromShape?: BuildingShape
+	setFromShape?: (shape: BuildingShape) => void
+	connection?: "input" | "output"
+	setConnection?: (connection: "input" | "output") => void
+	product?: string
+	setProduct?: (product: string) => void
 }
 
 interface ModalProviderProps {
@@ -25,8 +30,6 @@ const defaultModalValue: ModalContextValue = {
 		close: () => {},
 		toggle: () => {},
 	},
-	searchRecipes: true,
-	setSearchRecipes: () => {},
 }
 
 const ModalContext = React.createContext<ModalContextValue>(defaultModalValue)
@@ -37,11 +40,27 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
 	initialOpened = false,
 }) => {
 	const [opened, actions] = useDisclosure(initialOpened)
-	const [searchRecipes, setSearchRecipes] = React.useState(true)
+	// const [searchRecipes, setSearchRecipes] = React.useState(true)
+	const [fromShape, setFromShape] = useState<BuildingShape | undefined>(
+		undefined,
+	)
+	const [connection, setConnection] = useState<"input" | "output" | undefined>(
+		undefined,
+	)
+	const [product, setProduct] = useState("")
 
 	return (
 		<ModalContext.Provider
-			value={{ opened, actions, searchRecipes, setSearchRecipes }}
+			value={{
+				opened,
+				actions,
+				fromShape,
+				setFromShape,
+				connection,
+				setConnection,
+				product,
+				setProduct,
+			}}
 		>
 			{children}
 		</ModalContext.Provider>
