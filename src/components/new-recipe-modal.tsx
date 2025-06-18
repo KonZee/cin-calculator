@@ -121,6 +121,8 @@ interface RecipeModalProps {
 	opened: boolean
 	onClose: () => void
 	searchRecipes?: boolean
+	connection?: "input" | "output"
+	product?: string
 }
 
 export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
