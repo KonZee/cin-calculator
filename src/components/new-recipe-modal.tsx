@@ -1,132 +1,19 @@
 import { Modal, TextInput } from "@mantine/core"
-import buildings from "@/data/machines_and_buildings.json"
-import products from "@/data/products.json"
 import { useState } from "react"
 import { v4 as uuidv4 } from "uuid"
 import { useEditor } from "tldraw"
 import type { BuildingShape } from "@/shapes/building/buildingShape"
-
-interface BuildCost {
-	product: string
-	quantity: number
-}
-
-// Interface for inputs and outputs inside a recipe
-interface RecipeIO {
-	name: string
-	quantity: number
-}
-
-// Interface for recipes inside a building
-interface Recipe {
-	id: string
-	name: string
-	duration: number
-	inputs: RecipeIO[]
-	outputs: RecipeIO[]
-}
-
-// Interface for a building object
-interface Building {
-	id: string
-	name: string
-	category: string
-	next_tier: string
-	workers: number
-	maintenance_cost_units: string
-	maintenance_cost_quantity: number
-	electricity_consumed: number
-	electricity_generated: number
-	computing_consumed: number
-	computing_generated: number
-	product_type: string
-	storage_capacity: number
-	unity_cost: number
-	research_speed: number
-	icon_path: string
-	build_costs: BuildCost[]
-	recipes: Recipe[]
-	uuid?: string
-}
-
-// Interface for a product object
-interface Product {
-	id: string
-	name: string
-	icon: string
-	type: string
-	icon_path: string
-}
-
-function search(input: string): (Product | Building)[] {
-	// Add search by starting from each word
-	// ex: Hydrogen fluoride must be searchable from "Hyd" and "Flu"
-	const foundProducts = products.products
-		.filter(
-			(p) =>
-				!["Computing", "Unity"].includes(p.name) &&
-				p.name.toLowerCase().startsWith(input.toLowerCase()),
-		)
-		.slice(0, 10) satisfies Product[]
-
-	return foundProducts
-}
-
-function searchRelatedBuildings(productName: string) {
-	const buildingsWithInputRecipes: Building[] = []
-	const buildingsWithOutputRecipes: Building[] = []
-
-	for (const building of buildings.machines_and_buildings) {
-		const input = building.recipes.filter((r) =>
-			r.inputs.some((i) => i.name === productName),
-		)
-		const output = building.recipes.filter((r) =>
-			r.outputs.some((i) => i.name === productName),
-		)
-
-		if (!input.length && !output.length) continue
-
-		if (input.length) {
-			for (const i of input) {
-				buildingsWithInputRecipes.push({
-					...building,
-					recipes: [i],
-					uuid: uuidv4(),
-				})
-			}
-		}
-
-		if (output.length) {
-			for (const i of output) {
-				buildingsWithOutputRecipes.push({
-					...building,
-					recipes: [i],
-					uuid: uuidv4(),
-				})
-			}
-		}
-	}
-
-	return {
-		buildingsWithInputRecipes,
-		buildingsWithOutputRecipes,
-	}
-}
-
-const getProductData = (name: string): Product => {
-	return products.products.find((p) => p.name === name) as Product
-}
+import type { Building, Product } from "@/building/types"
+import useBuildingData from "@/building/hooks/useBuildingData"
 
 interface RecipeModalProps {
 	opened: boolean
 	onClose: () => void
-	searchRecipes?: boolean
-	connection?: "input" | "output"
-	product?: string
 }
 
 export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 	const editor = useEditor()
+	const { search, searchRelatedBuildings, getProductData } = useBuildingData()
 	const [value, setValue] = useState<string>("")
 	const [searching, setSearching] = useState<boolean>(false)
 	const [products, setProducts] = useState<(Product | Building)[]>([])
@@ -229,7 +116,7 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 					: searching && <span>Nothing found...</span>}
 				{!!inputRecipes.length && (
 					<>
-						<div className="text-lg font-bold">Production: </div>
+						<div className="text-lg font-bold">Consumption: </div>
 						{inputRecipes.map((b) => (
 							<div
 								key={b.uuid}
@@ -275,7 +162,7 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 				)}
 				{!!outputRecipes.length && (
 					<>
-						<div className="text-lg font-bold">Consumption: </div>
+						<div className="text-lg font-bold">Production: </div>
 						{outputRecipes.map((b) => (
 							<div
 								key={b.uuid}

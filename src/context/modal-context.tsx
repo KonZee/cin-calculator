@@ -10,11 +10,11 @@ interface ModalContextValue {
 	opened: DisclosureState
 	actions: DisclosureActions
 	fromShape?: BuildingShape
-	setFromShape?: (shape: BuildingShape) => void
+	setFromShape: (shape: BuildingShape) => void
 	connection?: "input" | "output"
-	setConnection?: (connection: "input" | "output") => void
+	setConnection: (connection: "input" | "output") => void
 	product?: string
-	setProduct?: (product: string) => void
+	setProduct: (product: string) => void
 }
 
 interface ModalProviderProps {
@@ -30,6 +30,9 @@ const defaultModalValue: ModalContextValue = {
 		close: () => {},
 		toggle: () => {},
 	},
+	setFromShape: () => {},
+	setConnection: () => {},
+	setProduct: () => {},
 }
 
 const ModalContext = React.createContext<ModalContextValue>(defaultModalValue)

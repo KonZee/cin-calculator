@@ -3,14 +3,13 @@ import type { BuildingShape } from "./buildingShape"
 import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
 import { useModalContext } from "@/context/modal-context"
 
-const gap = 100
-
-const arrowPositions = [130, 170, 210]
-
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	const editor = useEditor()
 	const {
 		actions: { open },
+		setFromShape,
+		setConnection,
+		setProduct,
 	} = useModalContext()
 
 	const getFormattedElectricity = (amount: number | undefined) => {
@@ -32,55 +31,18 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 		}
 	}
 
-	const handleInputClick = (_: number) => {
-		// console.log(index)
+	const handleInputClick = (index: number) => {
+		setFromShape(shape)
+		setConnection("input")
+		setProduct(shape.props.recipe.inputs[index].name)
+		open()
 	}
 
 	const handleOutputClick = (index: number) => {
+		setFromShape(shape)
+		setConnection("output")
+		setProduct(shape.props.recipe.outputs[index].name)
 		open()
-		const newBuildingId = createShapeId()
-		const arrowId = createShapeId()
-		const newShapeXPosition = shape.x + shape.props.w + gap
-
-		editor.createShape({
-			id: newBuildingId,
-			type: "building",
-			x: newShapeXPosition,
-			y: 300,
-		})
-
-		editor.createShape<TLArrowShape>({
-			id: arrowId,
-			type: "arrow",
-			x: 0,
-			y: 0,
-			props: {},
-		})
-
-		editor.createBindings([
-			{
-				fromId: arrowId,
-				toId: shape.id,
-				type: "arrow",
-				props: {
-					terminal: "start",
-					isExact: false,
-					isPrecise: true,
-					normalizedAnchor: { x: 1, y: arrowPositions[index] / 300 },
-				},
-			},
-			{
-				fromId: arrowId,
-				toId: newBuildingId,
-				type: "arrow",
-				props: {
-					terminal: "end",
-					isExact: false,
-					isPrecise: true,
-					normalizedAnchor: { x: 0, y: 130 / 300 },
-				},
-			},
-		])
 	}
 
 	return (
