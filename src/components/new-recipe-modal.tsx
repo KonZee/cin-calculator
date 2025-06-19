@@ -5,6 +5,7 @@ import { useEditor } from "tldraw"
 import type { BuildingShape } from "@/shapes/building/buildingShape"
 import type { Building, Product } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
+import { cardHeights } from "@/building/constants"
 
 interface RecipeModalProps {
 	opened: boolean
@@ -51,13 +52,16 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 	}
 
 	const onCreateBuilding = (b: Building) => {
+		const height =
+			cardHeights[
+				Math.max(b.recipes[0].inputs.length, b.recipes[0].outputs.length) - 1
+			]
+
 		editor.createShape<BuildingShape>({
 			type: "building",
-			x: 300,
-			y: 300,
 			props: {
 				w: 400,
-				h: 300,
+				h: height,
 				...b,
 				build_costs: b.build_costs.map((c) => ({
 					...c,
@@ -70,16 +74,21 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 						id: uuidv4(),
 						type: getProductData(r.name).type,
 						icon_path: getProductData(r.name).icon_path,
+						connectedShapes: [],
 					})),
 					outputs: b.recipes[0].outputs.map((r) => ({
 						...r,
 						id: uuidv4(),
 						type: getProductData(r.name).type,
 						icon_path: getProductData(r.name).icon_path,
+						connectedShapes: [],
 					})),
 				},
 			},
 		})
+		editor.selectAll()
+
+		editor.zoomToSelection()
 		onCloseHandler()
 	}
 

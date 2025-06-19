@@ -1,27 +1,24 @@
 import type { BuildingShape } from "@/shapes/building/buildingShape"
 import { Modal } from "@mantine/core"
-import { createShapeId, useEditor } from "tldraw"
+import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
 import { useEffect, useState } from "react"
 import type { Building } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
 import { v4 as uuidv4 } from "uuid"
+import { arrowPositions, cardHeights, cardsGap } from "@/building/constants"
 
 interface RelatedRecipesModalProps {
 	opened: boolean
 	onClose: () => void
-	fromShape?: BuildingShape
+	originShape?: BuildingShape
 	connection?: "input" | "output"
 	product?: string
 }
 
-const gap = 100
-
-// const arrowPositions = [130, 170, 210]
-
 export default function RelatedRecipeModal({
 	opened,
 	onClose,
-	fromShape,
+	originShape,
 	connection,
 	product,
 }: RelatedRecipesModalProps) {
@@ -49,20 +46,29 @@ export default function RelatedRecipeModal({
 	}
 
 	const onCreateConnectedBuilding = (b: Building) => {
+		if (!originShape) return
+
 		const newBuildingId = createShapeId()
-		// const arrowId = createShapeId()
+		const currentShape = editor.getShape(originShape.id) as BuildingShape
+		const arrowId = createShapeId()
 		const newShapeXPosition =
-			(fromShape?.x || 0) +
-			(connection === "output" ? 1 : -1) * ((fromShape?.props?.w || 0) + gap)
+			(currentShape?.x || 0) +
+			(connection === "output" ? 1 : -1) *
+				((originShape?.props?.w || 0) + cardsGap)
+
+		const height =
+			cardHeights[
+				Math.max(b.recipes[0].inputs.length, b.recipes[0].outputs.length) - 1
+			]
 
 		editor.createShape({
 			id: newBuildingId,
 			type: "building",
 			x: newShapeXPosition,
-			y: 300,
+			y: currentShape?.y,
 			props: {
 				w: 400,
-				h: 300,
+				h: height,
 				...b,
 				build_costs: b.build_costs.map((c) => ({
 					...c,
@@ -86,38 +92,53 @@ export default function RelatedRecipeModal({
 			},
 		})
 
-		// editor.createShape<TLArrowShape>({
-		// 	id: arrowId,
-		// 	type: "arrow",
-		// 	x: 0,
-		// 	y: 0,
-		// 	props: {},
-		// })
+		// Create Arrow connection
+		const createdShape = editor.getShape(newBuildingId) as BuildingShape
+		const indexFrom = originShape.props.recipe[
+			connection === "input" ? "inputs" : "outputs"
+		].findIndex((r) => r.name === product)
+		const indexTo = createdShape?.props.recipe[
+			connection === "output" ? "inputs" : "outputs"
+		].findIndex((r) => r.name === product)
 
-		// editor.createBindings([
-		// 	{
-		// 		fromId: arrowId,
-		// 		toId: shape.id,
-		// 		type: "arrow",
-		// 		props: {
-		// 			terminal: "start",
-		// 			isExact: false,
-		// 			isPrecise: true,
-		// 			normalizedAnchor: { x: 1, y: arrowPositions[index] / 300 },
-		// 		},
-		// 	},
-		// 	{
-		// 		fromId: arrowId,
-		// 		toId: newBuildingId,
-		// 		type: "arrow",
-		// 		props: {
-		// 			terminal: "end",
-		// 			isExact: false,
-		// 			isPrecise: true,
-		// 			normalizedAnchor: { x: 0, y: 130 / 300 },
-		// 		},
-		// 	},
-		// ])
+		editor.createShape<TLArrowShape>({
+			id: arrowId,
+			type: "arrow",
+			x: 0,
+			y: 0,
+			props: {},
+		})
+
+		editor.createBindings([
+			{
+				fromId: arrowId,
+				toId: originShape.id,
+				type: "arrow",
+				props: {
+					terminal: connection === "output" ? "start" : "end",
+					isExact: false,
+					isPrecise: true,
+					normalizedAnchor: {
+						x: connection === "output" ? 1 : 0,
+						y: arrowPositions[indexFrom] / currentShape.props.h,
+					},
+				},
+			},
+			{
+				fromId: arrowId,
+				toId: newBuildingId,
+				type: "arrow",
+				props: {
+					terminal: connection === "output" ? "end" : "start",
+					isExact: false,
+					isPrecise: true,
+					normalizedAnchor: {
+						x: connection === "output" ? 0 : 1,
+						y: arrowPositions[indexTo] / createdShape.props.h,
+					},
+				},
+			},
+		])
 
 		onCloseHandler()
 	}

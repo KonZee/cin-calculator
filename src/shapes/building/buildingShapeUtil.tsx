@@ -43,6 +43,7 @@ export class BuildingShapeUtil extends ShapeUtil<BuildingShape> {
 						type: "default",
 						icon_path: "default",
 						quantity: 0,
+						connectedShapes: [],
 					},
 				],
 				outputs: [
@@ -52,6 +53,7 @@ export class BuildingShapeUtil extends ShapeUtil<BuildingShape> {
 						type: "default",
 						icon_path: "default",
 						quantity: 0,
+						connectedShapes: [],
 					},
 				],
 			},

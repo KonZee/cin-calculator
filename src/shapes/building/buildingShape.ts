@@ -36,6 +36,10 @@ export type BuildingShape = TLBaseShape<
 				type: string
 				icon_path: string
 				quantity: number
+				connectedShapes: {
+					id: string
+					amount: number
+				}[]
 			}[]
 			outputs: {
 				id: string
@@ -43,6 +47,10 @@ export type BuildingShape = TLBaseShape<
 				type: string
 				icon_path: string
 				quantity: number
+				connectedShapes?: {
+					id: string
+					amount: number
+				}[]
 			}[]
 		}
 	}

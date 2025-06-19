@@ -9,8 +9,8 @@ type DisclosureActions = UseDisclosureReturnValue[1]
 interface ModalContextValue {
 	opened: DisclosureState
 	actions: DisclosureActions
-	fromShape?: BuildingShape
-	setFromShape: (shape: BuildingShape) => void
+	originShape?: BuildingShape
+	setOriginShape: (shape: BuildingShape) => void
 	connection?: "input" | "output"
 	setConnection: (connection: "input" | "output") => void
 	product?: string
@@ -30,7 +30,7 @@ const defaultModalValue: ModalContextValue = {
 		close: () => {},
 		toggle: () => {},
 	},
-	setFromShape: () => {},
+	setOriginShape: () => {},
 	setConnection: () => {},
 	setProduct: () => {},
 }
@@ -44,7 +44,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
 }) => {
 	const [opened, actions] = useDisclosure(initialOpened)
 	// const [searchRecipes, setSearchRecipes] = React.useState(true)
-	const [fromShape, setFromShape] = useState<BuildingShape | undefined>(
+	const [originShape, setOriginShape] = useState<BuildingShape | undefined>(
 		undefined,
 	)
 	const [connection, setConnection] = useState<"input" | "output" | undefined>(
@@ -57,8 +57,8 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
 			value={{
 				opened,
 				actions,
-				fromShape,
-				setFromShape,
+				originShape,
+				setOriginShape,
 				connection,
 				setConnection,
 				product,

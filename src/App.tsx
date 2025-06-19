@@ -22,7 +22,7 @@ function TldrawApp() {
 	const {
 		opened: relatedRecipesModalOpened,
 		actions: { close: closeRelatedRecipesModal },
-		fromShape,
+		originShape,
 		connection,
 		product,
 	} = useModalContext()
@@ -67,7 +67,7 @@ function TldrawApp() {
 				<RelatedRecipeModal
 					opened={relatedRecipesModalOpened}
 					onClose={closeRelatedRecipesModal}
-					fromShape={fromShape}
+					originShape={originShape}
 					connection={connection}
 					product={product}
 				/>

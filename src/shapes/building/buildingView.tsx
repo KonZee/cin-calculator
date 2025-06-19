@@ -1,13 +1,11 @@
 import { PlusIcon } from "@heroicons/react/24/outline"
 import type { BuildingShape } from "./buildingShape"
-import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
 import { useModalContext } from "@/context/modal-context"
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
-	const editor = useEditor()
 	const {
 		actions: { open },
-		setFromShape,
+		setOriginShape,
 		setConnection,
 		setProduct,
 	} = useModalContext()
@@ -32,14 +30,14 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	}
 
 	const handleInputClick = (index: number) => {
-		setFromShape(shape)
+		setOriginShape(shape)
 		setConnection("input")
 		setProduct(shape.props.recipe.inputs[index].name)
 		open()
 	}
 
 	const handleOutputClick = (index: number) => {
-		setFromShape(shape)
+		setOriginShape(shape)
 		setConnection("output")
 		setProduct(shape.props.recipe.outputs[index].name)
 		open()
@@ -64,7 +62,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 			</div>
 
 			{/* Recipes Section */}
-			<div className="flex flex-grow p-4 gap-6 overflow-auto">
+			<div className="flex flex-grow p-2 gap-6 overflow-auto">
 				{/* Inputs */}
 				<div className="flex flex-col flex-1">
 					<div className="mb-2 text-center font-medium">Inputs</div>
@@ -72,19 +70,43 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 						{shape.props.recipe.inputs.map((r, idx) => (
 							<div
 								key={r.name}
-								className="flex items-center cursor-pointer rounded-md px-2 py-1 hover:bg-gray-600 transition-colors"
-								style={{ pointerEvents: "all" }}
-								onClick={() => handleInputClick(idx)}
-								onKeyDown={() => handleInputClick(idx)}
+								className="flex items-center cursor-pointer rounded-md py-1 justify-start gap-2"
 							>
-								<PlusIcon className="w-4 h-4 mr-2 flex-shrink-0" />
+								<div
+									className="cursor-pointer rounded-md p-2 hover:bg-gray-600 transition-colors"
+									style={{ pointerEvents: "all" }}
+									onClick={() => handleInputClick(idx)}
+									onKeyDown={() => handleInputClick(idx)}
+								>
+									<PlusIcon className="w-4 h-4 flex-shrink-0" />
+								</div>
+								<div className="flex flex-col leading-none items-center">
+									<span>0</span>
+									<span>—</span>
+									<span>{r.quantity}</span>
+								</div>
 								<img
 									src={r.icon_path}
 									alt={r.name}
 									className="w-8 h-8 rounded-sm object-cover"
 								/>
-								<span className="ml-2">{r.quantity}</span>
 							</div>
+
+							// <div
+							// 	key={r.name}
+							// 	className="flex items-center cursor-pointer rounded-md px-2 py-1 hover:bg-gray-600 transition-colors"
+							// 	style={{ pointerEvents: "all" }}
+							// 	onClick={() => handleInputClick(idx)}
+							// 	onKeyDown={() => handleInputClick(idx)}
+							// >
+							// 	<PlusIcon className="w-4 h-4 mr-2 flex-shrink-0" />
+							// 	<img
+							// 		src={r.icon_path}
+							// 		alt={r.name}
+							// 		className="w-8 h-8 rounded-sm object-cover"
+							// 	/>
+							// 	<span className="ml-2">{r.quantity}</span>
+							// </div>
 						))}
 					</div>
 				</div>
@@ -96,18 +118,26 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 						{shape.props.recipe.outputs.map((r, idx) => (
 							<div
 								key={r.name}
-								className="flex items-center cursor-pointer rounded-md px-2 py-1 hover:bg-gray-600 transition-colors justify-end"
-								style={{ pointerEvents: "all" }}
-								onClick={() => handleOutputClick(idx)}
-								onKeyDown={() => handleOutputClick(idx)}
+								className="flex items-center cursor-pointer rounded-md py-1 justify-end gap-2"
 							>
-								<span className="mr-2">{r.quantity}</span>
 								<img
 									src={r.icon_path}
 									alt={r.name}
 									className="w-8 h-8 rounded-sm object-cover"
 								/>
-								<PlusIcon className="w-4 h-4 ml-2 flex-shrink-0" />
+								<div className="flex flex-col leading-none items-center">
+									<span>0</span>
+									<span>—</span>
+									<span>{r.quantity}</span>
+								</div>
+								<div
+									className="cursor-pointer rounded-md p-2 hover:bg-gray-600 transition-colors"
+									style={{ pointerEvents: "all" }}
+									onClick={() => handleOutputClick(idx)}
+									onKeyDown={() => handleOutputClick(idx)}
+								>
+									<PlusIcon className="w-4 h-4 flex-shrink-0" />
+								</div>
 							</div>
 						))}
 					</div>
