@@ -49,10 +49,8 @@ export default function RelatedRecipeModal({
 		if (!originShape) return
 
 		const newBuildingId = createShapeId()
-		const currentShape = editor.getShape(originShape.id) as BuildingShape
-		const arrowId = createShapeId()
 		const newShapeXPosition =
-			(currentShape?.x || 0) +
+			(originShape?.x || 0) +
 			(connection === "output" ? 1 : -1) *
 				((originShape?.props?.w || 0) + cardsGap)
 
@@ -65,7 +63,7 @@ export default function RelatedRecipeModal({
 			id: newBuildingId,
 			type: "building",
 			x: newShapeXPosition,
-			y: currentShape?.y,
+			y: originShape?.y,
 			props: {
 				w: 400,
 				h: height,
@@ -92,14 +90,20 @@ export default function RelatedRecipeModal({
 			},
 		})
 
-		// Create Arrow connection
 		const createdShape = editor.getShape(newBuildingId) as BuildingShape
-		const indexFrom = originShape.props.recipe[
-			connection === "input" ? "inputs" : "outputs"
-		].findIndex((r) => r.name === product)
-		const indexTo = createdShape?.props.recipe[
-			connection === "output" ? "inputs" : "outputs"
-		].findIndex((r) => r.name === product)
+
+		// Define supplier and consumer depends from relation
+		const supplier = connection === "output" ? originShape : createdShape
+		const consumer = connection === "input" ? originShape : createdShape
+
+		// Create Arrow connection
+		const arrowId = createShapeId()
+		const indexFrom = supplier.props.recipe.outputs.findIndex(
+			(r) => r.name === product,
+		)
+		const indexTo = consumer?.props.recipe.inputs.findIndex(
+			(r) => r.name === product,
+		)
 
 		editor.createShape<TLArrowShape>({
 			id: arrowId,
@@ -112,29 +116,29 @@ export default function RelatedRecipeModal({
 		editor.createBindings([
 			{
 				fromId: arrowId,
-				toId: originShape.id,
+				toId: supplier.id,
 				type: "arrow",
 				props: {
-					terminal: connection === "output" ? "start" : "end",
+					terminal: "start",
 					isExact: false,
 					isPrecise: true,
 					normalizedAnchor: {
-						x: connection === "output" ? 1 : 0,
-						y: arrowPositions[indexFrom] / currentShape.props.h,
+						x: 1,
+						y: arrowPositions[indexFrom] / supplier.props.h,
 					},
 				},
 			},
 			{
 				fromId: arrowId,
-				toId: newBuildingId,
+				toId: consumer.id,
 				type: "arrow",
 				props: {
-					terminal: connection === "output" ? "end" : "start",
+					terminal: "end",
 					isExact: false,
 					isPrecise: true,
 					normalizedAnchor: {
-						x: connection === "output" ? 0 : 1,
-						y: arrowPositions[indexTo] / createdShape.props.h,
+						x: 0,
+						y: arrowPositions[indexTo] / consumer.props.h,
 					},
 				},
 			},
