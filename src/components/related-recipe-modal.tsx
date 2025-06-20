@@ -79,12 +79,14 @@ export default function RelatedRecipeModal({
 						id: uuidv4(),
 						type: getProductData(r.name).type,
 						icon_path: getProductData(r.name).icon_path,
+						connectedShapes: [],
 					})),
 					outputs: b.recipes[0].outputs.map((r) => ({
 						...r,
 						id: uuidv4(),
 						type: getProductData(r.name).type,
 						icon_path: getProductData(r.name).icon_path,
+						connectedShapes: [],
 					})),
 				},
 			},
@@ -143,6 +145,63 @@ export default function RelatedRecipeModal({
 				},
 			},
 		])
+
+		// Store consumption data
+		// Need to update later to multiple suppliers/consumers
+		const productToTransfer = supplier.props.recipe.outputs[indexFrom]
+		const productToReceive = consumer.props.recipe.inputs[indexTo]
+
+		const freeProductToTransfer =
+			productToTransfer.quantity -
+			productToTransfer.connectedShapes.reduce((sum, i) => sum + i.amount, 0)
+		const freeProductToReceive =
+			productToReceive.quantity -
+			productToReceive.connectedShapes.reduce((sum, i) => sum + i.amount, 0)
+
+		const toTransfer = Math.min(freeProductToTransfer, freeProductToReceive)
+
+		// And update shapes
+		editor.updateShape({
+			id: supplier.id,
+			type: "building",
+			props: {
+				recipe: {
+					...supplier.props.recipe,
+					outputs: supplier.props.recipe.outputs.map((output, index) =>
+						index === indexFrom
+							? {
+									...output,
+									connectedShapes: [
+										...output.connectedShapes,
+										{ id: consumer.id, amount: toTransfer },
+									],
+								}
+							: output,
+					),
+				},
+			},
+		})
+
+		editor.updateShape({
+			id: consumer.id,
+			type: "building",
+			props: {
+				recipe: {
+					...consumer.props.recipe,
+					inputs: consumer.props.recipe.inputs.map((input, index) =>
+						index === indexTo
+							? {
+									...input,
+									connectedShapes: [
+										...input.connectedShapes,
+										{ id: supplier.id, amount: toTransfer },
+									],
+								}
+							: input,
+					),
+				},
+			},
+		})
 
 		onCloseHandler()
 	}

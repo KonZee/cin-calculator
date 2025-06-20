@@ -29,6 +29,12 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 		}
 	}
 
+	const getUsedQuantity = (
+		r: BuildingShape["props"]["recipe"]["outputs" | "inputs"][number],
+	) => {
+		return r.connectedShapes.reduce((sum, i) => sum + i.amount, 0)
+	}
+
 	const handleInputClick = (index: number) => {
 		setOriginShape(shape)
 		setConnection("input")
@@ -81,7 +87,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 									<PlusIcon className="w-4 h-4 flex-shrink-0" />
 								</div>
 								<div className="flex flex-col leading-none items-center">
-									<span>0</span>
+									<span>{getUsedQuantity(r)}</span>
 									<span>—</span>
 									<span>{r.quantity}</span>
 								</div>
@@ -91,22 +97,6 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 									className="w-8 h-8 rounded-sm object-cover"
 								/>
 							</div>
-
-							// <div
-							// 	key={r.name}
-							// 	className="flex items-center cursor-pointer rounded-md px-2 py-1 hover:bg-gray-600 transition-colors"
-							// 	style={{ pointerEvents: "all" }}
-							// 	onClick={() => handleInputClick(idx)}
-							// 	onKeyDown={() => handleInputClick(idx)}
-							// >
-							// 	<PlusIcon className="w-4 h-4 mr-2 flex-shrink-0" />
-							// 	<img
-							// 		src={r.icon_path}
-							// 		alt={r.name}
-							// 		className="w-8 h-8 rounded-sm object-cover"
-							// 	/>
-							// 	<span className="ml-2">{r.quantity}</span>
-							// </div>
 						))}
 					</div>
 				</div>
@@ -126,7 +116,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 									className="w-8 h-8 rounded-sm object-cover"
 								/>
 								<div className="flex flex-col leading-none items-center">
-									<span>0</span>
+									<span>{getUsedQuantity(r)}</span>
 									<span>—</span>
 									<span>{r.quantity}</span>
 								</div>
