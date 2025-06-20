@@ -13,6 +13,7 @@ import { ModalProvider, useModalContext } from "./context/modal-context"
 import NewRecipeModal from "@/components/new-recipe-modal"
 import { useDisclosure } from "@mantine/hooks"
 import RelatedRecipeModal from "./components/related-recipe-modal"
+import CustomUi from "./ui/custom-ui"
 
 const CustomShapesUtils = [BuildingShapeUtil]
 
@@ -62,7 +63,9 @@ function TldrawApp() {
 				components={components}
 				shapeUtils={CustomShapesUtils}
 				overrides={overrides}
+				// hideUi={true}
 			>
+				<CustomUi openNewModal={openNewModal} />
 				<NewRecipeModal opened={newModalOpened} onClose={closeNewModal} />
 				<RelatedRecipeModal
 					opened={relatedRecipesModalOpened}
