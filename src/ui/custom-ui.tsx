@@ -79,7 +79,7 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 							existing.quantity += building.props.workers
 						} else {
 							acc.push({
-								product: "Workers",
+								product: "Worker",
 								icon_path: "products/Worker.png",
 								quantity: building.props.workers,
 							})

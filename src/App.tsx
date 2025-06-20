@@ -1,6 +1,8 @@
 import {
 	DefaultToolbar,
 	DefaultToolbarContent,
+	getArrowBindings,
+	type TLArrowShape,
 	type TLComponents,
 	Tldraw,
 	type TLUiOverrides,
@@ -34,6 +36,33 @@ function TldrawApp() {
 				select: tools.select,
 				arrow: tools.arrow,
 			}
+		},
+		actions(editor, actions) {
+			const deleteOnSelect = actions.delete.onSelect
+			actions.delete = {
+				...actions.delete,
+				onSelect: (source) => {
+					for (const shape of editor.getSelectedShapes()) {
+						const connectedArrows = editor
+							.getCurrentPageShapes()
+							.filter((arrow): arrow is TLArrowShape => arrow.type === "arrow")
+							.filter((arrow) => {
+								const binding = getArrowBindings(editor, arrow)
+								return (
+									binding.start?.toId === shape.id ||
+									binding.end?.toId === shape.id
+								)
+							})
+
+						for (const arrow of connectedArrows) {
+							editor.deleteShape(arrow.id)
+						}
+					}
+					return deleteOnSelect(source)
+				},
+			}
+
+			return actions
 		},
 	}
 
