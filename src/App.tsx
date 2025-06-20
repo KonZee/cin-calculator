@@ -1,6 +1,7 @@
 import {
 	DefaultToolbar,
 	DefaultToolbarContent,
+	type Editor,
 	getArrowBindings,
 	type TLArrowShape,
 	type TLComponents,
@@ -16,6 +17,7 @@ import NewRecipeModal from "@/components/new-recipe-modal"
 import { useDisclosure } from "@mantine/hooks"
 import RelatedRecipeModal from "./components/related-recipe-modal"
 import CustomUi from "./ui/custom-ui"
+import type { BuildingShape } from "./shapes/building/buildingShape"
 
 const CustomShapesUtils = [BuildingShapeUtil]
 
@@ -29,6 +31,67 @@ function TldrawApp() {
 		connection,
 		product,
 	} = useModalContext()
+
+	const onMount = (editor: Editor) => {
+		editor.sideEffects.registerBeforeDeleteHandler("shape", (shape) => {
+			// if the shape is red, prevent the deletion:
+			if (shape.type === "building") {
+				for (const input of (shape as BuildingShape).props.recipe.inputs) {
+					for (const connected of input.connectedShapes) {
+						const connectedShape = editor.getShape(
+							connected.id,
+						) as BuildingShape
+						if (connectedShape) {
+							editor.updateShape({
+								id: connectedShape.id,
+								type: "building",
+								props: {
+									recipe: {
+										...connectedShape.props.recipe,
+										outputs: connectedShape.props.recipe.outputs.map(
+											(output) => ({
+												...output,
+												connectedShapes: output.connectedShapes.filter(
+													(cs) => cs.id !== (shape as BuildingShape).id,
+												),
+											}),
+										),
+									},
+								},
+							})
+						}
+					}
+				}
+
+				for (const output of (shape as BuildingShape).props.recipe.outputs) {
+					for (const connected of output.connectedShapes) {
+						const connectedShape = editor.getShape(
+							connected.id,
+						) as BuildingShape
+						if (connectedShape) {
+							editor.updateShape({
+								id: connectedShape.id,
+								type: "building",
+								props: {
+									recipe: {
+										...connectedShape.props.recipe,
+										inputs: connectedShape.props.recipe.inputs.map((input) => ({
+											...input,
+											connectedShapes: input.connectedShapes.filter(
+												(cs) => cs.id !== (shape as BuildingShape).id,
+											),
+										})),
+									},
+								},
+							})
+						}
+					}
+				}
+			}
+
+			return
+		})
+	}
 
 	const overrides: TLUiOverrides = {
 		tools(_, tools) {
@@ -89,6 +152,7 @@ function TldrawApp() {
 	return (
 		<div style={{ position: "fixed", inset: 0 }}>
 			<Tldraw
+				onMount={onMount}
 				components={components}
 				shapeUtils={CustomShapesUtils}
 				overrides={overrides}

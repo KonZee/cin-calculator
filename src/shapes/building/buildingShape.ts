@@ -1,4 +1,4 @@
-import type { TLBaseShape } from "tldraw"
+import type { TLBaseShape, TLShapeId } from "tldraw"
 
 export type BuildingShape = TLBaseShape<
 	"building",
@@ -37,7 +37,7 @@ export type BuildingShape = TLBaseShape<
 				icon_path: string
 				quantity: number
 				connectedShapes: {
-					id: string
+					id: TLShapeId
 					amount: number
 				}[]
 			}[]
@@ -48,7 +48,7 @@ export type BuildingShape = TLBaseShape<
 				icon_path: string
 				quantity: number
 				connectedShapes: {
-					id: string
+					id: TLShapeId
 					amount: number
 				}[]
 			}[]
