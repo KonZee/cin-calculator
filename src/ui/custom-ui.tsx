@@ -36,12 +36,12 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 				const existing = acc.find((item) => item.name === building.props.name)
 
 				if (existing) {
-					existing.quantity += 1
+					existing.quantity += 1 * building.props.number_of_buildings
 				} else {
 					acc.push({
 						name: building.props.name,
 						icon_path: building.props.icon_path,
-						quantity: 1,
+						quantity: building.props.number_of_buildings,
 					})
 				}
 
@@ -55,9 +55,12 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 				for (const r of building.props.build_costs) {
 					const existing = acc.find((item) => item.product === r.product)
 					if (existing) {
-						existing.quantity += r.quantity
+						existing.quantity += r.quantity * building.props.number_of_buildings
 					} else {
-						acc.push({ ...r })
+						acc.push({
+							...r,
+							quantity: r.quantity * building.props.number_of_buildings,
+						})
 					}
 				}
 				return acc
@@ -76,12 +79,14 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 					if (building.props.workers) {
 						const existing = acc.find((item) => item.product === "Worker")
 						if (existing) {
-							existing.quantity += building.props.workers
+							existing.quantity +=
+								building.props.workers * building.props.number_of_buildings
 						} else {
 							acc.push({
 								product: "Worker",
 								icon_path: "products/Worker.png",
-								quantity: building.props.workers,
+								quantity:
+									building.props.workers * building.props.number_of_buildings,
 							})
 						}
 					}
@@ -89,12 +94,16 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 					if (building.props.electricity_consumed) {
 						const existing = acc.find((item) => item.product === "Electricity")
 						if (existing) {
-							existing.quantity += building.props.electricity_consumed
+							existing.quantity +=
+								building.props.electricity_consumed *
+								building.props.number_of_buildings
 						} else {
 							acc.push({
 								product: "Electricity",
 								icon_path: "products/Electricity.png",
-								quantity: building.props.electricity_consumed,
+								quantity:
+									building.props.electricity_consumed *
+									building.props.number_of_buildings,
 							})
 						}
 					}
@@ -114,13 +123,17 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 								(building.props.maintenance_cost_units || "Maintenance I"),
 						)
 						if (existing) {
-							existing.quantity += building.props.maintenance_cost_quantity
+							existing.quantity +=
+								building.props.maintenance_cost_quantity *
+								building.props.number_of_buildings
 						} else {
 							acc.push({
 								product:
 									building.props.maintenance_cost_units || "Maintenance I",
 								icon_path,
-								quantity: building.props.maintenance_cost_quantity,
+								quantity:
+									building.props.maintenance_cost_quantity *
+									building.props.number_of_buildings,
 							})
 						}
 					}
@@ -128,12 +141,16 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 					if (building.props.computing_consumed) {
 						const existing = acc.find((item) => item.product === "Computing")
 						if (existing) {
-							existing.quantity += building.props.computing_consumed
+							existing.quantity +=
+								building.props.computing_consumed *
+								building.props.number_of_buildings
 						} else {
 							acc.push({
 								product: "Computing",
 								icon_path: "products/Computing.png",
-								quantity: building.props.computing_consumed,
+								quantity:
+									building.props.computing_consumed *
+									building.props.number_of_buildings,
 							})
 						}
 					}
@@ -170,7 +187,7 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 				building.props.recipe.outputs.map((o) => ({
 					product: o.name,
 					icon_path: o.icon_path,
-					quantity: o.quantity,
+					quantity: o.quantity * building.props.number_of_buildings,
 					consumed: getUsedQuantity(o),
 				})),
 			)
@@ -203,7 +220,7 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 				building.props.recipe.inputs.map((i) => ({
 					product: i.name,
 					icon_path: i.icon_path,
-					quantity: i.quantity,
+					quantity: i.quantity * building.props.number_of_buildings,
 					consumed: getUsedQuantity(i),
 				})),
 			)
