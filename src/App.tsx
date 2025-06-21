@@ -38,7 +38,6 @@ function TldrawApp() {
 
 	const onMount = (editor: Editor) => {
 		editor.sideEffects.registerBeforeDeleteHandler("shape", (shape) => {
-			// if the shape is red, prevent the deletion:
 			if (shape.type === "building") {
 				for (const input of (shape as BuildingShape).props.recipe.inputs) {
 					for (const connected of input.connectedShapes) {
@@ -50,6 +49,7 @@ function TldrawApp() {
 								editor,
 								connectedShape.id,
 								(shape as BuildingShape).id,
+								input.name,
 							)
 						}
 					}
@@ -65,6 +65,7 @@ function TldrawApp() {
 								editor,
 								connectedShape.id,
 								(shape as BuildingShape).id,
+								output.name,
 							)
 						}
 					}
