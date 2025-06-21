@@ -4,12 +4,12 @@ import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
 import { useEffect, useState } from "react"
 import type { Building } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
-import useBuildingCreate from "@/building/hooks/useBuildingCreate"
 import { arrowPositions, cardsGap } from "@/building/constants"
 import {
 	addConnectedShapeToOutput,
 	addConnectedShapeToInput,
 } from "@/building/utils/building-update-utils"
+import { createBuildingShape } from "@/building/utils/building-create-utils"
 
 interface RelatedRecipesModalProps {
 	opened: boolean
@@ -28,7 +28,6 @@ export default function RelatedRecipeModal({
 }: RelatedRecipesModalProps) {
 	const editor = useEditor()
 	const { getProductData, searchRelatedBuildings } = useBuildingData()
-	const { createBuildingShape } = useBuildingCreate()
 	const [inputRecipes, setInputRecipes] = useState<Building[]>([])
 	const [outputRecipes, setOutputRecipes] = useState<Building[]>([])
 
@@ -59,7 +58,7 @@ export default function RelatedRecipeModal({
 			(connection === "output" ? 1 : -1) *
 				((originShape?.props?.w || 0) + cardsGap)
 
-		createBuildingShape(b, {
+		createBuildingShape(editor, b, {
 			id: newBuildingId,
 			x: newShapeXPosition,
 			y: originShape?.y,

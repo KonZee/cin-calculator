@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useEditor } from "tldraw"
 import type { Building, Product } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
-import useBuildingCreate from "@/building/hooks/useBuildingCreate"
+import { createBuildingShape } from "@/building/utils/building-create-utils"
 
 interface RecipeModalProps {
 	opened: boolean
@@ -13,7 +13,6 @@ interface RecipeModalProps {
 export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 	const editor = useEditor()
 	const { search, searchRelatedBuildings, getProductData } = useBuildingData()
-	const { createBuildingShape } = useBuildingCreate()
 	const [value, setValue] = useState<string>("")
 	const [searching, setSearching] = useState<boolean>(false)
 	const [products, setProducts] = useState<(Product | Building)[]>([])
@@ -51,8 +50,7 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 	}
 
 	const onCreateBuilding = (b: Building) => {
-		console.log(b)
-		createBuildingShape(b)
+		createBuildingShape(editor, b)
 		editor.selectAll()
 		editor.zoomToSelection()
 		onCloseHandler()
