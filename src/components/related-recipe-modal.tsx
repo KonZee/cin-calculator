@@ -1,10 +1,20 @@
 import type { BuildingShape } from "@/shapes/building/buildingShape"
 import { Modal } from "@mantine/core"
-import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
+import {
+	createShapeId,
+	useEditor,
+	type TLArrowShape,
+	type Editor,
+} from "tldraw"
 import { useEffect, useState } from "react"
 import type { Building } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
-import { arrowPositions, cardsGap } from "@/building/constants"
+import {
+	arrowPositions,
+	cardsHorizontalGap,
+	cardVerticalGap,
+	cardHeights,
+} from "@/building/constants"
 import {
 	addConnectedShapeToOutput,
 	addConnectedShapeToInput,
@@ -19,6 +29,97 @@ interface RelatedRecipesModalProps {
 	product?: string
 }
 
+// Helper function to check if two rectangles intersect
+const doRectanglesIntersect = (
+	rect1: { x: number; y: number; w: number; h: number },
+	rect2: { x: number; y: number; w: number; h: number },
+): boolean => {
+	return !(
+		rect1.x + rect1.w <= rect2.x ||
+		rect2.x + rect2.w <= rect1.x ||
+		rect1.y + rect1.h <= rect2.y ||
+		rect2.y + rect2.h <= rect1.y
+	)
+}
+
+// Helper function to calculate building dimensions based on recipe
+const calculateBuildingDimensions = (building: Building) => {
+	const maxConnections = Math.max(
+		building.recipes[0].inputs.length,
+		building.recipes[0].outputs.length,
+	)
+
+	// Use the same logic as in building-create-utils for height calculation
+	const height = cardHeights[Math.max(0, maxConnections - 1)]
+
+	return {
+		width: 400, // Standard width from building-create-utils
+		height,
+	}
+}
+
+// Helper function to find a suitable Y position that avoids collisions
+const findSuitableYPosition = (
+	editor: Editor,
+	targetX: number,
+	targetY: number,
+	shapeWidth: number,
+	shapeHeight: number,
+): number => {
+	const existingShapes = editor
+		.getCurrentPageShapes()
+		.filter((shape) => shape.type === "building") as BuildingShape[]
+
+	// Check if the target position is free
+	const targetRect = {
+		x: targetX,
+		y: targetY,
+		w: shapeWidth,
+		h: shapeHeight,
+	}
+
+	const hasCollision = existingShapes.some((shape) => {
+		const existingRect = {
+			x: shape.x,
+			y: shape.y,
+			w: shape.props.w,
+			h: shape.props.h,
+		}
+		return doRectanglesIntersect(targetRect, existingRect)
+	})
+
+	if (!hasCollision) {
+		return targetY
+	}
+
+	// Find the lowest Y position of existing shapes in the same X column
+	const shapesInColumn = existingShapes.filter((shape) => {
+		const existingRect = {
+			x: shape.x,
+			y: shape.y,
+			w: shape.props.w,
+			h: shape.props.h,
+		}
+		// Check if shapes overlap horizontally
+		return !(
+			targetX + shapeWidth <= existingRect.x ||
+			existingRect.x + existingRect.w <= targetX
+		)
+	})
+
+	if (shapesInColumn.length === 0) {
+		return targetY
+	}
+
+	// Find the maximum Y + height of shapes in the column
+	const maxY = Math.max(
+		...shapesInColumn.map((shape) => shape.y + shape.props.h),
+	)
+
+	// Return the position below the lowest shape plus gap
+	return maxY + cardVerticalGap
+}
+
 export default function RelatedRecipeModal({
 	opened,
 	onClose,
@@ -27,25 +128,22 @@ export default function RelatedRecipeModal({
 	product,
 }: RelatedRecipesModalProps) {
 	const editor = useEditor()
-	const { getProductData, searchRelatedBuildings } = useBuildingData()
+	const { searchRelatedBuildings, getProductData } = useBuildingData()
 	const [inputRecipes, setInputRecipes] = useState<Building[]>([])
 	const [outputRecipes, setOutputRecipes] = useState<Building[]>([])
 
 	useEffect(() => {
-		if (product) {
+		if (opened && product) {
 			const { buildingsWithInputRecipes, buildingsWithOutputRecipes } =
 				searchRelatedBuildings(product)
-			if (connection === "output") {
-				setOutputRecipes([])
-				setInputRecipes(buildingsWithInputRecipes)
-			} else if (connection === "input") {
-				setInputRecipes([])
-				setOutputRecipes(buildingsWithOutputRecipes)
-			}
+			setInputRecipes(buildingsWithInputRecipes)
+			setOutputRecipes(buildingsWithOutputRecipes)
 		}
-	}, [product, connection, searchRelatedBuildings])
+	}, [opened, product, searchRelatedBuildings])
 
 	const onCloseHandler = () => {
+		setInputRecipes([])
+		setOutputRecipes([])
 		onClose()
 	}
 
@@ -56,12 +154,25 @@ export default function RelatedRecipeModal({
 		const newShapeXPosition =
 			(originShape?.x || 0) +
 			(connection === "output" ? 1 : -1) *
-				((originShape?.props?.w || 0) + cardsGap)
+				((originShape?.props?.w || 0) + cardsHorizontalGap)
 
+		// Calculate dimensions based on the actual building data
+		const { width, height } = calculateBuildingDimensions(b)
+
+		// Find a suitable Y position that avoids collisions
+		const suitableYPosition = findSuitableYPosition(
+			editor,
+			newShapeXPosition,
+			originShape?.y || 0,
+			width,
+			height,
+		)
+
+		// Create the shape with the calculated position
 		createBuildingShape(editor, b, {
 			id: newBuildingId,
 			x: newShapeXPosition,
-			y: originShape?.y,
+			y: suitableYPosition,
 		})
 
 		const createdShape = editor.getShape(newBuildingId) as BuildingShape
