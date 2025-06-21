@@ -1,8 +1,14 @@
-import { PlusIcon } from "@heroicons/react/24/outline"
-import type { BuildingShape } from "./buildingShape"
 import { useModalContext } from "@/context/modal-context"
+import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { NumberInput } from "@mantine/core"
+import { useState } from "react"
+import { useEditor } from "tldraw"
+import type { BuildingShape } from "./buildingShape"
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
+	const editor = useEditor()
+	const [quantity, setQuantity] = useState(shape.props.number_of_buildings)
+
 	const {
 		actions: { open },
 		setOriginShape,
@@ -35,6 +41,18 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 		return r.connectedShapes.reduce((sum, i) => sum + i.amount, 0)
 	}
 
+	const handleUpdateQuantity = (value: string | number) => {
+		const num = typeof value === "number" ? value : Number.parseInt(value)
+		setQuantity(num)
+		editor.updateShape<BuildingShape>({
+			id: shape.id,
+			type: shape.type,
+			props: {
+				number_of_buildings: num,
+			},
+		})
+	}
+
 	const handleInputClick = (index: number) => {
 		setOriginShape(shape)
 		setConnection("input")
@@ -58,13 +76,37 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 			onTouchEnd={(e) => e.stopPropagation()}
 		>
 			{/* Header */}
-			<div className="p-4 border-b border-gray-600 flex justify-center items-center text-xl font-semibold select-text gap-2">
-				<img
-					src={shape.props.icon_path}
-					alt={shape.props.name}
-					className="w-8 h-8 rounded-sm object-cover"
-				/>
-				{shape.props.name}
+			<div className="p-4 border-b border-gray-600 flex items-center text-xl font-semibold select-text gap-2">
+				<div className="flex gap-2 items-center justify-center grow">
+					<img
+						src={shape.props.icon_path}
+						alt={shape.props.name}
+						className="w-8 h-8 rounded-sm object-cover"
+					/>
+					{shape.props.name}
+					<span className="text-sm">{" x "}</span>
+					<NumberInput
+						min={1}
+						max={99}
+						decimalScale={0}
+						size="xs"
+						className="w-12"
+						value={quantity}
+						onChange={handleUpdateQuantity}
+						style={{ pointerEvents: "all" }}
+						onKeyUp={(e) => e.stopPropagation}
+					/>
+				</div>
+				<div className="flex justify-center">
+					<button
+						type="button"
+						className="p-1 rounded-md cursor-pointer"
+						style={{ pointerEvents: "all" }}
+						onClick={() => console.log("Deleting Shape")}
+					>
+						<TrashIcon className="w-4 h-4" />
+					</button>
+				</div>
 			</div>
 
 			{/* Recipes Section */}
@@ -89,7 +131,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 								<div className="flex flex-col leading-none items-center">
 									<span>{getUsedQuantity(r)}</span>
 									<span>—</span>
-									<span>{r.quantity}</span>
+									<span>{r.quantity * shape.props.number_of_buildings}</span>
 								</div>
 								<img
 									src={r.icon_path}
@@ -118,7 +160,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 								<div className="flex flex-col leading-none items-center">
 									<span>{getUsedQuantity(r)}</span>
 									<span>—</span>
-									<span>{r.quantity}</span>
+									<span>{r.quantity * shape.props.number_of_buildings}</span>
 								</div>
 								<div
 									className="cursor-pointer rounded-md p-2 hover:bg-gray-600 transition-colors"
@@ -139,7 +181,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 				{!!shape.props.workers && (
 					<div className="flex items-center gap-1">
 						<img src="products/Worker.png" alt="Workers" className="w-4 h-4" />
-						<span>{shape.props.workers}</span>
+						<span>{shape.props.workers * shape.props.number_of_buildings}</span>
 					</div>
 				)}
 				{!!shape.props.electricity_consumed && (
@@ -150,7 +192,10 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 							className="w-4 h-4"
 						/>
 						<span>
-							{getFormattedElectricity(shape.props.electricity_consumed)}
+							{getFormattedElectricity(
+								shape.props.electricity_consumed *
+									shape.props.number_of_buildings,
+							)}
 						</span>
 					</div>
 				)}
@@ -161,7 +206,10 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 							alt="Maintenance"
 							className="w-4 h-4"
 						/>
-						<span>{shape.props.maintenance_cost_quantity}</span>
+						<span>
+							{shape.props.maintenance_cost_quantity *
+								shape.props.number_of_buildings}
+						</span>
 					</div>
 				)}
 				{shape.props.build_costs.map((p) => (
@@ -177,7 +225,9 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 							alt="Computing"
 							className="w-4 h-4"
 						/>
-						<span>{shape.props.computing_consumed}</span>
+						<span>
+							{shape.props.computing_consumed * shape.props.number_of_buildings}
+						</span>
 					</div>
 				)}
 			</div>

@@ -24,6 +24,7 @@ export class BuildingShapeUtil extends ShapeUtil<BuildingShape> {
 			unity_cost: 0,
 			research_speed: 0,
 			icon_path: "default",
+			number_of_buildings: 1,
 			build_costs: [
 				{
 					product: "Construction Parts I",

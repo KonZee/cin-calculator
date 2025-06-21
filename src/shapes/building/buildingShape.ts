@@ -20,6 +20,7 @@ export type BuildingShape = TLBaseShape<
 		unity_cost: number
 		research_speed: number
 		icon_path: string
+		number_of_buildings: number
 		build_costs: {
 			product: string
 			icon_path: string
