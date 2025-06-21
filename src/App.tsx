@@ -18,6 +18,10 @@ import { useDisclosure } from "@mantine/hooks"
 import RelatedRecipeModal from "./components/related-recipe-modal"
 import CustomUi from "./ui/custom-ui"
 import type { BuildingShape } from "./shapes/building/buildingShape"
+import {
+	removeConnectedShapeFromOutput,
+	removeConnectedShapeFromInput,
+} from "./building/utils/building-update-utils"
 
 const CustomShapesUtils = [BuildingShapeUtil]
 
@@ -42,23 +46,11 @@ function TldrawApp() {
 							connected.id,
 						) as BuildingShape
 						if (connectedShape) {
-							editor.updateShape({
-								id: connectedShape.id,
-								type: "building",
-								props: {
-									recipe: {
-										...connectedShape.props.recipe,
-										outputs: connectedShape.props.recipe.outputs.map(
-											(output) => ({
-												...output,
-												connectedShapes: output.connectedShapes.filter(
-													(cs) => cs.id !== (shape as BuildingShape).id,
-												),
-											}),
-										),
-									},
-								},
-							})
+							removeConnectedShapeFromOutput(
+								editor,
+								connectedShape.id,
+								(shape as BuildingShape).id,
+							)
 						}
 					}
 				}
@@ -69,21 +61,11 @@ function TldrawApp() {
 							connected.id,
 						) as BuildingShape
 						if (connectedShape) {
-							editor.updateShape({
-								id: connectedShape.id,
-								type: "building",
-								props: {
-									recipe: {
-										...connectedShape.props.recipe,
-										inputs: connectedShape.props.recipe.inputs.map((input) => ({
-											...input,
-											connectedShapes: input.connectedShapes.filter(
-												(cs) => cs.id !== (shape as BuildingShape).id,
-											),
-										})),
-									},
-								},
-							})
+							removeConnectedShapeFromInput(
+								editor,
+								connectedShape.id,
+								(shape as BuildingShape).id,
+							)
 						}
 					}
 				}

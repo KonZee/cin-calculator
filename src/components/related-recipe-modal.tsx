@@ -6,6 +6,10 @@ import type { Building } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
 import useBuildingCreate from "@/building/hooks/useBuildingCreate"
 import { arrowPositions, cardsGap } from "@/building/constants"
+import {
+	addConnectedShapeToOutput,
+	addConnectedShapeToInput,
+} from "@/building/utils/building-update-utils"
 
 interface RelatedRecipesModalProps {
 	opened: boolean
@@ -130,47 +134,20 @@ export default function RelatedRecipeModal({
 		const toTransfer = Math.min(freeProductToTransfer, freeProductToReceive)
 
 		// And update shapes
-		editor.updateShape({
-			id: supplier.id,
-			type: "building",
-			props: {
-				recipe: {
-					...supplier.props.recipe,
-					outputs: supplier.props.recipe.outputs.map((output, index) =>
-						index === indexFrom
-							? {
-									...output,
-									connectedShapes: [
-										...output.connectedShapes,
-										{ id: consumer.id, amount: toTransfer },
-									],
-								}
-							: output,
-					),
-				},
-			},
-		})
-
-		editor.updateShape({
-			id: consumer.id,
-			type: "building",
-			props: {
-				recipe: {
-					...consumer.props.recipe,
-					inputs: consumer.props.recipe.inputs.map((input, index) =>
-						index === indexTo
-							? {
-									...input,
-									connectedShapes: [
-										...input.connectedShapes,
-										{ id: supplier.id, amount: toTransfer },
-									],
-								}
-							: input,
-					),
-				},
-			},
-		})
+		addConnectedShapeToOutput(
+			editor,
+			supplier.id,
+			indexFrom,
+			consumer.id,
+			toTransfer,
+		)
+		addConnectedShapeToInput(
+			editor,
+			consumer.id,
+			indexTo,
+			supplier.id,
+			toTransfer,
+		)
 
 		onCloseHandler()
 	}
