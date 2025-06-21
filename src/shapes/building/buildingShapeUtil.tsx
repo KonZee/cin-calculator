@@ -7,7 +7,6 @@ export class BuildingShapeUtil extends ShapeUtil<BuildingShape> {
 
 	getDefaultProps(): BuildingShape["props"] {
 		return {
-			id: "default",
 			w: 400,
 			h: 300,
 			name: "default",

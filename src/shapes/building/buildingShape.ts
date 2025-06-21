@@ -3,7 +3,6 @@ import type { TLBaseShape, TLShapeId } from "tldraw"
 export type BuildingShape = TLBaseShape<
 	"building",
 	{
-		id: string
 		w: number
 		h: number
 		name: string

@@ -1,11 +1,9 @@
 import { Modal, TextInput } from "@mantine/core"
 import { useState } from "react"
-import { v4 as uuidv4 } from "uuid"
 import { useEditor } from "tldraw"
-import type { BuildingShape } from "@/shapes/building/buildingShape"
 import type { Building, Product } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
-import { cardHeights } from "@/building/constants"
+import useBuildingCreate from "@/building/hooks/useBuildingCreate"
 
 interface RecipeModalProps {
 	opened: boolean
@@ -15,6 +13,7 @@ interface RecipeModalProps {
 export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 	const editor = useEditor()
 	const { search, searchRelatedBuildings, getProductData } = useBuildingData()
+	const { createBuildingShape } = useBuildingCreate()
 	const [value, setValue] = useState<string>("")
 	const [searching, setSearching] = useState<boolean>(false)
 	const [products, setProducts] = useState<(Product | Building)[]>([])
@@ -52,42 +51,9 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 	}
 
 	const onCreateBuilding = (b: Building) => {
-		const height =
-			cardHeights[
-				Math.max(b.recipes[0].inputs.length, b.recipes[0].outputs.length) - 1
-			]
-
-		editor.createShape<BuildingShape>({
-			type: "building",
-			props: {
-				w: 400,
-				h: height,
-				...b,
-				build_costs: b.build_costs.map((c) => ({
-					...c,
-					icon_path: getProductData(c.product).icon_path,
-				})),
-				recipe: {
-					...b.recipes[0],
-					inputs: b.recipes[0].inputs.map((r) => ({
-						...r,
-						id: uuidv4(),
-						type: getProductData(r.name).type,
-						icon_path: getProductData(r.name).icon_path,
-						connectedShapes: [],
-					})),
-					outputs: b.recipes[0].outputs.map((r) => ({
-						...r,
-						id: uuidv4(),
-						type: getProductData(r.name).type,
-						icon_path: getProductData(r.name).icon_path,
-						connectedShapes: [],
-					})),
-				},
-			},
-		})
+		console.log(b)
+		createBuildingShape(b)
 		editor.selectAll()
-
 		editor.zoomToSelection()
 		onCloseHandler()
 	}

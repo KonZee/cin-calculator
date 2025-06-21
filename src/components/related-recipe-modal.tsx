@@ -4,8 +4,8 @@ import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
 import { useEffect, useState } from "react"
 import type { Building } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
-import { v4 as uuidv4 } from "uuid"
-import { arrowPositions, cardHeights, cardsGap } from "@/building/constants"
+import useBuildingCreate from "@/building/hooks/useBuildingCreate"
+import { arrowPositions, cardsGap } from "@/building/constants"
 
 interface RelatedRecipesModalProps {
 	opened: boolean
@@ -24,6 +24,7 @@ export default function RelatedRecipeModal({
 }: RelatedRecipesModalProps) {
 	const editor = useEditor()
 	const { getProductData, searchRelatedBuildings } = useBuildingData()
+	const { createBuildingShape } = useBuildingCreate()
 	const [inputRecipes, setInputRecipes] = useState<Building[]>([])
 	const [outputRecipes, setOutputRecipes] = useState<Building[]>([])
 
@@ -54,42 +55,10 @@ export default function RelatedRecipeModal({
 			(connection === "output" ? 1 : -1) *
 				((originShape?.props?.w || 0) + cardsGap)
 
-		const height =
-			cardHeights[
-				Math.max(b.recipes[0].inputs.length, b.recipes[0].outputs.length) - 1
-			]
-
-		editor.createShape({
+		createBuildingShape(b, {
 			id: newBuildingId,
-			type: "building",
 			x: newShapeXPosition,
 			y: originShape?.y,
-			props: {
-				w: 400,
-				h: height,
-				...b,
-				build_costs: b.build_costs.map((c) => ({
-					...c,
-					icon_path: getProductData(c.product).icon_path,
-				})),
-				recipe: {
-					...b.recipes[0],
-					inputs: b.recipes[0].inputs.map((r) => ({
-						...r,
-						id: uuidv4(),
-						type: getProductData(r.name).type,
-						icon_path: getProductData(r.name).icon_path,
-						connectedShapes: [],
-					})),
-					outputs: b.recipes[0].outputs.map((r) => ({
-						...r,
-						id: uuidv4(),
-						type: getProductData(r.name).type,
-						icon_path: getProductData(r.name).icon_path,
-						connectedShapes: [],
-					})),
-				},
-			},
 		})
 
 		const createdShape = editor.getShape(newBuildingId) as BuildingShape
