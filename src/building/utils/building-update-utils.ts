@@ -517,6 +517,15 @@ export const prioritizeConnectedShape = (
 			},
 		})
 
-		console.log(editor.getShape(connectedShape.id))
+		const updatedConnectedShape = editor.getShape(
+			connectedShape.id,
+		) as BuildingShape
+
+		// Run prioritization again for each connected shape
+		updateConnectedShapes(
+			editor,
+			updatedConnectedShape,
+			updatedConnectedShape.props.number_of_buildings,
+		)
 	}
 }
