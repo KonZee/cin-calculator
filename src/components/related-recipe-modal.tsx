@@ -235,10 +235,10 @@ export default function RelatedRecipeModal({
 		const productToReceive = consumer.props.recipe.inputs[indexTo]
 
 		const freeProductToTransfer =
-			productToTransfer.quantity -
+			productToTransfer.quantity * supplier.props.number_of_buildings -
 			productToTransfer.connectedShapes.reduce((sum, i) => sum + i.amount, 0)
 		const freeProductToReceive =
-			productToReceive.quantity -
+			productToReceive.quantity * consumer.props.number_of_buildings -
 			productToReceive.connectedShapes.reduce((sum, i) => sum + i.amount, 0)
 
 		const toTransfer = Math.min(freeProductToTransfer, freeProductToReceive)
