@@ -1,10 +1,17 @@
 import { useModalContext } from "@/context/modal-context"
-import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
+import {
+	PlusIcon,
+	TrashIcon,
+	BarsArrowUpIcon,
+} from "@heroicons/react/24/outline"
 import { NumberInput } from "@mantine/core"
 import { useState } from "react"
 import { useEditor } from "tldraw"
 import type { BuildingShape } from "./buildingShape"
-import { updateConnectedShapes } from "@/building/utils/building-update-utils"
+import {
+	updateConnectedShapes,
+	prioritizeConnectedShape,
+} from "@/building/utils/building-update-utils"
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	const editor = useEditor()
@@ -71,6 +78,16 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 		open()
 	}
 
+	const handleInputPrioritize = (index: number) => {
+		const input = shape.props.recipe.inputs[index]
+		prioritizeConnectedShape(editor, shape, "inputs", input.name)
+	}
+
+	const handleOutputPrioritize = (index: number) => {
+		const output = shape.props.recipe.outputs[index]
+		prioritizeConnectedShape(editor, shape, "outputs", output.name)
+	}
+
 	return (
 		<div
 			className="bg-gradient-to-b from-gray-700 to-gray-800 text-white rounded-lg shadow-lg flex flex-col select-none"
@@ -104,6 +121,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 				<div className="flex justify-center">
 					<button
 						type="button"
+						title="Delete"
 						className="p-1 rounded-md cursor-pointer"
 						style={{ pointerEvents: "all" }}
 						onClick={() => console.log("Deleting Shape")}
@@ -132,7 +150,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 								>
 									<PlusIcon className="w-4 h-4 flex-shrink-0" />
 								</div>
-								<div className="flex flex-col leading-none items-center">
+								<div className="flex flex-col leading-none items-center w-8 justify-center">
 									<span>{getUsedQuantity(r)}</span>
 									<span>—</span>
 									<span>{r.quantity * shape.props.number_of_buildings}</span>
@@ -142,6 +160,15 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 									alt={r.name}
 									className="w-8 h-8 rounded-sm object-cover"
 								/>
+								<button
+									type="button"
+									title="Prioritize"
+									className="p-1 rounded-md cursor-pointer"
+									style={{ pointerEvents: "all" }}
+									onClick={() => handleInputPrioritize(idx)}
+								>
+									<BarsArrowUpIcon className="w-6 h-6" />
+								</button>
 							</div>
 						))}
 					</div>
@@ -156,12 +183,21 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 								key={r.name}
 								className="flex items-center cursor-pointer rounded-md py-1 justify-end gap-2"
 							>
+								<button
+									type="button"
+									title="Prioritize"
+									className="p-1 rounded-md cursor-pointer"
+									style={{ pointerEvents: "all" }}
+									onClick={() => handleOutputPrioritize(idx)}
+								>
+									<BarsArrowUpIcon className="w-6 h-6" />
+								</button>
 								<img
 									src={r.icon_path}
 									alt={r.name}
 									className="w-8 h-8 rounded-sm object-cover"
 								/>
-								<div className="flex flex-col leading-none items-center">
+								<div className="flex flex-col leading-none items-center w-8 justify-center">
 									<span>{getUsedQuantity(r)}</span>
 									<span>—</span>
 									<span>{r.quantity * shape.props.number_of_buildings}</span>

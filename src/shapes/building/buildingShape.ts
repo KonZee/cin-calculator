@@ -39,6 +39,7 @@ export type BuildingShape = TLBaseShape<
 				connectedShapes: {
 					id: TLShapeId
 					amount: number
+					isPrioritized: boolean
 				}[]
 			}[]
 			outputs: {
@@ -50,6 +51,7 @@ export type BuildingShape = TLBaseShape<
 				connectedShapes: {
 					id: TLShapeId
 					amount: number
+					isPrioritized: boolean
 				}[]
 			}[]
 		}

@@ -12,7 +12,7 @@ export const addConnectedShapeToOutput = (
 	const building = editor.getShape(buildingId) as BuildingShape
 	if (!building) return
 
-	editor.updateShape({
+	editor.updateShape<BuildingShape>({
 		id: buildingId,
 		type: "building",
 		props: {
@@ -24,7 +24,7 @@ export const addConnectedShapeToOutput = (
 								...output,
 								connectedShapes: [
 									...output.connectedShapes,
-									{ id: connectedShapeId, amount },
+									{ id: connectedShapeId, amount, isPrioritized: false },
 								],
 							}
 						: output,
@@ -44,7 +44,7 @@ export const addConnectedShapeToInput = (
 	const building = editor.getShape(buildingId) as BuildingShape
 	if (!building) return
 
-	editor.updateShape({
+	editor.updateShape<BuildingShape>({
 		id: buildingId,
 		type: "building",
 		props: {
@@ -56,7 +56,7 @@ export const addConnectedShapeToInput = (
 								...input,
 								connectedShapes: [
 									...input.connectedShapes,
-									{ id: connectedShapeId, amount },
+									{ id: connectedShapeId, amount, isPrioritized: false },
 								],
 							}
 						: input,
@@ -72,14 +72,25 @@ const redistributeAmounts = (
 	buildingId: TLShapeId,
 	product: string,
 	amountToRemove: number,
-	restOfConnectedShapes: Array<{ id: TLShapeId; amount: number }>,
+	restOfConnectedShapes: Array<{
+		id: TLShapeId
+		amount: number
+		isPrioritized: boolean
+	}>,
 	connectionType: "input" | "output", // "input" for input removal, "output" for output removal
 ): void => {
 	if (amountToRemove <= 0) return
 
+	// Sort connected shapes by priority (prioritized first, then by original order)
+	const sortedConnectedShapes = [...restOfConnectedShapes].sort((a, b) => {
+		if (a.isPrioritized && !b.isPrioritized) return -1
+		if (!a.isPrioritized && b.isPrioritized) return 1
+		return 0
+	})
+
 	let remainingAmount = amountToRemove
 
-	for (const cs of restOfConnectedShapes) {
+	for (const cs of sortedConnectedShapes) {
 		const shape = editor.getShape(cs.id) as BuildingShape
 		if (!shape) continue
 
@@ -92,7 +103,8 @@ const redistributeAmounts = (
 		const correctConnection = connections.find((conn) => conn.name === product)
 		if (!correctConnection) continue
 
-		const quantity = correctConnection.quantity
+		const quantity =
+			correctConnection.quantity * shape.props.number_of_buildings
 		const currentConnectedShape = correctConnection.connectedShapes.find(
 			(s) => s.id === buildingId,
 		)
@@ -149,7 +161,7 @@ const redistributeAmounts = (
 							),
 						}
 
-			editor.updateShape({
+			editor.updateShape<BuildingShape>({
 				id: cs.id,
 				type: "building",
 				props: {
@@ -182,7 +194,7 @@ export const removeConnectedShapeFromOutput = (
 	const building = editor.getShape(buildingId) as BuildingShape
 	if (!building) return
 
-	editor.updateShape({
+	editor.updateShape<BuildingShape>({
 		id: buildingId,
 		type: "building",
 		props: {
@@ -226,7 +238,7 @@ export const removeConnectedShapeFromInput = (
 	const building = editor.getShape(buildingId) as BuildingShape
 	if (!building) return
 
-	editor.updateShape({
+	editor.updateShape<BuildingShape>({
 		id: buildingId,
 		type: "building",
 		props: {
@@ -270,11 +282,18 @@ export const updateConnectedShapes = (
 	const updatedOutputs = shape.props.recipe.outputs.map((output) => {
 		const totalOutputCapacity = output.quantity * newNumberOfBuildings
 
-		// Distribute total capacity to connected shapes in order
+		// Sort connected shapes by priority (prioritized first, then by original order)
+		const sortedConnectedShapes = [...output.connectedShapes].sort((a, b) => {
+			if (a.isPrioritized && !b.isPrioritized) return -1
+			if (!a.isPrioritized && b.isPrioritized) return 1
+			return 0
+		})
+
+		// Distribute total capacity to connected shapes in priority order
 		let remainingCapacity = totalOutputCapacity
 		const newAmounts: { id: TLShapeId; amount: number }[] = []
 
-		for (const connectedShape of output.connectedShapes) {
+		for (const connectedShape of sortedConnectedShapes) {
 			const connectedBuilding = editor.getShape(
 				connectedShape.id,
 			) as BuildingShape
@@ -354,11 +373,18 @@ export const updateConnectedShapes = (
 	const updatedInputs = shape.props.recipe.inputs.map((input) => {
 		const totalInputCapacity = input.quantity * newNumberOfBuildings
 
-		// Distribute total capacity to connected shapes in order
+		// Sort connected shapes by priority (prioritized first, then by original order)
+		const sortedConnectedShapes = [...input.connectedShapes].sort((a, b) => {
+			if (a.isPrioritized && !b.isPrioritized) return -1
+			if (!a.isPrioritized && b.isPrioritized) return 1
+			return 0
+		})
+
+		// Distribute total capacity to connected shapes in priority order
 		let remainingCapacity = totalInputCapacity
 		const newAmounts: { id: TLShapeId; amount: number }[] = []
 
-		for (const connectedShape of input.connectedShapes) {
+		for (const connectedShape of sortedConnectedShapes) {
 			const connectedBuilding = editor.getShape(
 				connectedShape.id,
 			) as BuildingShape
@@ -449,4 +475,48 @@ export const updateConnectedShapes = (
 			},
 		},
 	})
+}
+
+export const prioritizeConnectedShape = (
+	editor: Editor,
+	shape: BuildingShape,
+	connection: "inputs" | "outputs",
+	product: string,
+) => {
+	const oppositeConnection = connection === "inputs" ? "outputs" : "inputs"
+
+	const connectedShapes = shape.props.recipe[connection].find(
+		(s) => s.name === product,
+	)?.connectedShapes
+
+	if (!connectedShapes) return
+
+	for (const cs of connectedShapes) {
+		const connectedShape = editor.getShape(cs.id) as BuildingShape
+
+		editor.updateShape<BuildingShape>({
+			id: connectedShape.id,
+			type: connectedShape.type,
+			props: {
+				recipe: {
+					...connectedShape.props.recipe,
+					[oppositeConnection]: connectedShape.props.recipe[
+						oppositeConnection
+					].map((s) =>
+						s.name === product
+							? {
+									...s,
+									connectedShapes: s.connectedShapes.map((c) => ({
+										...c,
+										isPrioritized: c.id === shape.id,
+									})),
+								}
+							: s,
+					),
+				},
+			},
+		})
+
+		console.log(editor.getShape(connectedShape.id))
+	}
 }
