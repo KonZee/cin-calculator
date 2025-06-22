@@ -4,6 +4,7 @@ import { NumberInput } from "@mantine/core"
 import { useState } from "react"
 import { useEditor } from "tldraw"
 import type { BuildingShape } from "./buildingShape"
+import { updateConnectedShapes } from "@/building/utils/building-update-utils"
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	const editor = useEditor()
@@ -51,6 +52,9 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 				number_of_buildings: num,
 			},
 		})
+
+		// Update all connected shapes with the new amount
+		updateConnectedShapes(editor, shape, num)
 	}
 
 	const handleInputClick = (index: number) => {

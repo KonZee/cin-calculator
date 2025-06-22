@@ -260,3 +260,193 @@ export const removeConnectedShapeFromInput = (
 		},
 	})
 }
+
+export const updateConnectedShapes = (
+	editor: Editor,
+	shape: BuildingShape,
+	newNumberOfBuildings: number,
+): void => {
+	// Collect all updates for the original shape
+	const updatedOutputs = shape.props.recipe.outputs.map((output) => {
+		const totalOutputCapacity = output.quantity * newNumberOfBuildings
+
+		// Distribute total capacity to connected shapes in order
+		let remainingCapacity = totalOutputCapacity
+		const newAmounts: { id: TLShapeId; amount: number }[] = []
+
+		for (const connectedShape of output.connectedShapes) {
+			const connectedBuilding = editor.getShape(
+				connectedShape.id,
+			) as BuildingShape
+			if (!connectedBuilding) continue
+
+			const inputIndex = connectedBuilding.props.recipe.inputs.findIndex(
+				(input) => input.name === output.name,
+			)
+			if (inputIndex === -1) continue
+
+			const input = connectedBuilding.props.recipe.inputs[inputIndex]
+			const inputCapacity =
+				input.quantity * connectedBuilding.props.number_of_buildings
+			const currentInputUsed = input.connectedShapes.reduce(
+				(sum, cs) => (cs.id === shape.id ? sum : sum + cs.amount),
+				0,
+			)
+			const inputAvailable = inputCapacity - currentInputUsed
+
+			// Calculate how much this connected building can receive
+			const maxAmountForThisBuilding = Math.min(
+				inputAvailable,
+				remainingCapacity,
+			)
+
+			newAmounts.push({
+				id: connectedShape.id,
+				amount: Math.max(0, maxAmountForThisBuilding),
+			})
+
+			remainingCapacity -= maxAmountForThisBuilding
+		}
+
+		// Update connected buildings' input connections
+		for (const newAmount of newAmounts) {
+			const connectedBuilding = editor.getShape(newAmount.id) as BuildingShape
+			if (!connectedBuilding) continue
+
+			const inputIndex = connectedBuilding.props.recipe.inputs.findIndex(
+				(input) => input.name === output.name,
+			)
+			if (inputIndex === -1) continue
+
+			editor.updateShape<BuildingShape>({
+				id: newAmount.id,
+				type: "building",
+				props: {
+					recipe: {
+						...connectedBuilding.props.recipe,
+						inputs: connectedBuilding.props.recipe.inputs.map((input, idx) =>
+							idx === inputIndex
+								? {
+										...input,
+										connectedShapes: input.connectedShapes.map((cs) =>
+											cs.id === shape.id
+												? { ...cs, amount: newAmount.amount }
+												: cs,
+										),
+									}
+								: input,
+						),
+					},
+				},
+			})
+		}
+
+		// Return updated output with new amounts
+		return {
+			...output,
+			connectedShapes: output.connectedShapes.map((cs) => {
+				const newAmount = newAmounts.find((na) => na.id === cs.id)
+				return newAmount ? { ...cs, amount: newAmount.amount } : cs
+			}),
+		}
+	})
+
+	const updatedInputs = shape.props.recipe.inputs.map((input) => {
+		const totalInputCapacity = input.quantity * newNumberOfBuildings
+
+		// Distribute total capacity to connected shapes in order
+		let remainingCapacity = totalInputCapacity
+		const newAmounts: { id: TLShapeId; amount: number }[] = []
+
+		for (const connectedShape of input.connectedShapes) {
+			const connectedBuilding = editor.getShape(
+				connectedShape.id,
+			) as BuildingShape
+			if (!connectedBuilding) continue
+
+			const outputIndex = connectedBuilding.props.recipe.outputs.findIndex(
+				(output) => output.name === input.name,
+			)
+			if (outputIndex === -1) continue
+
+			const output = connectedBuilding.props.recipe.outputs[outputIndex]
+			const outputCapacity =
+				output.quantity * connectedBuilding.props.number_of_buildings
+			const currentOutputUsed = output.connectedShapes.reduce(
+				(sum, cs) => (cs.id === shape.id ? sum : sum + cs.amount),
+				0,
+			)
+			const outputAvailable = outputCapacity - currentOutputUsed
+
+			// Calculate how much this connected building can provide
+			const maxAmountForThisBuilding = Math.min(
+				outputAvailable,
+				remainingCapacity,
+			)
+
+			newAmounts.push({
+				id: connectedShape.id,
+				amount: Math.max(0, maxAmountForThisBuilding),
+			})
+
+			remainingCapacity -= maxAmountForThisBuilding
+		}
+
+		// Update connected buildings' output connections
+		for (const newAmount of newAmounts) {
+			const connectedBuilding = editor.getShape(newAmount.id) as BuildingShape
+			if (!connectedBuilding) continue
+
+			const outputIndex = connectedBuilding.props.recipe.outputs.findIndex(
+				(output) => output.name === input.name,
+			)
+			if (outputIndex === -1) continue
+
+			editor.updateShape<BuildingShape>({
+				id: newAmount.id,
+				type: "building",
+				props: {
+					recipe: {
+						...connectedBuilding.props.recipe,
+						outputs: connectedBuilding.props.recipe.outputs.map(
+							(output, idx) =>
+								idx === outputIndex
+									? {
+											...output,
+											connectedShapes: output.connectedShapes.map((cs) =>
+												cs.id === shape.id
+													? { ...cs, amount: newAmount.amount }
+													: cs,
+											),
+										}
+									: output,
+						),
+					},
+				},
+			})
+		}
+
+		// Return updated input with new amounts
+		return {
+			...input,
+			connectedShapes: input.connectedShapes.map((cs) => {
+				const newAmount = newAmounts.find((na) => na.id === cs.id)
+				return newAmount ? { ...cs, amount: newAmount.amount } : cs
+			}),
+		}
+	})
+
+	// Update the original shape with all changes at once
+	editor.updateShape<BuildingShape>({
+		id: shape.id,
+		type: shape.type,
+		props: {
+			number_of_buildings: newNumberOfBuildings,
+			recipe: {
+				...shape.props.recipe,
+				outputs: updatedOutputs,
+				inputs: updatedInputs,
+			},
+		},
+	})
+}
