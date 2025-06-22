@@ -136,14 +136,17 @@ export default function RelatedRecipeModal({
 		if (opened && product) {
 			const { buildingsWithInputRecipes, buildingsWithOutputRecipes } =
 				searchRelatedBuildings(product)
-			setInputRecipes(buildingsWithInputRecipes)
-			setOutputRecipes(buildingsWithOutputRecipes)
+			if (connection === "output") {
+				setOutputRecipes([])
+				setInputRecipes(buildingsWithInputRecipes)
+			} else if (connection === "input") {
+				setInputRecipes([])
+				setOutputRecipes(buildingsWithOutputRecipes)
+			}
 		}
-	}, [opened, product, searchRelatedBuildings])
+	}, [opened, product, connection, searchRelatedBuildings])
 
 	const onCloseHandler = () => {
-		setInputRecipes([])
-		setOutputRecipes([])
 		onClose()
 	}
 
