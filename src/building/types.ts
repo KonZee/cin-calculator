@@ -24,6 +24,7 @@ export interface Building {
 	id: string
 	name: string
 	category: string
+	previous_tier: string
 	next_tier: string
 	workers: number
 	maintenance_cost_units: string

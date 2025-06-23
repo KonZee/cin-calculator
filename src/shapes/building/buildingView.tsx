@@ -217,7 +217,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 			</div>
 
 			{/* Footer Stats */}
-			<div className="flex p-4 border-t border-gray-600 gap-6 text-sm items-center select-text">
+			<div className="flex p-4 border-t border-gray-600 gap-6 text-sm items-center select-text min-h-[52px]">
 				{!!shape.props.workers && (
 					<div className="flex items-center gap-1">
 						<img src="products/Worker.png" alt="Workers" className="w-4 h-4" />
