@@ -80,12 +80,12 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 
 	const handleInputPrioritize = (index: number) => {
 		const input = shape.props.recipe.inputs[index]
-		prioritizeConnectedShape(editor, shape, "inputs", input.name)
+		prioritizeConnectedShape(editor, shape, "input", input.name)
 	}
 
 	const handleOutputPrioritize = (index: number) => {
 		const output = shape.props.recipe.outputs[index]
-		prioritizeConnectedShape(editor, shape, "outputs", output.name)
+		prioritizeConnectedShape(editor, shape, "output", output.name)
 	}
 
 	return (

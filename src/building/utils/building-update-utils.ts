@@ -2,6 +2,13 @@ import type { Editor } from "tldraw"
 import type { BuildingShape } from "@/shapes/building/buildingShape"
 import type { TLShapeId } from "tldraw"
 
+// Helper function to get direct and opposite connections
+const getConnections = (connection: "input" | "output") => {
+	const directConnections = connection === "input" ? "inputs" : "outputs"
+	const oppositeConnections = connection === "input" ? "outputs" : "inputs"
+	return { directConnections, oppositeConnections } as const
+}
+
 export const addConnectedShapeToOutput = (
 	editor: Editor,
 	buildingId: TLShapeId,
@@ -95,10 +102,8 @@ const redistributeAmounts = (
 		if (!shape) continue
 
 		// Find the correct connection (input or output) for the given product
-		const connections =
-			connectionType === "input"
-				? shape.props.recipe.outputs
-				: shape.props.recipe.inputs
+		const { oppositeConnections } = getConnections(connectionType)
+		const connections = shape.props.recipe[oppositeConnections]
 
 		const correctConnection = connections.find((conn) => conn.name === product)
 		if (!correctConnection) continue
@@ -138,28 +143,17 @@ const redistributeAmounts = (
 			)
 
 			// Update the shape with the new connection amounts
-			const recipeUpdate =
-				connectionType === "input"
-					? {
-							outputs: shape.props.recipe.outputs.map((output) =>
-								output.name === product
-									? {
-											...output,
-											connectedShapes: updatedConnectedShapes,
-										}
-									: output,
-							),
-						}
-					: {
-							inputs: shape.props.recipe.inputs.map((input) =>
-								input.name === product
-									? {
-											...input,
-											connectedShapes: updatedConnectedShapes,
-										}
-									: input,
-							),
-						}
+			const recipeUpdate = {
+				[oppositeConnections]: shape.props.recipe[oppositeConnections].map(
+					(conn) =>
+						conn.name === product
+							? {
+									...conn,
+									connectedShapes: updatedConnectedShapes,
+								}
+							: conn,
+				),
+			}
 
 			editor.updateShape<BuildingShape>({
 				id: cs.id,
@@ -480,12 +474,12 @@ export const updateConnectedShapes = (
 export const prioritizeConnectedShape = (
 	editor: Editor,
 	shape: BuildingShape,
-	connection: "inputs" | "outputs",
+	connection: "input" | "output",
 	product: string,
 ) => {
-	const oppositeConnection = connection === "inputs" ? "outputs" : "inputs"
+	const { directConnections, oppositeConnections } = getConnections(connection)
 
-	const connectedShapes = shape.props.recipe[connection].find(
+	const connectedShapes = shape.props.recipe[directConnections].find(
 		(s) => s.name === product,
 	)?.connectedShapes
 
@@ -500,8 +494,8 @@ export const prioritizeConnectedShape = (
 			props: {
 				recipe: {
 					...connectedShape.props.recipe,
-					[oppositeConnection]: connectedShape.props.recipe[
-						oppositeConnection
+					[oppositeConnections]: connectedShape.props.recipe[
+						oppositeConnections
 					].map((s) =>
 						s.name === product
 							? {
