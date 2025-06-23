@@ -1,9 +1,10 @@
 import { Modal, TextInput } from "@mantine/core"
 import { useState } from "react"
-import { useEditor } from "tldraw"
+import { createShapeId, useEditor } from "tldraw"
 import type { Building, Product } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
 import { createBuildingShape } from "@/building/utils"
+import type { BuildingShape } from "@/shapes/building/buildingShape"
 
 interface RecipeModalProps {
 	opened: boolean
@@ -50,9 +51,15 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 	}
 
 	const onCreateBuilding = (b: Building) => {
-		createBuildingShape(editor, b)
-		editor.selectAll()
-		editor.zoomToSelection()
+		const id = createShapeId()
+		createBuildingShape(editor, b, { id })
+		const shape = editor.getShape(id) as BuildingShape
+		if (shape) {
+			editor.centerOnPoint({
+				x: shape.x + shape.props.w / 2,
+				y: shape.y + shape.props.h / 2,
+			})
+		}
 		onCloseHandler()
 	}
 
