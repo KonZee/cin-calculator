@@ -5,3 +5,5 @@ export { removeConnectedShapeFromOutput } from "./building-update-utils/removeCo
 export { removeConnectedShapeFromInput } from "./building-update-utils/removeConnectedShapeFromInput"
 export { updateConnectedShapes } from "./building-update-utils/updateConnectedShapes"
 export { prioritizeConnectedShape } from "./building-update-utils/prioritizeConnectedShape"
+export { calculateBuildingDimensions } from "./position-utils/position-utils"
+export { findSuitableYPosition } from "./position-utils/position-utils"
