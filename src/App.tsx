@@ -21,7 +21,7 @@ import type { BuildingShape } from "./shapes/building/buildingShape"
 import {
 	removeConnectedShapeFromOutput,
 	removeConnectedShapeFromInput,
-} from "./building/utils/building-update-utils"
+} from "./building/utils"
 
 const CustomShapesUtils = [BuildingShapeUtil]
 

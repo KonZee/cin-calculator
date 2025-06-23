@@ -1,7 +1,7 @@
 import type { Editor, TLShapeId } from "tldraw"
 import { v4 as uuidv4 } from "uuid"
-import type { Building, Product } from "../types"
-import { cardHeights } from "../constants"
+import type { Building, Product, BuildCost, RecipeIO } from "../../types"
+import { cardHeights } from "../../constants"
 import products from "@/data/products.json"
 
 const getProductData = (name: string): Product => {
@@ -48,13 +48,13 @@ export const createBuildingShape = (
 			unity_cost: building.unity_cost,
 			research_speed: building.research_speed,
 			icon_path: building.icon_path,
-			build_costs: building.build_costs.map((c) => ({
+			build_costs: building.build_costs.map((c: BuildCost) => ({
 				...c,
 				icon_path: getProductData(c.product).icon_path,
 			})),
 			recipe: {
 				...building.recipes[0],
-				inputs: building.recipes[0].inputs.map((r) => ({
+				inputs: building.recipes[0].inputs.map((r: RecipeIO) => ({
 					name: r.name,
 					quantity: (r.quantity * 60) / building.recipes[0].duration,
 					id: uuidv4(),
@@ -62,7 +62,7 @@ export const createBuildingShape = (
 					icon_path: getProductData(r.name).icon_path,
 					connectedShapes: [],
 				})),
-				outputs: building.recipes[0].outputs.map((r) => ({
+				outputs: building.recipes[0].outputs.map((r: RecipeIO) => ({
 					name: r.name,
 					quantity: (r.quantity * 60) / building.recipes[0].duration,
 					id: uuidv4(),

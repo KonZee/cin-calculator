@@ -11,7 +11,7 @@ import type { BuildingShape } from "./buildingShape"
 import {
 	updateConnectedShapes,
 	prioritizeConnectedShape,
-} from "@/building/utils/building-update-utils"
+} from "@/building/utils"
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	const editor = useEditor()

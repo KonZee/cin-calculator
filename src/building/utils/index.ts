@@ -1,0 +1,7 @@
+export { createBuildingShape } from "./building-create-utils/building-create-utils"
+export { addConnectedShapeToOutput } from "./building-update-utils/addConnectedShapeToOutput"
+export { addConnectedShapeToInput } from "./building-update-utils/addConnectedShapeToInput"
+export { removeConnectedShapeFromOutput } from "./building-update-utils/removeConnectedShapeFromOutput"
+export { removeConnectedShapeFromInput } from "./building-update-utils/removeConnectedShapeFromInput"
+export { updateConnectedShapes } from "./building-update-utils/updateConnectedShapes"
+export { prioritizeConnectedShape } from "./building-update-utils/prioritizeConnectedShape"

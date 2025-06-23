@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useEditor } from "tldraw"
 import type { Building, Product } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
-import { createBuildingShape } from "@/building/utils/building-create-utils"
+import { createBuildingShape } from "@/building/utils"
 
 interface RecipeModalProps {
 	opened: boolean

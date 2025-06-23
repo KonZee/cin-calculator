@@ -18,8 +18,8 @@ import {
 import {
 	addConnectedShapeToOutput,
 	addConnectedShapeToInput,
-} from "@/building/utils/building-update-utils"
-import { createBuildingShape } from "@/building/utils/building-create-utils"
+	createBuildingShape,
+} from "@/building/utils"
 
 interface RelatedRecipesModalProps {
 	opened: boolean
