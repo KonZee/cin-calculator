@@ -5,6 +5,10 @@ import type { Building, Product } from "@/building/types"
 import useBuildingData from "@/building/hooks/useBuildingData"
 import { createBuildingShape } from "@/building/utils"
 import type { BuildingShape } from "@/shapes/building/buildingShape"
+import {
+	calculateBuildingDimensions,
+	findSuitableYPosition,
+} from "@/building/utils"
 
 interface RecipeModalProps {
 	opened: boolean
@@ -52,7 +56,31 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 
 	const onCreateBuilding = (b: Building) => {
 		const id = createShapeId()
-		createBuildingShape(editor, b, { id })
+
+		// Calculate dimensions based on the actual building data
+		const { width, height } = calculateBuildingDimensions(b)
+
+		// Find a suitable position that avoids collisions
+		// Start at origin
+		const targetX = 0
+		const targetY = 0
+
+		// Find a suitable Y position that avoids collisions
+		const suitableYPosition = findSuitableYPosition(
+			editor,
+			targetX,
+			targetY,
+			width,
+			height,
+		)
+
+		// Create the shape with the calculated position
+		createBuildingShape(editor, b, {
+			id,
+			x: targetX,
+			y: suitableYPosition,
+		})
+
 		const shape = editor.getShape(id) as BuildingShape
 		if (shape) {
 			editor.centerOnPoint({
