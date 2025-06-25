@@ -53,10 +53,6 @@ export default function RelatedRecipeModal({
 		}
 	}, [opened, product, connection, searchRelatedBuildings])
 
-	const onCloseHandler = () => {
-		onClose()
-	}
-
 	const handleBuildingClick = (b: Building) => {
 		const pageBuildingShapes = editor
 			.getCurrentPageShapes()
@@ -107,7 +103,34 @@ export default function RelatedRecipeModal({
 			(r) => r.name === product,
 		)
 
-		// Create Arrow connection
+		createArrowConnection({ editor, supplier, consumer, indexFrom, indexTo })
+		updateConnectedShapes({ editor, supplier, consumer, indexFrom, indexTo })
+
+		setSelectedBuilding(null)
+		setExistingRequestedShape(null)
+		setConfirmOpen(false)
+		onClose()
+	}
+
+	const handleCancel = () => {
+		setSelectedBuilding(null)
+		setConfirmOpen(false)
+	}
+
+	// Helper to create arrow connection between supplier and consumer
+	function createArrowConnection({
+		editor,
+		supplier,
+		consumer,
+		indexFrom,
+		indexTo,
+	}: {
+		editor: ReturnType<typeof useEditor>
+		supplier: BuildingShape
+		consumer: BuildingShape
+		indexFrom: number
+		indexTo: number
+	}) {
 		const arrowId = createShapeId()
 		editor.createShape<TLArrowShape>({
 			id: arrowId,
@@ -147,8 +170,22 @@ export default function RelatedRecipeModal({
 				},
 			},
 		])
+	}
 
-		// Store consumption data (reference from onCreateConnectedBuilding)
+	// Helper to update connected shapes
+	function updateConnectedShapes({
+		editor,
+		supplier,
+		consumer,
+		indexFrom,
+		indexTo,
+	}: {
+		editor: ReturnType<typeof useEditor>
+		supplier: BuildingShape
+		consumer: BuildingShape
+		indexFrom: number
+		indexTo: number
+	}) {
 		const productToTransfer = supplier.props.recipe.outputs[indexFrom]
 		const productToReceive = consumer.props.recipe.inputs[indexTo]
 
@@ -175,16 +212,6 @@ export default function RelatedRecipeModal({
 			supplier.id,
 			toTransfer,
 		)
-
-		setSelectedBuilding(null)
-		setExistingRequestedShape(null)
-		setConfirmOpen(false)
-		onCloseHandler()
-	}
-
-	const handleCancel = () => {
-		setSelectedBuilding(null)
-		setConfirmOpen(false)
 	}
 
 	const onCreateConnectedBuilding = (b: Building) => {
@@ -221,8 +248,7 @@ export default function RelatedRecipeModal({
 		const supplier = connection === "output" ? originShape : createdShape
 		const consumer = connection === "input" ? originShape : createdShape
 
-		// Create Arrow connection
-		const arrowId = createShapeId()
+		// Find the correct input/output index for the product
 		const indexFrom = supplier.props.recipe.outputs.findIndex(
 			(r) => r.name === product,
 		)
@@ -230,82 +256,16 @@ export default function RelatedRecipeModal({
 			(r) => r.name === product,
 		)
 
-		editor.createShape<TLArrowShape>({
-			id: arrowId,
-			type: "arrow",
-			x: 0,
-			y: 0,
-			props: {},
-		})
+		createArrowConnection({ editor, supplier, consumer, indexFrom, indexTo })
+		updateConnectedShapes({ editor, supplier, consumer, indexFrom, indexTo })
 
-		editor.createBindings([
-			{
-				fromId: arrowId,
-				toId: supplier.id,
-				type: "arrow",
-				props: {
-					terminal: "start",
-					isExact: false,
-					isPrecise: true,
-					normalizedAnchor: {
-						x: 1,
-						y: arrowPositions[indexFrom] / supplier.props.h,
-					},
-				},
-			},
-			{
-				fromId: arrowId,
-				toId: consumer.id,
-				type: "arrow",
-				props: {
-					terminal: "end",
-					isExact: false,
-					isPrecise: true,
-					normalizedAnchor: {
-						x: 0,
-						y: arrowPositions[indexTo] / consumer.props.h,
-					},
-				},
-			},
-		])
-
-		// Store consumption data
-		// Need to update later to multiple suppliers/consumers
-		const productToTransfer = supplier.props.recipe.outputs[indexFrom]
-		const productToReceive = consumer.props.recipe.inputs[indexTo]
-
-		const freeProductToTransfer =
-			productToTransfer.quantity * supplier.props.number_of_buildings -
-			productToTransfer.connectedShapes.reduce((sum, i) => sum + i.amount, 0)
-		const freeProductToReceive =
-			productToReceive.quantity * consumer.props.number_of_buildings -
-			productToReceive.connectedShapes.reduce((sum, i) => sum + i.amount, 0)
-
-		const toTransfer = Math.min(freeProductToTransfer, freeProductToReceive)
-
-		// And update shapes
-		addConnectedShapeToOutput(
-			editor,
-			supplier.id,
-			indexFrom,
-			consumer.id,
-			toTransfer,
-		)
-		addConnectedShapeToInput(
-			editor,
-			consumer.id,
-			indexTo,
-			supplier.id,
-			toTransfer,
-		)
-
-		onCloseHandler()
+		onClose()
 	}
 
 	return (
 		<Modal
 			opened={opened}
-			onClose={onCloseHandler}
+			onClose={onClose}
 			title="Add Related Recipe"
 			centered
 		>
