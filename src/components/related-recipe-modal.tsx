@@ -59,7 +59,7 @@ export default function RelatedRecipeModal({
 			.filter((ps) => ps.type === "building") as BuildingShape[]
 
 		const foundShape = pageBuildingShapes.find(
-			(shape) => shape.props.recipe.name === b.recipes[0].name,
+			(shape) => shape.props.recipe.id === b.recipes[0].id,
 		)
 
 		if (foundShape) {
