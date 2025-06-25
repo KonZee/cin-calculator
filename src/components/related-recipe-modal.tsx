@@ -1,5 +1,5 @@
 import type { BuildingShape } from "@/shapes/building/buildingShape"
-import { Modal } from "@mantine/core"
+import { Modal, Button } from "@mantine/core"
 import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
 import { useEffect, useState } from "react"
 import type { Building } from "@/building/types"
@@ -32,6 +32,12 @@ export default function RelatedRecipeModal({
 	const { searchRelatedBuildings, getProductData } = useBuildingData()
 	const [inputRecipes, setInputRecipes] = useState<Building[]>([])
 	const [outputRecipes, setOutputRecipes] = useState<Building[]>([])
+	const [confirmOpen, setConfirmOpen] = useState(false)
+	const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(
+		null,
+	)
+	const [existingRequestedShape, setExistingRequestedShape] =
+		useState<BuildingShape | null>(null)
 
 	useEffect(() => {
 		if (opened && product) {
@@ -49,6 +55,45 @@ export default function RelatedRecipeModal({
 
 	const onCloseHandler = () => {
 		onClose()
+	}
+
+	const handleBuildingClick = (b: Building) => {
+		const pageBuildingShapes = editor
+			.getCurrentPageShapes()
+			.filter((ps) => ps.type === "building") as BuildingShape[]
+
+		const foundShape = pageBuildingShapes.find(
+			(shape) => shape.props.recipe.name === b.recipes[0].name,
+		)
+
+		if (foundShape) {
+			setSelectedBuilding(b)
+			setExistingRequestedShape(foundShape)
+			setConfirmOpen(true)
+		} else {
+			onCreateConnectedBuilding(b)
+		}
+	}
+
+	const handleCreateNew = () => {
+		if (selectedBuilding) {
+			onCreateConnectedBuilding(selectedBuilding)
+			setSelectedBuilding(null)
+			setConfirmOpen(false)
+		}
+	}
+
+	const handleConnect = () => {
+		if (!existingRequestedShape || !selectedBuilding) return
+		// TODO: Add logic to connect to the existing shape
+		setSelectedBuilding(null)
+		setExistingRequestedShape(null)
+		setConfirmOpen(false)
+	}
+
+	const handleCancel = () => {
+		setSelectedBuilding(null)
+		setConfirmOpen(false)
 	}
 
 	const onCreateConnectedBuilding = (b: Building) => {
@@ -181,8 +226,8 @@ export default function RelatedRecipeModal({
 							<div
 								key={b.uuid}
 								className="p-2 cursor-pointer rounded-xl hover:bg-gray-100"
-								onClick={() => onCreateConnectedBuilding(b)}
-								onKeyDown={() => onCreateConnectedBuilding(b)}
+								onClick={() => handleBuildingClick(b)}
+								onKeyDown={() => handleBuildingClick(b)}
 							>
 								<div className="flex gap-2 p-2 items-center">
 									<img
@@ -227,8 +272,8 @@ export default function RelatedRecipeModal({
 							<div
 								key={b.uuid}
 								className="p-2 cursor-pointer rounded-xl hover:bg-gray-100"
-								onClick={() => onCreateConnectedBuilding(b)}
-								onKeyDown={() => onCreateConnectedBuilding(b)}
+								onClick={() => handleBuildingClick(b)}
+								onKeyDown={() => handleBuildingClick(b)}
 							>
 								<div className="flex gap-2 p-2 items-center">
 									<img
@@ -267,6 +312,65 @@ export default function RelatedRecipeModal({
 					</>
 				)}
 			</div>
+			{confirmOpen && (
+				<Modal
+					opened={confirmOpen}
+					onClose={handleCancel}
+					title={
+						<div className="flex items-center gap-2">
+							<span className="text-yellow-500">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									className="h-6 w-6"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<title>Warning</title>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
+									/>
+								</svg>
+							</span>
+							<span className="font-semibold">
+								Choose existing building or create new one:
+							</span>
+						</div>
+					}
+					centered
+					radius="md"
+					padding="lg"
+					overlayProps={{ blur: 2 }}
+				>
+					<div className="mb-6 text-center bg-yellow-50 rounded-lg px-4 py-3 border border-yellow-200">
+						<div className="font-medium mb-1">
+							You have an existing building with the same recipe
+						</div>
+						<div className="text-sm">
+							Would you like to connect to it or create a new one?
+						</div>
+					</div>
+					<div className="flex gap-4 justify-center">
+						<Button
+							color="blue"
+							onClick={handleCreateNew}
+							className="min-w-[160px]"
+						>
+							Create new one
+						</Button>
+						<Button
+							color="teal"
+							onClick={handleConnect}
+							className="min-w-[180px]"
+						>
+							Connect to existing
+						</Button>
+					</div>
+				</Modal>
+			)}
 		</Modal>
 	)
 }
