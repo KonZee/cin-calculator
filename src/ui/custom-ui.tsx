@@ -268,7 +268,7 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 					</button>
 				</div>
 			) : (
-				<div className="absolute top-5 right-5 bottom-5 bg-white border rounded-md p-2 w-52 grid gap-2 overflow-y-auto min-h-0">
+				<div className="absolute top-5 right-5 bottom-12 bg-white border rounded-md p-2 w-52 grid gap-2 overflow-y-auto min-h-0">
 					<div className="grid gap-1">
 						<div className="font-bold">Buildings:</div>
 						{buildings.map((b) => (
