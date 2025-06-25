@@ -84,11 +84,102 @@ export default function RelatedRecipeModal({
 	}
 
 	const handleConnect = () => {
-		if (!existingRequestedShape || !selectedBuilding) return
-		// TODO: Add logic to connect to the existing shape
+		if (
+			!existingRequestedShape ||
+			!selectedBuilding ||
+			!originShape ||
+			!connection ||
+			!product
+		)
+			return
+
+		// Determine supplier and consumer based on connection type
+		const supplier =
+			connection === "output" ? originShape : existingRequestedShape
+		const consumer =
+			connection === "input" ? originShape : existingRequestedShape
+
+		// Find the correct input/output index for the product
+		const indexFrom = supplier.props.recipe.outputs.findIndex(
+			(r) => r.name === product,
+		)
+		const indexTo = consumer.props.recipe.inputs.findIndex(
+			(r) => r.name === product,
+		)
+
+		// Create Arrow connection
+		const arrowId = createShapeId()
+		editor.createShape<TLArrowShape>({
+			id: arrowId,
+			type: "arrow",
+			x: 0,
+			y: 0,
+			props: {},
+		})
+
+		editor.createBindings([
+			{
+				fromId: arrowId,
+				toId: supplier.id,
+				type: "arrow",
+				props: {
+					terminal: "start",
+					isExact: false,
+					isPrecise: true,
+					normalizedAnchor: {
+						x: 1,
+						y: arrowPositions[indexFrom] / supplier.props.h,
+					},
+				},
+			},
+			{
+				fromId: arrowId,
+				toId: consumer.id,
+				type: "arrow",
+				props: {
+					terminal: "end",
+					isExact: false,
+					isPrecise: true,
+					normalizedAnchor: {
+						x: 0,
+						y: arrowPositions[indexTo] / consumer.props.h,
+					},
+				},
+			},
+		])
+
+		// Store consumption data (reference from onCreateConnectedBuilding)
+		const productToTransfer = supplier.props.recipe.outputs[indexFrom]
+		const productToReceive = consumer.props.recipe.inputs[indexTo]
+
+		const freeProductToTransfer =
+			productToTransfer.quantity * supplier.props.number_of_buildings -
+			productToTransfer.connectedShapes.reduce((sum, i) => sum + i.amount, 0)
+		const freeProductToReceive =
+			productToReceive.quantity * consumer.props.number_of_buildings -
+			productToReceive.connectedShapes.reduce((sum, i) => sum + i.amount, 0)
+
+		const toTransfer = Math.min(freeProductToTransfer, freeProductToReceive)
+
+		addConnectedShapeToOutput(
+			editor,
+			supplier.id,
+			indexFrom,
+			consumer.id,
+			toTransfer,
+		)
+		addConnectedShapeToInput(
+			editor,
+			consumer.id,
+			indexTo,
+			supplier.id,
+			toTransfer,
+		)
+
 		setSelectedBuilding(null)
 		setExistingRequestedShape(null)
 		setConfirmOpen(false)
+		onCloseHandler()
 	}
 
 	const handleCancel = () => {
