@@ -7,6 +7,7 @@ export type BuildingShape = TLBaseShape<
 		h: number
 		name: string
 		category: string // Define a list
+		previous_tier: string
 		next_tier: string
 		workers: number
 		maintenance_cost_units: string

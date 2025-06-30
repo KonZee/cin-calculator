@@ -3,6 +3,8 @@ import {
 	PlusIcon,
 	TrashIcon,
 	BarsArrowUpIcon,
+	ArrowUpIcon,
+	ArrowDownIcon,
 } from "@heroicons/react/24/outline"
 import { NumberInput } from "@mantine/core"
 import { useState } from "react"
@@ -88,6 +90,17 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 		prioritizeConnectedShape(editor, shape, "output", output.name)
 	}
 
+	const handleIncreaseTier = () => {}
+
+	const handleDecreaseTier = () => {}
+
+	const canChangeTier = () =>
+		!!shape.props.previous_tier || !!shape.props.next_tier
+
+	const canIncreaseTier = () => !!shape.props.next_tier
+
+	const canDecreaseTier = () => !!shape.props.previous_tier
+
 	return (
 		<div
 			className="bg-gradient-to-b from-gray-700 to-gray-800 text-white rounded-lg shadow-lg flex flex-col select-none"
@@ -117,12 +130,36 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 						style={{ pointerEvents: "all" }}
 						onKeyUp={(e) => e.stopPropagation}
 					/>
+					{canChangeTier() && (
+						<>
+							<button
+								type="button"
+								title="Increase Tier"
+								className={`p-1 rounded-md ${canIncreaseTier() ? "cursor-pointer hover:bg-gray-600" : "opacity-40"}`}
+								style={{ pointerEvents: canIncreaseTier() ? "all" : "none" }}
+								onClick={handleIncreaseTier}
+								disabled={!canIncreaseTier()}
+							>
+								<ArrowUpIcon className="w-4 h-4" />
+							</button>
+							<button
+								type="button"
+								title="Decrease Tier"
+								className={`p-1 rounded-md ${canDecreaseTier() ? "cursor-pointer hover:bg-gray-600" : "opacity-40"}`}
+								style={{ pointerEvents: canIncreaseTier() ? "all" : "none" }}
+								onClick={handleDecreaseTier}
+								disabled={!canDecreaseTier()}
+							>
+								<ArrowDownIcon className="w-4 h-4" />
+							</button>
+						</>
+					)}
 				</div>
 				<div className="flex justify-center">
 					<button
 						type="button"
 						title="Delete"
-						className="p-1 rounded-md cursor-pointer"
+						className="p-1 rounded-md cursor-pointer hover:bg-gray-600"
 						style={{ pointerEvents: "all" }}
 						onClick={() => console.log("Deleting Shape")}
 					>

@@ -35,6 +35,7 @@ export const createBuildingShape = (
 			h: height,
 			name: building.name,
 			category: building.category,
+			previous_tier: building.previous_tier,
 			next_tier: building.next_tier,
 			workers: building.workers,
 			maintenance_cost_units: building.maintenance_cost_units,
