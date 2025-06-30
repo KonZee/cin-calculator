@@ -12,6 +12,7 @@ import {
 	calculateBuildingDimensions,
 	findSuitableYPosition,
 } from "@/building/utils"
+import { RecipeList } from "../components/recipe-list"
 
 interface RelatedRecipesModalProps {
 	opened: boolean
@@ -223,10 +224,8 @@ export default function RelatedRecipeModal({
 			(connection === "output" ? 1 : -1) *
 				((originShape?.props?.w || 0) + cardsHorizontalGap)
 
-		// Calculate dimensions based on the actual building data
 		const { width, height } = calculateBuildingDimensions(b)
 
-		// Find a suitable Y position that avoids collisions
 		const suitableYPosition = findSuitableYPosition(
 			editor,
 			newShapeXPosition,
@@ -235,7 +234,6 @@ export default function RelatedRecipeModal({
 			height,
 		)
 
-		// Create the shape with the calculated position
 		createBuildingShape(editor, b, {
 			id: newBuildingId,
 			x: newShapeXPosition,
@@ -244,11 +242,9 @@ export default function RelatedRecipeModal({
 
 		const createdShape = editor.getShape(newBuildingId) as BuildingShape
 
-		// Define supplier and consumer depends from relation
 		const supplier = connection === "output" ? originShape : createdShape
 		const consumer = connection === "input" ? originShape : createdShape
 
-		// Find the correct input/output index for the product
 		const indexFrom = supplier.props.recipe.outputs.findIndex(
 			(r) => r.name === product,
 		)
@@ -271,128 +267,18 @@ export default function RelatedRecipeModal({
 			size={"920px"}
 		>
 			<div className="py-2 h-[75vh]">
-				{!!inputRecipes.length && (
-					<>
-						<div className="text-lg font-bold">Consumption: </div>
-						{inputRecipes.map((b) => (
-							<div
-								key={b.uuid}
-								className="p-2 cursor-pointer rounded-xl hover:bg-gray-100"
-								onClick={() => handleBuildingClick(b)}
-								onKeyDown={() => handleBuildingClick(b)}
-							>
-								<span>{b.name}</span>
-								<div className="flex items-center gap-2">
-									<img
-										src={b.icon_path}
-										alt={b.name}
-										title={b.name}
-										className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
-									/>
-									<span>:</span>
-									{b.recipes[0].inputs.map((i, idx) => (
-										<div
-											key={i.name}
-											className="flex items-center gap-2 leading-0"
-										>
-											<span>{!!idx && <span>+</span>}</span>
-											<img
-												src={getProductData(i.name)?.icon_path}
-												alt={i.name}
-												title={i.name}
-												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
-											/>
-											{" x "}
-											<span className="text-sm font-bold">
-												{(i.quantity * 60) / b.recipes[0].duration}
-											</span>
-										</div>
-									))}
-									<span>=</span>
-									{b.recipes[0].outputs.map((i, idx) => (
-										<div
-											key={i.name}
-											className="flex items-center gap-2 leading-0"
-										>
-											<span>{!!idx && <span>+</span>}</span>
-											<img
-												src={getProductData(i.name)?.icon_path}
-												alt={i.name}
-												title={i.name}
-												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
-											/>
-											{" x "}
-											<span className="text-sm font-bold">
-												{(i.quantity * 60) / b.recipes[0].duration}
-											</span>
-										</div>
-									))}
-								</div>
-							</div>
-						))}
-					</>
-				)}
-				{!!outputRecipes.length && (
-					<>
-						<div className="text-lg font-bold">Production: </div>
-						{outputRecipes.map((b) => (
-							<div
-								key={b.uuid}
-								className="p-2 cursor-pointer rounded-xl hover:bg-gray-100"
-								onClick={() => handleBuildingClick(b)}
-								onKeyDown={() => handleBuildingClick(b)}
-							>
-								<span>{b.name}</span>
-								<div className="flex items-center gap-2">
-									<img
-										src={b.icon_path}
-										alt={b.name}
-										title={b.name}
-										className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
-									/>
-									<span>:</span>
-									{b.recipes[0].inputs.map((i, idx) => (
-										<div
-											key={i.name}
-											className="flex items-center gap-2 leading-0"
-										>
-											<span>{!!idx && <span>+</span>}</span>
-											<img
-												src={getProductData(i.name)?.icon_path}
-												alt={i.name}
-												title={i.name}
-												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
-											/>
-											{" x "}
-											<span className="text-sm font-bold">
-												{(i.quantity * 60) / b.recipes[0].duration}
-											</span>
-										</div>
-									))}
-									<span>=</span>
-									{b.recipes[0].outputs.map((i, idx) => (
-										<div
-											key={i.name}
-											className="flex items-center gap-2 leading-0"
-										>
-											<span>{!!idx && <span>+</span>}</span>
-											<img
-												src={getProductData(i.name)?.icon_path}
-												alt={i.name}
-												title={i.name}
-												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
-											/>
-											{" x "}
-											<span className="text-sm font-bold">
-												{(i.quantity * 60) / b.recipes[0].duration}
-											</span>
-										</div>
-									))}
-								</div>
-							</div>
-						))}
-					</>
-				)}
+				<RecipeList
+					title="Consumption"
+					recipes={inputRecipes}
+					onBuildingClick={handleBuildingClick}
+					getProductData={getProductData}
+				/>
+				<RecipeList
+					title="Production"
+					recipes={outputRecipes}
+					onBuildingClick={handleBuildingClick}
+					getProductData={getProductData}
+				/>
 			</div>
 			{confirmOpen && (
 				<Modal
