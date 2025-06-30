@@ -268,8 +268,9 @@ export default function RelatedRecipeModal({
 			onClose={onClose}
 			title="Add Related Recipe"
 			centered
+			size={"920px"}
 		>
-			<div className="py-2">
+			<div className="py-2 h-[75vh]">
 				{!!inputRecipes.length && (
 					<>
 						<div className="text-lg font-bold">Consumption: </div>
@@ -280,35 +281,50 @@ export default function RelatedRecipeModal({
 								onClick={() => handleBuildingClick(b)}
 								onKeyDown={() => handleBuildingClick(b)}
 							>
-								<div className="flex gap-2 p-2 items-center">
+								<span>{b.name}</span>
+								<div className="flex items-center gap-2">
 									<img
 										src={b.icon_path}
 										alt={b.name}
 										title={b.name}
-										className="w-8 h-8 object-cover"
+										className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 									/>
 									<span>:</span>
 									{b.recipes[0].inputs.map((i, idx) => (
-										<div key={i.name} className="flex items-center gap-2">
+										<div
+											key={i.name}
+											className="flex items-center gap-2 leading-0"
+										>
 											<span>{!!idx && <span>+</span>}</span>
 											<img
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8 object-cover"
+												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 											/>
+											{" x "}
+											<span className="text-sm font-bold">
+												{(i.quantity * 60) / b.recipes[0].duration}
+											</span>
 										</div>
 									))}
 									<span>=</span>
 									{b.recipes[0].outputs.map((i, idx) => (
-										<div key={i.name} className="flex items-center gap-2">
+										<div
+											key={i.name}
+											className="flex items-center gap-2 leading-0"
+										>
 											<span>{!!idx && <span>+</span>}</span>
 											<img
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8  object-cover"
+												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 											/>
+											{" x "}
+											<span className="text-sm font-bold">
+												{(i.quantity * 60) / b.recipes[0].duration}
+											</span>
 										</div>
 									))}
 								</div>
@@ -326,35 +342,50 @@ export default function RelatedRecipeModal({
 								onClick={() => handleBuildingClick(b)}
 								onKeyDown={() => handleBuildingClick(b)}
 							>
-								<div className="flex gap-2 p-2 items-center">
+								<span>{b.name}</span>
+								<div className="flex items-center gap-2">
 									<img
 										src={b.icon_path}
 										alt={b.name}
 										title={b.name}
-										className="w-8 h-8 object-cover"
+										className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 									/>
 									<span>:</span>
 									{b.recipes[0].inputs.map((i, idx) => (
-										<div key={i.name} className="flex items-center gap-2">
+										<div
+											key={i.name}
+											className="flex items-center gap-2 leading-0"
+										>
 											<span>{!!idx && <span>+</span>}</span>
 											<img
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8 object-cover"
+												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 											/>
+											{" x "}
+											<span className="text-sm font-bold">
+												{(i.quantity * 60) / b.recipes[0].duration}
+											</span>
 										</div>
 									))}
 									<span>=</span>
 									{b.recipes[0].outputs.map((i, idx) => (
-										<div key={i.name} className="flex items-center gap-2">
+										<div
+											key={i.name}
+											className="flex items-center gap-2 leading-0"
+										>
 											<span>{!!idx && <span>+</span>}</span>
 											<img
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8 object-cover"
+												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 											/>
+											{" x "}
+											<span className="text-sm font-bold">
+												{(i.quantity * 60) / b.recipes[0].duration}
+											</span>
 										</div>
 									))}
 								</div>

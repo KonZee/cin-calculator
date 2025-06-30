@@ -1,4 +1,4 @@
-import { Modal, TextInput } from "@mantine/core"
+import { CloseButton, Modal, TextInput } from "@mantine/core"
 import { useState } from "react"
 import { createShapeId, useEditor } from "tldraw"
 import type { Building, Product } from "@/building/types"
@@ -25,11 +25,7 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 	const [outputRecipes, setOutputRecipes] = useState<Building[]>([])
 
 	const onCloseHandler = () => {
-		setValue("")
-		setProducts([])
-		setSearching(false)
-		setInputRecipes([])
-		setOutputRecipes([])
+		onClearHandler()
 		onClose()
 	}
 
@@ -42,10 +38,19 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 		setOutputRecipes([])
 	}
 
+	const onClearHandler = () => {
+		setValue("")
+		setProducts([])
+		setSearching(false)
+		setInputRecipes([])
+		setOutputRecipes([])
+	}
+
 	const onProductSelect = (productName: string) => {
 		const { buildingsWithInputRecipes, buildingsWithOutputRecipes } =
 			searchRelatedBuildings(productName)
 
+		setValue(productName)
 		setInputRecipes(buildingsWithInputRecipes)
 		setOutputRecipes(buildingsWithOutputRecipes)
 
@@ -97,13 +102,21 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 			onClose={onCloseHandler}
 			title="Add New Recipe"
 			centered
+			size={"920px"}
 		>
 			<TextInput
 				value={value}
 				onChange={(event) => onSearchHandler(event.currentTarget.value)}
+				rightSection={
+					<CloseButton
+						aria-label="Clear input"
+						onClick={onClearHandler}
+						style={{ display: value ? undefined : "none" }}
+					/>
+				}
 			/>
 
-			<div className="py-2">
+			<div className="py-2 h-[75vh]">
 				{products.length
 					? products.map((p) => (
 							<div
@@ -132,35 +145,50 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 								onClick={() => onCreateBuilding(b)}
 								onKeyDown={() => onCreateBuilding(b)}
 							>
-								<div className="flex gap-2 p-2 items-center">
+								<span>{b.name}</span>
+								<div className="flex items-center gap-2">
 									<img
 										src={b.icon_path}
 										alt={b.name}
 										title={b.name}
-										className="w-8 h-8 object-cover"
+										className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 									/>
 									<span>:</span>
 									{b.recipes[0].inputs.map((i, idx) => (
-										<div key={i.name} className="flex items-center gap-2">
+										<div
+											key={i.name}
+											className="flex items-center gap-2 leading-0"
+										>
 											<span>{!!idx && <span>+</span>}</span>
 											<img
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8 object-cover"
+												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 											/>
+											{" x "}
+											<span className="text-sm font-bold">
+												{(i.quantity * 60) / b.recipes[0].duration}
+											</span>
 										</div>
 									))}
 									<span>=</span>
 									{b.recipes[0].outputs.map((i, idx) => (
-										<div key={i.name} className="flex items-center gap-2">
+										<div
+											key={i.name}
+											className="flex items-center gap-2 leading-0"
+										>
 											<span>{!!idx && <span>+</span>}</span>
 											<img
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8  object-cover"
+												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 											/>
+											{" x "}
+											<span className="text-sm font-bold">
+												{(i.quantity * 60) / b.recipes[0].duration}
+											</span>
 										</div>
 									))}
 								</div>
@@ -178,35 +206,50 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 								onClick={() => onCreateBuilding(b)}
 								onKeyDown={() => onCreateBuilding(b)}
 							>
-								<div className="flex gap-2 p-2 items-center">
+								<span>{b.name}</span>
+								<div className="flex items-center gap-2">
 									<img
 										src={b.icon_path}
 										alt={b.name}
 										title={b.name}
-										className="w-8 h-8 object-cover"
+										className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 									/>
 									<span>:</span>
 									{b.recipes[0].inputs.map((i, idx) => (
-										<div key={i.name} className="flex items-center gap-2">
+										<div
+											key={i.name}
+											className="flex items-center gap-2 leading-0"
+										>
 											<span>{!!idx && <span>+</span>}</span>
 											<img
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8 object-cover"
+												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 											/>
+											{" x "}
+											<span className="text-sm font-bold">
+												{(i.quantity * 60) / b.recipes[0].duration}
+											</span>
 										</div>
 									))}
 									<span>=</span>
 									{b.recipes[0].outputs.map((i, idx) => (
-										<div key={i.name} className="flex items-center gap-2">
+										<div
+											key={i.name}
+											className="flex items-center gap-2 leading-0"
+										>
 											<span>{!!idx && <span>+</span>}</span>
 											<img
 												src={getProductData(i.name)?.icon_path}
 												alt={i.name}
 												title={i.name}
-												className="w-8 h-8 object-cover"
+												className="w-10 h-10 object-cover p-1 border border-gray-200 rounded-sm"
 											/>
+											{" x "}
+											<span className="text-sm font-bold">
+												{(i.quantity * 60) / b.recipes[0].duration}
+											</span>
 										</div>
 									))}
 								</div>
