@@ -135,6 +135,7 @@ function TldrawApp() {
 	return (
 		<div style={{ position: "fixed", inset: 0 }}>
 			<Tldraw
+				persistenceKey="captain-of-industry"
 				onMount={onMount}
 				components={components}
 				shapeUtils={CustomShapesUtils}
