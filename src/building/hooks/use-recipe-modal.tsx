@@ -1,11 +1,14 @@
 import { useState } from "react"
 import { useEditor } from "tldraw"
 import type { Building, Product } from "@/building/types"
-import useBuildingData from "./useBuildingData"
+import {
+	searchProducts,
+	searchRelatedBuildings,
+	getProductData,
+} from "@/building/utils/building-data-utils"
 
 export function useRecipeModal() {
 	const editor = useEditor()
-	const { search, searchRelatedBuildings, getProductData } = useBuildingData()
 	const [value, setValue] = useState<string>("")
 	const [searching, setSearching] = useState<boolean>(false)
 	const [products, setProducts] = useState<(Product | Building)[]>([])
@@ -21,7 +24,7 @@ export function useRecipeModal() {
 	}
 
 	const handleSearch = (input: string) => {
-		const result = search(input)
+		const result = searchProducts(input)
 		setValue(input)
 		setProducts(result)
 		setSearching(true)

@@ -9,3 +9,8 @@ export { calculateBuildingDimensions } from "./position-utils/position-utils"
 export { findSuitableYPosition } from "./position-utils/position-utils"
 export { increaseBuildingTier } from "./building-update-utils/increase-building-tier"
 export { decreaseBuildingTier } from "./building-update-utils/decrease-building-tier"
+export {
+	searchProducts,
+	searchRelatedBuildings,
+	getProductData,
+} from "./building-data-utils"

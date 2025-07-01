@@ -3,7 +3,10 @@ import { Modal, Button } from "@mantine/core"
 import { createShapeId, useEditor, type TLArrowShape } from "tldraw"
 import { useEffect, useState } from "react"
 import type { Building } from "@/building/types"
-import useBuildingData from "@/building/hooks/useBuildingData"
+import {
+	searchRelatedBuildings,
+	getProductData,
+} from "@/building/utils/building-data-utils"
 import { arrowPositions, cardsHorizontalGap } from "@/building/constants"
 import {
 	addConnectedShapeToOutput,
@@ -30,7 +33,6 @@ export default function RelatedRecipeModal({
 	product,
 }: RelatedRecipesModalProps) {
 	const editor = useEditor()
-	const { searchRelatedBuildings, getProductData } = useBuildingData()
 	const [inputRecipes, setInputRecipes] = useState<Building[]>([])
 	const [outputRecipes, setOutputRecipes] = useState<Building[]>([])
 	const [confirmOpen, setConfirmOpen] = useState(false)
@@ -52,7 +54,7 @@ export default function RelatedRecipeModal({
 				setOutputRecipes(buildingsWithOutputRecipes)
 			}
 		}
-	}, [opened, product, connection, searchRelatedBuildings])
+	}, [opened, product, connection])
 
 	const handleBuildingClick = (b: Building) => {
 		const pageBuildingShapes = editor
