@@ -1,5 +1,5 @@
 import type { BuildingShape } from "@/shapes/building/buildingShape"
-import type { Editor } from "tldraw"
+import { getArrowBindings, type Editor, type TLArrowShape } from "tldraw"
 import products from "@/data/products.json"
 import buildings from "@/data/machines_and_buildings.json"
 import { cardHeights } from "@/building/constants"
@@ -35,6 +35,27 @@ function findMostSimilarRecipeIndex(
 	return bestIndex
 }
 
+// Helper to get connectedShapes for a given name and type (input/output)
+const getConnectedShapes = (
+	currentRecipe: BuildingShape["props"]["recipe"],
+	name: string,
+	dir: "inputs" | "outputs",
+): BuildingShape["props"]["recipe"][typeof dir][number]["connectedShapes"] => {
+	const match = currentRecipe[dir].find((item) => item.name === name)
+	return match ? match.connectedShapes : []
+}
+
+// Helper to get all orphaned connectedShapes for a direction
+const getOrphanedConnectedShapes = (
+	currentRecipe: BuildingShape["props"]["recipe"],
+	selectedNames: Set<string>,
+	dir: "inputs" | "outputs",
+) => {
+	return currentRecipe[dir]
+		.filter((item) => !selectedNames.has(item.name))
+		.flatMap((item) => item.connectedShapes)
+}
+
 export function changeBuildingTier({
 	editor,
 	buildingShape,
@@ -59,7 +80,36 @@ export function changeBuildingTier({
 			Math.max(selectedRecipe.inputs.length, selectedRecipe.outputs.length) - 1
 		]
 
-	editor.updateShape({
+	const newInputNames = new Set(selectedRecipe.inputs.map((i) => i.name))
+	const newOutputNames = new Set(selectedRecipe.outputs.map((o) => o.name))
+
+	const orphanedInputs = getOrphanedConnectedShapes(
+		currentRecipe,
+		newInputNames,
+		"inputs",
+	)
+	const orphanedOutputs = getOrphanedConnectedShapes(
+		currentRecipe,
+		newOutputNames,
+		"outputs",
+	)
+
+	const orphanedArrows = editor
+		.getCurrentPageShapes()
+		.filter((arrow): arrow is TLArrowShape => arrow.type === "arrow")
+		.filter((arrow) => {
+			const binding = getArrowBindings(editor, arrow)
+			return (
+				(orphanedInputs.some((i) => i.id === binding.start?.toId) &&
+					buildingShape.id === binding.end?.toId) ||
+				(orphanedOutputs.some((i) => i.id === binding.end?.toId) &&
+					buildingShape.id === binding.start?.toId)
+			)
+		})
+
+	editor.deleteShapes(orphanedArrows)
+
+	editor.updateShape<BuildingShape>({
 		id: buildingShape.id,
 		type: buildingShape.type,
 		props: {
@@ -92,7 +142,7 @@ export function changeBuildingTier({
 					id: uuidv4(),
 					type: getProductData(r.name).type,
 					icon_path: getProductData(r.name).icon_path,
-					connectedShapes: [],
+					connectedShapes: getConnectedShapes(currentRecipe, r.name, "inputs"),
 				})),
 				outputs: selectedRecipe.outputs.map((r: RecipeIO) => ({
 					name: r.name,
@@ -100,7 +150,7 @@ export function changeBuildingTier({
 					id: uuidv4(),
 					type: getProductData(r.name).type,
 					icon_path: getProductData(r.name).icon_path,
-					connectedShapes: [],
+					connectedShapes: getConnectedShapes(currentRecipe, r.name, "outputs"),
 				})),
 			},
 		},
