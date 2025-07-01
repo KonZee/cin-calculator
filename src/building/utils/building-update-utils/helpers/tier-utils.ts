@@ -12,6 +12,7 @@ import type { BuildCost, Building, Product, RecipeIO } from "@/building/types"
 import { v4 as uuidv4 } from "uuid"
 import { removeConnectedShapeFromOutput } from "../removeConnectedShapeFromOutput"
 import { removeConnectedShapeFromInput } from "../removeConnectedShapeFromInput"
+import { updateConnectedShapes } from "../updateConnectedShapes"
 
 const getProductData = (name: string): Product => {
 	return products.products.find((p) => p.name === name) as Product
@@ -42,7 +43,6 @@ function findMostSimilarRecipeIndex(
 	return bestIndex
 }
 
-// Helper to get connectedShapes for a given name and type (input/output)
 const getConnectedShapes = (
 	currentRecipe: BuildingShape["props"]["recipe"],
 	name: string,
@@ -52,7 +52,6 @@ const getConnectedShapes = (
 	return match ? match.connectedShapes : []
 }
 
-// Helper to get all cancelled connectedShapes for a direction
 const getCancelledConnectedShapes = (
 	currentRecipe: BuildingShape["props"]["recipe"],
 	selectedNames: Set<string>,
@@ -202,4 +201,18 @@ export function changeBuildingTier({
 			},
 		},
 	})
+
+	// Update connected shapes info
+	const connectedInputIds = selectedRecipe.inputs.flatMap((r) =>
+		getConnectedShapes(currentRecipe, r.name, "inputs").map((cs) => cs.id),
+	)
+	const connectedOutputIds = selectedRecipe.outputs.flatMap((r) =>
+		getConnectedShapes(currentRecipe, r.name, "outputs").map((cs) => cs.id),
+	)
+	for (const id of [...connectedInputIds, ...connectedOutputIds]) {
+		const shape = editor.getShape(id) as BuildingShape
+		if (shape) {
+			updateConnectedShapes(editor, shape, shape.props.number_of_buildings)
+		}
+	}
 }
