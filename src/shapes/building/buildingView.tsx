@@ -14,6 +14,7 @@ import {
 	updateConnectedShapes,
 	prioritizeConnectedShape,
 	increaseBuildingTier,
+	decreaseBuildingTier,
 } from "@/building/utils"
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
@@ -98,7 +99,12 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 		})
 	}
 
-	const handleDecreaseTier = () => {}
+	const handleDecreaseTier = () => {
+		decreaseBuildingTier({
+			editor,
+			buildingShape: shape,
+		})
+	}
 
 	const canChangeTier = () =>
 		!!shape.props.previous_tier || !!shape.props.next_tier
@@ -152,7 +158,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 								type="button"
 								title="Decrease Tier"
 								className={`p-1 rounded-md ${canDecreaseTier() ? "cursor-pointer hover:bg-gray-600" : "opacity-40"}`}
-								style={{ pointerEvents: canIncreaseTier() ? "all" : "none" }}
+								style={{ pointerEvents: canDecreaseTier() ? "all" : "none" }}
 								onClick={handleDecreaseTier}
 								disabled={!canDecreaseTier()}
 							>
