@@ -7,3 +7,5 @@ export { updateConnectedShapes } from "./building-update-utils/updateConnectedSh
 export { prioritizeConnectedShape } from "./building-update-utils/prioritizeConnectedShape"
 export { calculateBuildingDimensions } from "./position-utils/position-utils"
 export { findSuitableYPosition } from "./position-utils/position-utils"
+export { increaseBuildingTier } from "./building-update-utils/increase-building-tier"
+export { decreaseBuildingTier } from "./building-update-utils/decrease-building-tier"

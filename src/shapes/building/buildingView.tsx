@@ -13,6 +13,7 @@ import type { BuildingShape } from "./buildingShape"
 import {
 	updateConnectedShapes,
 	prioritizeConnectedShape,
+	increaseBuildingTier,
 } from "@/building/utils"
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
@@ -90,7 +91,12 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 		prioritizeConnectedShape(editor, shape, "output", output.name)
 	}
 
-	const handleIncreaseTier = () => {}
+	const handleIncreaseTier = () => {
+		increaseBuildingTier({
+			editor,
+			buildingShape: shape,
+		})
+	}
 
 	const handleDecreaseTier = () => {}
 
