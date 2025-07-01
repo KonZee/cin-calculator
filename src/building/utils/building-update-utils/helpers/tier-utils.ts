@@ -1,5 +1,10 @@
 import type { BuildingShape } from "@/shapes/building/buildingShape"
-import { getArrowBindings, type Editor, type TLArrowShape } from "tldraw"
+import {
+	getArrowBindings,
+	type Editor,
+	type TLArrowShape,
+	type TLShapeId,
+} from "tldraw"
 import products from "@/data/products.json"
 import buildings from "@/data/machines_and_buildings.json"
 import { cardHeights } from "@/building/constants"
@@ -47,8 +52,8 @@ const getConnectedShapes = (
 	return match ? match.connectedShapes : []
 }
 
-// Helper to get all orphaned connectedShapes for a direction
-const getOrphanedConnectedShapes = (
+// Helper to get all cancelled connectedShapes for a direction
+const getCancelledConnectedShapes = (
 	currentRecipe: BuildingShape["props"]["recipe"],
 	selectedNames: Set<string>,
 	dir: "inputs" | "outputs",
@@ -58,7 +63,7 @@ const getOrphanedConnectedShapes = (
 		.flatMap((item) => item.connectedShapes)
 }
 
-function handleOrphanedConnections({
+function handleCancelledConnections({
 	editor,
 	buildingShape,
 	currentRecipe,
@@ -72,52 +77,52 @@ function handleOrphanedConnections({
 	const newInputNames = new Set(selectedRecipe.inputs.map((i) => i.name))
 	const newOutputNames = new Set(selectedRecipe.outputs.map((o) => o.name))
 
-	const orphanedInputs = getOrphanedConnectedShapes(
+	const cancelledInputs = getCancelledConnectedShapes(
 		currentRecipe,
 		newInputNames,
 		"inputs",
 	)
-	const orphanedOutputs = getOrphanedConnectedShapes(
+	const cancelledOutputs = getCancelledConnectedShapes(
 		currentRecipe,
 		newOutputNames,
 		"outputs",
 	)
 
-	for (const orphan of orphanedInputs) {
+	for (const input of cancelledInputs) {
 		removeConnectedShapeFromOutput(
 			editor,
-			orphan.id as import("tldraw").TLShapeId,
+			input.id as TLShapeId,
 			buildingShape.id,
 			currentRecipe.inputs.find((i) =>
-				i.connectedShapes.some((cs) => cs.id === orphan.id),
+				i.connectedShapes.some((cs) => cs.id === input.id),
 			)?.name || "",
 		)
 	}
-	for (const orphan of orphanedOutputs) {
+	for (const output of cancelledOutputs) {
 		removeConnectedShapeFromInput(
 			editor,
-			orphan.id as import("tldraw").TLShapeId,
+			output.id as TLShapeId,
 			buildingShape.id,
 			currentRecipe.outputs.find((o) =>
-				o.connectedShapes.some((cs) => cs.id === orphan.id),
+				o.connectedShapes.some((cs) => cs.id === output.id),
 			)?.name || "",
 		)
 	}
 
-	const orphanedArrows = editor
+	const cancelledArrows = editor
 		.getCurrentPageShapes()
 		.filter((arrow): arrow is TLArrowShape => arrow.type === "arrow")
 		.filter((arrow) => {
 			const binding = getArrowBindings(editor, arrow)
 			return (
-				(orphanedInputs.some((i) => i.id === binding.start?.toId) &&
+				(cancelledInputs.some((i) => i.id === binding.start?.toId) &&
 					buildingShape.id === binding.end?.toId) ||
-				(orphanedOutputs.some((i) => i.id === binding.end?.toId) &&
+				(cancelledOutputs.some((i) => i.id === binding.end?.toId) &&
 					buildingShape.id === binding.start?.toId)
 			)
 		})
 
-	editor.deleteShapes(orphanedArrows)
+	editor.deleteShapes(cancelledArrows)
 }
 
 export function changeBuildingTier({
@@ -139,7 +144,7 @@ export function changeBuildingTier({
 	const bestRecipeIndex = findMostSimilarRecipeIndex(currentRecipe, newBuilding)
 	const selectedRecipe = newBuilding.recipes[bestRecipeIndex]
 
-	handleOrphanedConnections({
+	handleCancelledConnections({
 		editor,
 		buildingShape,
 		currentRecipe,
