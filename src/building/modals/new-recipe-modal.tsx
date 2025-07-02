@@ -81,6 +81,7 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 						style={{ display: value ? undefined : "none" }}
 					/>
 				}
+				data-autofocus
 			/>
 
 			<div className="py-2 h-[75vh]">
