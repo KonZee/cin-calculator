@@ -1,5 +1,7 @@
 # Captain of Industry Production calculator
 
+![image](https://github.com/user-attachments/assets/3b75d728-7c18-4622-827c-053bd1aefb7f)
+
 ## Usage
 
 Use online link [https://konzee.github.io/cin-calculator/](https://konzee.github.io/cin-calculator/)
@@ -8,7 +10,7 @@ Or run it locally:
 - Clone this repo
 - Install `pnpm i` or `npm i` or `yarn`
 - Run by `pnpm run dev` or `npm run dev` or `yarn run dev`
-- By default it runs on http://localhost:5173/
+- By default it runs on <http://localhost:5173/>
 
 ## TODO list
 
