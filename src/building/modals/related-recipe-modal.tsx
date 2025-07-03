@@ -7,7 +7,11 @@ import {
 	searchRelatedBuildings,
 	getProductData,
 } from "@/building/utils/building-data-utils"
-import { arrowPositions, cardsHorizontalGap } from "@/building/constants"
+import {
+	arrowPositions,
+	cardsHorizontalGap,
+	cardWidth,
+} from "@/building/constants"
 import {
 	addConnectedShapeToOutput,
 	addConnectedShapeToInput,
@@ -223,8 +227,7 @@ export default function RelatedRecipeModal({
 		const newBuildingId = createShapeId()
 		const newShapeXPosition =
 			(originShape?.x || 0) +
-			(connection === "output" ? 1 : -1) *
-				((originShape?.props?.w || 0) + cardsHorizontalGap)
+			(connection === "output" ? 1 : -1) * (cardWidth + cardsHorizontalGap)
 
 		const { width, height } = calculateBuildingDimensions(b)
 

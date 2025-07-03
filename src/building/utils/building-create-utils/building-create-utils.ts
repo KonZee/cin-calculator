@@ -1,7 +1,7 @@
 import type { Editor, TLShapeId } from "tldraw"
 import { v4 as uuidv4 } from "uuid"
 import type { Building, Product, BuildCost, RecipeIO } from "../../types"
-import { cardHeights } from "../../constants"
+import { cardHeights, cardWidth } from "../../constants"
 import products from "@/data/products.json"
 
 const getProductData = (name: string): Product => {
@@ -31,7 +31,7 @@ export const createBuildingShape = (
 		...(options?.x !== undefined && { x: options.x }),
 		...(options?.y !== undefined && { y: options.y }),
 		props: {
-			w: 400,
+			w: cardWidth,
 			h: height,
 			name: building.name,
 			category: building.category,
