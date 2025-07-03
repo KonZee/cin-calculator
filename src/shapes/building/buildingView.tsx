@@ -15,6 +15,7 @@ import {
 	prioritizeConnectedShape,
 	increaseBuildingTier,
 	decreaseBuildingTier,
+	deleteConnectedArrows,
 } from "@/building/utils"
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
@@ -106,6 +107,11 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 		})
 	}
 
+	const handleDeleteBuilding = () => {
+		deleteConnectedArrows({ editor, shape })
+		editor.deleteShape(shape)
+	}
+
 	const canChangeTier = () =>
 		!!shape.props.previous_tier || !!shape.props.next_tier
 
@@ -173,7 +179,7 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 						title="Delete"
 						className="p-1 rounded-md cursor-pointer hover:bg-gray-600"
 						style={{ pointerEvents: "all" }}
-						onClick={() => console.log("Deleting Shape")}
+						onClick={handleDeleteBuilding}
 					>
 						<TrashIcon className="w-4 h-4" />
 					</button>

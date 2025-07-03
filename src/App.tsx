@@ -1,7 +1,5 @@
 import {
 	type Editor,
-	getArrowBindings,
-	type TLArrowShape,
 	type TLComponents,
 	Tldraw,
 	type TLUiOverrides,
@@ -20,6 +18,7 @@ import {
 	removeConnectedShapeFromOutput,
 	removeConnectedShapeFromInput,
 } from "./building/utils"
+import { deleteConnectedArrows } from "./building/utils/building-update-utils/helpers/arrow-utils"
 
 const CustomShapesUtils = [BuildingShapeUtil]
 
@@ -86,20 +85,7 @@ function TldrawApp() {
 				...actions.delete,
 				onSelect: (source) => {
 					for (const shape of editor.getSelectedShapes()) {
-						const connectedArrows = editor
-							.getCurrentPageShapes()
-							.filter((arrow): arrow is TLArrowShape => arrow.type === "arrow")
-							.filter((arrow) => {
-								const binding = getArrowBindings(editor, arrow)
-								return (
-									binding.start?.toId === shape.id ||
-									binding.end?.toId === shape.id
-								)
-							})
-
-						for (const arrow of connectedArrows) {
-							editor.deleteShape(arrow.id)
-						}
+						deleteConnectedArrows({ editor, shape })
 					}
 					return deleteOnSelect(source)
 				},

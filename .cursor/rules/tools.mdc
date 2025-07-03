@@ -1,0 +1,14 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- Always use TypeScript 
+- Always use Tailwind classes
+- Make changes as small as possible, try do not rewrite the whole file of files
+- Respect my changes I made from the last commit
+- Do not add explanation comments if I don't ask about it
+- Always use object as a function input
+- Always use kebab-case for file names
+- Never use inline import if wasn't asked to do it
+- Never ever use require inline or not even when I asked it

@@ -14,3 +14,4 @@ export {
 	searchRelatedBuildings,
 	getProductData,
 } from "./building-data-utils"
+export { deleteConnectedArrows } from "./building-update-utils/helpers/arrow-utils"
