@@ -150,7 +150,7 @@ export default function RelatedRecipeModal({
 				type: "arrow",
 				props: {
 					terminal: "start",
-					isExact: false,
+					isExact: true,
 					isPrecise: true,
 					normalizedAnchor: {
 						x: 1,
@@ -164,7 +164,7 @@ export default function RelatedRecipeModal({
 				type: "arrow",
 				props: {
 					terminal: "end",
-					isExact: false,
+					isExact: true,
 					isPrecise: true,
 					normalizedAnchor: {
 						x: 0,

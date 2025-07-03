@@ -256,95 +256,106 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 	return (
 		<>
 			{checkShapes() ? (
-				<div className="absolute top-0 left-0 bottom-0 right-0 pointer-events-none flex items-center justify-center">
+				<div className="absolute top-0 left-0 bottom-0 right-0 pointer-events-none flex items-center justify-center bg-white  z-300">
 					<button
 						type="button"
-						className="pointer-events-auto hidden px-3 cursor-pointer bg-gray-200 hover:bg-gray-300 rounded-xl justify-center items-center p-3"
+						className="pointer-events-auto p-6 cursor-pointer bg-gray-200 hover:bg-gray-300 rounded-xl justify-center items-center"
 						onClick={openNewModal}
 					>
 						<span className="text-2xl">
-							Let's start from selection of recipe and building
+							Let's start by choosing a production recipe
 						</span>
 					</button>
 				</div>
 			) : (
-				<div className="absolute top-5 right-5 bg-white border rounded-md p-2 w-52 grid gap-2 overflow-y-auto min-h-0 max-h-[calc(100vh-5rem)]">
-					<div className="grid gap-1">
-						<div className="font-bold">Buildings:</div>
-						{buildings.map((b) => (
-							<div key={b.name} className="flex items-center gap-2">
-								<img
-									src={b.icon_path}
-									alt={b.name}
-									title={b.name}
-									className="w-4 h-4 object-cover"
-								/>
-								<span>{b.name}</span>
-								<span className="grow text-right">x {b.quantity}</span>
-							</div>
-						))}
+				<>
+					<div className="absolute bottom-5 w-full flex justify-center">
+						<button
+							type="button"
+							className="flex py-3 px-6 cursor-pointer bg-gray-200 hover:bg-gray-300 rounded-xl justify-center items-center"
+							onClick={openNewModal}
+						>
+							<span className="text-lg">Add New Recipe</span>
+						</button>
 					</div>
-					<div className="grid gap-1">
-						<div className="font-bold">Costs:</div>
-						{cost.map((c) => (
-							<div key={c.product} className="flex items-center gap-2">
-								<img
-									src={c.icon_path}
-									alt={c.product}
-									title={c.product}
-									className="w-4 h-4 object-cover"
-								/>
-								<span>{c.product}</span>
-								<span className="grow text-right">{c.quantity}</span>
-							</div>
-						))}
+					<div className="absolute top-5 right-5 bg-white border rounded-md p-2 w-52 grid gap-2 overflow-y-auto min-h-0 max-h-[calc(100vh-5rem)]">
+						<div className="grid gap-1">
+							<div className="font-bold">Buildings:</div>
+							{buildings.map((b) => (
+								<div key={b.name} className="flex items-center gap-2">
+									<img
+										src={b.icon_path}
+										alt={b.name}
+										title={b.name}
+										className="w-4 h-4 object-cover"
+									/>
+									<span>{b.name}</span>
+									<span className="grow text-right">x {b.quantity}</span>
+								</div>
+							))}
+						</div>
+						<div className="grid gap-1">
+							<div className="font-bold">Costs:</div>
+							{cost.map((c) => (
+								<div key={c.product} className="flex items-center gap-2">
+									<img
+										src={c.icon_path}
+										alt={c.product}
+										title={c.product}
+										className="w-4 h-4 object-cover"
+									/>
+									<span>{c.product}</span>
+									<span className="grow text-right">{c.quantity}</span>
+								</div>
+							))}
+						</div>
+						<div className="grid gap-1">
+							<div className="font-bold">Consumption:</div>
+							{consumption.map((c) => (
+								<div key={c.product} className="flex items-center gap-2">
+									<img
+										src={c.icon_path}
+										alt={c.product}
+										title={c.product}
+										className="w-4 h-4 object-cover"
+									/>
+									<span>{c.product}</span>
+									<span className="grow text-right">{c.quantity}</span>
+								</div>
+							))}
+						</div>
+						<div className="grid gap-1">
+							<div className="font-bold">Outputs:</div>
+							{output.map((o) => (
+								<div key={o.product} className="flex items-center gap-2">
+									<img
+										src={o.icon_path}
+										alt={o.product}
+										title={o.product}
+										className="w-4 h-4 object-cover"
+									/>
+									<span>{o.product}</span>
+									<span className="grow text-right">{o.quantity}</span>
+								</div>
+							))}
+						</div>
+						<div className="grid gap-1">
+							<div className="font-bold">Inputs:</div>
+							{input.map((i) => (
+								<div key={i.product} className="flex items-center gap-2">
+									<img
+										src={i.icon_path}
+										alt={i.product}
+										title={i.product}
+										className="w-4 h-4 object-cover"
+									/>
+									<span>{i.product}</span>
+									<span className="grow text-right">{i.quantity}</span>
+								</div>
+							))}
+						</div>
 					</div>
-					<div className="grid gap-1">
-						<div className="font-bold">Consumption:</div>
-						{consumption.map((c) => (
-							<div key={c.product} className="flex items-center gap-2">
-								<img
-									src={c.icon_path}
-									alt={c.product}
-									title={c.product}
-									className="w-4 h-4 object-cover"
-								/>
-								<span>{c.product}</span>
-								<span className="grow text-right">{c.quantity}</span>
-							</div>
-						))}
-					</div>
-					<div className="grid gap-1">
-						<div className="font-bold">Outputs:</div>
-						{output.map((o) => (
-							<div key={o.product} className="flex items-center gap-2">
-								<img
-									src={o.icon_path}
-									alt={o.product}
-									title={o.product}
-									className="w-4 h-4 object-cover"
-								/>
-								<span>{o.product}</span>
-								<span className="grow text-right">{o.quantity}</span>
-							</div>
-						))}
-					</div>
-					<div className="grid gap-1">
-						<div className="font-bold">Inputs:</div>
-						{input.map((i) => (
-							<div key={i.product} className="flex items-center gap-2">
-								<img
-									src={i.icon_path}
-									alt={i.product}
-									title={i.product}
-									className="w-4 h-4 object-cover"
-								/>
-								<span>{i.product}</span>
-								<span className="grow text-right">{i.quantity}</span>
-							</div>
-						))}
-					</div>
-				</div>
+				</>
 			)}
 		</>
 	)

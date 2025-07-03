@@ -24,10 +24,15 @@ export function useRecipeModal() {
 	}
 
 	const handleSearch = (input: string) => {
-		const result = searchProducts(input)
 		setValue(input)
-		setProducts(result)
-		setSearching(true)
+		if (input) {
+			const result = searchProducts(input)
+			setProducts(result)
+			setSearching(true)
+		} else {
+			setProducts([])
+			setSearching(false)
+		}
 		setInputRecipes([])
 		setOutputRecipes([])
 	}

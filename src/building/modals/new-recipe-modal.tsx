@@ -74,6 +74,7 @@ export default function RecipeModal({ opened, onClose }: RecipeModalProps) {
 			<TextInput
 				value={value}
 				onChange={(event) => handleSearch(event.currentTarget.value)}
+				placeholder="Type name of product, e.g. Crude Oil, Fuel etc."
 				rightSection={
 					<CloseButton
 						aria-label="Clear input"

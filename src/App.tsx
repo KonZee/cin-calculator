@@ -1,6 +1,4 @@
 import {
-	DefaultToolbar,
-	DefaultToolbarContent,
 	type Editor,
 	getArrowBindings,
 	type TLArrowShape,
@@ -80,7 +78,6 @@ function TldrawApp() {
 		tools(_, tools) {
 			return {
 				select: tools.select,
-				arrow: tools.arrow,
 			}
 		},
 		actions(editor, actions) {
@@ -116,20 +113,7 @@ function TldrawApp() {
 		ActionsMenu: undefined,
 		MainMenu: undefined,
 		StylePanel: undefined,
-		Toolbar: (props) => {
-			return (
-				<DefaultToolbar {...props}>
-					<button
-						type="button"
-						className="flex px-3 cursor-pointer hover:bg-gray-100 rounded-[11px] justify-center h-10 items-center m-1"
-						onClick={openNewModal}
-					>
-						<span className="">Select Recipe</span>
-					</button>
-					<DefaultToolbarContent />
-				</DefaultToolbar>
-			)
-		},
+		Toolbar: undefined,
 	}
 
 	return (
