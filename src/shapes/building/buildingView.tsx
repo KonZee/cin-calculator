@@ -135,7 +135,9 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 						alt={shape.props.name}
 						className="w-8 h-8 rounded-sm object-cover"
 					/>
-					{shape.props.name}
+					<span className="text-ellipsis text-nowrap overflow-hidden">
+						{shape.props.name}
+					</span>
 					<span className="text-sm">{" x "}</span>
 					<NumberInput
 						min={1}
