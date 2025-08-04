@@ -1,4 +1,5 @@
 import type { Building, Product } from "@/building/types"
+import { formatNumber } from "@/utils"
 
 interface RecipeListProps {
 	title: string
@@ -45,7 +46,7 @@ export function RecipeList({
 								/>
 								{" x "}
 								<span className="text-sm font-bold">
-									{(i.quantity * 60) / b.recipes[0].duration}
+									{formatNumber((i.quantity * 60) / b.recipes[0].duration)}
 								</span>
 							</div>
 						))}
@@ -61,7 +62,7 @@ export function RecipeList({
 								/>
 								{" x "}
 								<span className="text-sm font-bold">
-									{(i.quantity * 60) / b.recipes[0].duration}
+									{formatNumber((i.quantity * 60) / b.recipes[0].duration)}
 								</span>
 							</div>
 						))}

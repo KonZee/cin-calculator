@@ -1,6 +1,7 @@
 import type { BuildingShape } from "@/shapes/building/buildingShape"
 import { useEffect } from "react"
 import { track, useEditor } from "tldraw"
+import { formatNumber } from "@/utils"
 
 const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 	const editor = useEditor()
@@ -335,7 +336,9 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 										className="w-4 h-4 object-cover"
 									/>
 									<span>{o.product}</span>
-									<span className="grow text-right">{o.quantity}</span>
+									<span className="grow text-right">
+										{formatNumber(o.quantity)}
+									</span>
 								</div>
 							))}
 						</div>
@@ -350,7 +353,9 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 										className="w-4 h-4 object-cover"
 									/>
 									<span>{i.product}</span>
-									<span className="grow text-right">{i.quantity}</span>
+									<span className="grow text-right">
+										{formatNumber(i.quantity)}
+									</span>
 								</div>
 							))}
 						</div>

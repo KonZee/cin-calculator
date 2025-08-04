@@ -17,6 +17,7 @@ import {
 	decreaseBuildingTier,
 	deleteConnectedArrows,
 } from "@/building/utils"
+import { formatNumber } from "@/utils"
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	const editor = useEditor()
@@ -210,7 +211,9 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 								<div className="flex flex-col leading-none items-center w-8 justify-center">
 									<span>{getUsedQuantity(r)}</span>
 									<span>—</span>
-									<span>{r.quantity * shape.props.number_of_buildings}</span>
+									<span>
+										{formatNumber(r.quantity * shape.props.number_of_buildings)}
+									</span>
 								</div>
 								<img
 									src={r.icon_path}
@@ -257,7 +260,9 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 								<div className="flex flex-col leading-none items-center w-8 justify-center">
 									<span>{getUsedQuantity(r)}</span>
 									<span>—</span>
-									<span>{r.quantity * shape.props.number_of_buildings}</span>
+									<span>
+										{formatNumber(r.quantity * shape.props.number_of_buildings)}
+									</span>
 								</div>
 								<div
 									className="cursor-pointer rounded-md p-2 hover:bg-gray-600 transition-colors"
