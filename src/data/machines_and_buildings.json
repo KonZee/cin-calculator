@@ -2172,7 +2172,7 @@
                 {
                     "id": "VehicleParts1AssemblyT5",
                     "name": "Vehicle parts assembly (T5)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Mechanical Parts",
@@ -2193,7 +2193,7 @@
                 {
                     "id": "VehicleParts2AssemblyT3",
                     "name": "Vehicle parts 2 assembly (T3)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Vehicle Parts",
@@ -2218,7 +2218,7 @@
                 {
                     "id": "VehicleParts3AssemblyT3",
                     "name": "Vehicle parts 3 assembly (T3)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Vehicle Parts II",
@@ -2239,7 +2239,7 @@
                 {
                     "id": "LabEquipment1AssemblyT4",
                     "name": "Lab equipment 1 assembly (T4)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Mechanical Parts",
@@ -2260,7 +2260,7 @@
                 {
                     "id": "LabEquipment2AssemblyT4",
                     "name": "Lab equipment 2 assembly (T2)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Lab Equipment",
@@ -2285,7 +2285,7 @@
                 {
                     "id": "LabEquipment3AssemblyT3",
                     "name": "Lab equipment 3 assembly (T2)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Lab Equipment II",
@@ -2348,7 +2348,7 @@
                 {
                     "id": "HouseholdGoodsAssemblyT4",
                     "name": "Household goods assembly (T4)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Glass",
@@ -2741,7 +2741,7 @@
                 {
                     "id": "FoodPackAssemblyMeatT3",
                     "name": "Food pack assembly (meat)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Meat",
@@ -2762,7 +2762,7 @@
                 {
                     "id": "FoodPackAssemblyEggsT3",
                     "name": "Food pack assembly (eggs)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Eggs",
@@ -2783,7 +2783,7 @@
                 {
                     "id": "FoodPackAssemblyTofuT3",
                     "name": "Food pack assembly (tofu)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Tofu",
@@ -2804,7 +2804,7 @@
                 {
                     "id": "OfficeSuppliesAssemblyT3",
                     "name": "Office supplies assembly",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Paper",
@@ -3228,7 +3228,7 @@
                 {
                     "id": "VehicleParts1AssemblyT4",
                     "name": "Vehicle parts assembly (T4)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Mechanical Parts",
@@ -3295,7 +3295,7 @@
                 {
                     "id": "LabEquipment1AssemblyT3",
                     "name": "Lab equipment 1 assembly (T3)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Mechanical Parts",
@@ -4105,7 +4105,7 @@
                 {
                     "id": "VehicleParts1AssemblyT3",
                     "name": "Vehicle parts assembly (T3)",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Mechanical Parts",
@@ -6429,7 +6429,7 @@
                 {
                     "id": "WaterElectrolysisT2",
                     "name": "Water electrolysis",
-                    "duration": 7,
+                    "duration": 7.5,
                     "inputs": [
                         {
                             "name": "Water",
