@@ -1,10 +1,10 @@
 {
-    "game_version": "0.7.1.0",
+    "game_version": "0.7.8.0",
     "machines_and_buildings": [
         {
             "id": "TurbineSuperPress",
             "name": "Super-pressure turbine",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 1,
@@ -52,7 +52,7 @@
         {
             "id": "TurbineHighPressT2",
             "name": "High-pressure turbine II",
-            "category": "General",
+            "category": "",
             "previous_tier": "TurbineHighPress",
             "next_tier": "",
             "workers": 2,
@@ -100,7 +100,7 @@
         {
             "id": "TurbineHighPress",
             "name": "High-pressure turbine",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "TurbineHighPressT2",
             "workers": 2,
@@ -148,7 +148,7 @@
         {
             "id": "TurbineLowPressT2",
             "name": "Low-pressure turbine II",
-            "category": "General",
+            "category": "",
             "previous_tier": "TurbineLowPress",
             "next_tier": "",
             "workers": 2,
@@ -196,7 +196,7 @@
         {
             "id": "TurbineLowPress",
             "name": "Low-pressure turbine",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "TurbineLowPressT2",
             "workers": 2,
@@ -244,7 +244,7 @@
         {
             "id": "PowerGeneratorT1",
             "name": "Power generator",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -292,7 +292,7 @@
         {
             "id": "PowerGeneratorT2",
             "name": "Power generator (large)",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -340,7 +340,7 @@
         {
             "id": "SolarPanel",
             "name": "Solar panel",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -370,7 +370,7 @@
         {
             "id": "SolarPanelMono",
             "name": "Solar panel (mono)",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -400,7 +400,7 @@
         {
             "id": "DieselGenerator",
             "name": "Diesel generator",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 2,
@@ -452,7 +452,7 @@
         {
             "id": "DieselGeneratorT2",
             "name": "Diesel generator II",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 2,
@@ -504,7 +504,7 @@
         {
             "id": "FoodMill",
             "name": "Mill",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 5,
@@ -619,7 +619,7 @@
         {
             "id": "FoodProcessor",
             "name": "Food processor",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 8,
@@ -841,7 +841,7 @@
         {
             "id": "BakingUnit",
             "name": "Baking unit",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 8,
@@ -922,7 +922,7 @@
         {
             "id": "BasicDieselDistiller",
             "name": "Basic distiller",
-            "category": "Basic",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -1007,7 +1007,7 @@
         {
             "id": "OilPump",
             "name": "Oil pump",
-            "category": "Basic",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 1,
@@ -1046,7 +1046,7 @@
         {
             "id": "LandWaterPump",
             "name": "Groundwater pump",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 2,
@@ -1085,7 +1085,7 @@
         {
             "id": "GasInjectionPump",
             "name": "Gas injection pump",
-            "category": "Fluid",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 4,
@@ -1128,7 +1128,7 @@
         {
             "id": "OceanWaterPumpT1",
             "name": "Seawater pump",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 1,
@@ -1167,7 +1167,7 @@
         {
             "id": "OceanWaterPumpLarge",
             "name": "Seawater pump (tall)",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 1,
@@ -1206,7 +1206,7 @@
         {
             "id": "BoilerCoal",
             "name": "Boiler",
-            "category": "Distillation",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 4,
@@ -1333,7 +1333,7 @@
         {
             "id": "BoilerGas",
             "name": "Boiler (gas)",
-            "category": "Distillation",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 4,
@@ -1535,7 +1535,7 @@
         {
             "id": "BoilerElectric",
             "name": "Boiler (electric)",
-            "category": "Distillation",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 4,
@@ -1613,7 +1613,7 @@
         {
             "id": "EvaporationPondHeated",
             "name": "Evaporation pond (heated)",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "EvaporationPond",
             "next_tier": "",
             "workers": 6,
@@ -1691,7 +1691,7 @@
         {
             "id": "EvaporationPond",
             "name": "Evaporation pond",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "",
             "next_tier": "EvaporationPondHeated",
             "workers": 4,
@@ -1769,7 +1769,7 @@
         {
             "id": "ThermalDesalinator",
             "name": "Thermal desalinator",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 4,
@@ -1900,7 +1900,7 @@
         {
             "id": "WaterChiller",
             "name": "Water chiller",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 3,
@@ -1944,7 +1944,7 @@
         {
             "id": "BricksMaker",
             "name": "Kiln",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -2000,7 +2000,7 @@
         {
             "id": "AssemblyRoboticT2",
             "name": "Assembly V",
-            "category": "General",
+            "category": "",
             "previous_tier": "AssemblyRoboticT1",
             "next_tier": "",
             "workers": 0,
@@ -2062,7 +2062,7 @@
                         },
                         {
                             "name": "Concrete slab",
-                            "quantity": 16
+                            "quantity": 12
                         }
                     ],
                     "outputs": [
@@ -2484,6 +2484,27 @@
                         {
                             "name": "Electronics II",
                             "quantity": 4
+                        }
+                    ]
+                },
+                {
+                    "id": "UraniumRodsAssemblyT3",
+                    "name": "Uranium rods (T3)",
+                    "duration": 15,
+                    "inputs": [
+                        {
+                            "name": "Enriched uranium (4%)",
+                            "quantity": 2
+                        },
+                        {
+                            "name": "Steel",
+                            "quantity": 1
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Uranium rod",
+                            "quantity": 2
                         }
                     ]
                 },
@@ -3035,7 +3056,7 @@
         {
             "id": "AssemblyRoboticT1",
             "name": "Assembly IV",
-            "category": "General",
+            "category": "",
             "previous_tier": "AssemblyElectrifiedT2",
             "next_tier": "AssemblyRoboticT2",
             "workers": 2,
@@ -3097,7 +3118,7 @@
                         },
                         {
                             "name": "Concrete slab",
-                            "quantity": 8
+                            "quantity": 6
                         }
                     ],
                     "outputs": [
@@ -3524,7 +3545,7 @@
                 },
                 {
                     "id": "UraniumRodsAssemblyT2",
-                    "name": "Uranium rods (T1)",
+                    "name": "Uranium rods (T2)",
                     "duration": 30,
                     "inputs": [
                         {
@@ -3912,7 +3933,7 @@
         {
             "id": "AssemblyElectrifiedT2",
             "name": "Assembly III",
-            "category": "General",
+            "category": "",
             "previous_tier": "AssemblyElectrified",
             "next_tier": "AssemblyRoboticT1",
             "workers": 8,
@@ -3974,7 +3995,7 @@
                         },
                         {
                             "name": "Concrete slab",
-                            "quantity": 4
+                            "quantity": 3
                         }
                     ],
                     "outputs": [
@@ -4705,7 +4726,7 @@
         {
             "id": "AssemblyElectrified",
             "name": "Assembly II",
-            "category": "General",
+            "category": "",
             "previous_tier": "AssemblyManual",
             "next_tier": "AssemblyElectrifiedT2",
             "workers": 6,
@@ -4904,7 +4925,7 @@
         {
             "id": "AssemblyManual",
             "name": "Assembly I",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "AssemblyElectrified",
             "workers": 4,
@@ -5036,7 +5057,7 @@
         {
             "id": "ConcreteMixerT3",
             "name": "Concrete Mixer III",
-            "category": "General",
+            "category": "",
             "previous_tier": "ConcreteMixerT2",
             "next_tier": "",
             "workers": 10,
@@ -5179,7 +5200,7 @@
         {
             "id": "ConcreteMixerT2",
             "name": "Concrete Mixer II",
-            "category": "General",
+            "category": "",
             "previous_tier": "ConcreteMixer",
             "next_tier": "ConcreteMixerT3",
             "workers": 7,
@@ -5322,7 +5343,7 @@
         {
             "id": "ConcreteMixer",
             "name": "Concrete Mixer",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "ConcreteMixerT2",
             "workers": 4,
@@ -5465,7 +5486,7 @@
         {
             "id": "RotaryKilnGas",
             "name": "Rotary Kiln (gas)",
-            "category": "Aluminum",
+            "category": "",
             "previous_tier": "RotaryKiln",
             "next_tier": "",
             "workers": 10,
@@ -5592,7 +5613,7 @@
         {
             "id": "RotaryKiln",
             "name": "Rotary Kiln",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "RotaryKilnGas",
             "workers": 6,
@@ -5644,7 +5665,7 @@
         {
             "id": "DiamondReactor",
             "name": "Diamond reactor",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 8,
@@ -5692,7 +5713,7 @@
         {
             "id": "LensMaker",
             "name": "Lens polisher",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -5744,7 +5765,7 @@
         {
             "id": "MicrochipMachineT2",
             "name": "Microchip machine II",
-            "category": "General",
+            "category": "",
             "previous_tier": "MicrochipMachine",
             "next_tier": "",
             "workers": 6,
@@ -6055,7 +6076,7 @@
         {
             "id": "MicrochipMachine",
             "name": "Microchip machine",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "MicrochipMachineT2",
             "workers": 4,
@@ -6366,7 +6387,7 @@
         {
             "id": "ElectrolyzerT2",
             "name": "Electrolyzer II",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "Electrolyzer",
             "next_tier": "",
             "workers": 3,
@@ -6452,7 +6473,7 @@
         {
             "id": "Electrolyzer",
             "name": "Electrolyzer",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "",
             "next_tier": "ElectrolyzerT2",
             "workers": 3,
@@ -6538,7 +6559,7 @@
         {
             "id": "FermentationTank",
             "name": "Fermentation tank",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 4,
@@ -6644,7 +6665,7 @@
         {
             "id": "SettlingTank",
             "name": "Settling tank",
-            "category": "Nuclear",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -6800,7 +6821,7 @@
         {
             "id": "CoolingTowerT1",
             "name": "Cooling tower",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -6882,7 +6903,7 @@
         {
             "id": "CoolingTowerT2",
             "name": "Cooling tower (large)",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -6981,7 +7002,7 @@
         {
             "id": "UraniumEnrichmentPlant",
             "name": "Enrichment plant",
-            "category": "Nuclear",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 14,
@@ -7146,7 +7167,7 @@
         {
             "id": "NuclearReprocessingPlant",
             "name": "Nuclear reprocessing plant",
-            "category": "Nuclear",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 30,
@@ -7305,7 +7326,7 @@
         {
             "id": "CharcoalMaker",
             "name": "Coal maker",
-            "category": "Forestry",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 2,
@@ -7353,7 +7374,7 @@
         {
             "id": "Crusher",
             "name": "Crusher",
-            "category": "Nuclear",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 2,
@@ -7584,7 +7605,7 @@
         {
             "id": "CrusherLarge",
             "name": "Crusher (large)",
-            "category": "Nuclear",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -7815,7 +7836,7 @@
         {
             "id": "ArcFurnace2",
             "name": "Arc furnace II",
-            "category": "Titanium",
+            "category": "",
             "previous_tier": "ArcFurnace",
             "next_tier": "",
             "workers": 14,
@@ -8204,7 +8225,7 @@
         {
             "id": "ArcFurnace",
             "name": "Arc furnace",
-            "category": "Silicon",
+            "category": "",
             "previous_tier": "SmeltingFurnaceT2",
             "next_tier": "ArcFurnace2",
             "workers": 12,
@@ -8459,7 +8480,7 @@
         {
             "id": "SmeltingFurnaceT2",
             "name": "Blast furnace II",
-            "category": "Glass",
+            "category": "",
             "previous_tier": "SmeltingFurnaceT1",
             "next_tier": "ArcFurnace",
             "workers": 18,
@@ -8656,7 +8677,7 @@
         {
             "id": "SmeltingFurnaceT1",
             "name": "Blast furnace",
-            "category": "Glass",
+            "category": "",
             "previous_tier": "",
             "next_tier": "SmeltingFurnaceT2",
             "workers": 8,
@@ -8845,7 +8866,7 @@
         {
             "id": "AluminumCell",
             "name": "Aluminum cell",
-            "category": "Aluminum",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 14,
@@ -8897,7 +8918,7 @@
         {
             "id": "CasterCooledT2",
             "name": "Cooled caster II",
-            "category": "Titanium",
+            "category": "",
             "previous_tier": "CasterCooled",
             "next_tier": "",
             "workers": 2,
@@ -8966,7 +8987,7 @@
         {
             "id": "CasterCooled",
             "name": "Cooled caster",
-            "category": "Iron",
+            "category": "",
             "previous_tier": "",
             "next_tier": "CasterCooledT2",
             "workers": 2,
@@ -9014,7 +9035,7 @@
         {
             "id": "CasterT2",
             "name": "Metal caster II",
-            "category": "Aluminum",
+            "category": "",
             "previous_tier": "Caster",
             "next_tier": "",
             "workers": 2,
@@ -9096,7 +9117,7 @@
         {
             "id": "Caster",
             "name": "Metal caster",
-            "category": "Aluminum",
+            "category": "",
             "previous_tier": "",
             "next_tier": "CasterT2",
             "workers": 2,
@@ -9174,7 +9195,7 @@
         {
             "id": "AlloyMixer",
             "name": "Alloy mixer",
-            "category": "Titanium",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 12,
@@ -9222,7 +9243,7 @@
         {
             "id": "CopperElectrolysis",
             "name": "Copper electrolysis",
-            "category": "Copper",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 5,
@@ -9291,7 +9312,7 @@
         {
             "id": "OxygenFurnaceT2",
             "name": "Oxygen furnace II",
-            "category": "Iron",
+            "category": "",
             "previous_tier": "OxygenFurnace",
             "next_tier": "",
             "workers": 6,
@@ -9343,7 +9364,7 @@
         {
             "id": "OxygenFurnace",
             "name": "Oxygen furnace",
-            "category": "Iron",
+            "category": "",
             "previous_tier": "",
             "next_tier": "OxygenFurnaceT2",
             "workers": 4,
@@ -9395,7 +9416,7 @@
         {
             "id": "GlassMakerT2",
             "name": "Glass maker II",
-            "category": "Glass",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 8,
@@ -9439,7 +9460,7 @@
         {
             "id": "GlassMakerT1",
             "name": "Glass maker",
-            "category": "Glass",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -9487,7 +9508,7 @@
         {
             "id": "SiliconCrystallizer",
             "name": "Crystallizer",
-            "category": "Aluminum",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 8,
@@ -9552,7 +9573,7 @@
         {
             "id": "SiliconReactor",
             "name": "Silicon reactor",
-            "category": "Silicon",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 2,
@@ -9600,7 +9621,7 @@
         {
             "id": "GoldFurnace",
             "name": "Gold furnace",
-            "category": "Gold",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -9669,7 +9690,7 @@
         {
             "id": "IndustrialMixerT2",
             "name": "Mixer II",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "IndustrialMixer",
             "next_tier": "",
             "workers": 4,
@@ -10074,7 +10095,7 @@
         {
             "id": "IndustrialMixer",
             "name": "Mixer",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "",
             "next_tier": "IndustrialMixerT2",
             "workers": 4,
@@ -10479,7 +10500,7 @@
         {
             "id": "ChemicalPlant2",
             "name": "Chemical plant II",
-            "category": "Titanium",
+            "category": "",
             "previous_tier": "ChemicalPlant",
             "next_tier": "",
             "workers": 14,
@@ -11041,7 +11062,7 @@
         {
             "id": "ChemicalPlant",
             "name": "Chemical plant",
-            "category": "Derivatives",
+            "category": "",
             "previous_tier": "",
             "next_tier": "ChemicalPlant2",
             "workers": 8,
@@ -11227,7 +11248,7 @@
         {
             "id": "DistillationTowerT1",
             "name": "Distillation (stage I)",
-            "category": "Distillation",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -11283,7 +11304,7 @@
         {
             "id": "DistillationTowerT2",
             "name": "Distillation (stage II)",
-            "category": "Distillation",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 8,
@@ -11335,7 +11356,7 @@
         {
             "id": "DistillationTowerT3",
             "name": "Distillation (stage III)",
-            "category": "Titanium",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 8,
@@ -11412,7 +11433,7 @@
         {
             "id": "VacuumDistillationTower",
             "name": "Rubber maker",
-            "category": "Derivatives",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -11552,7 +11573,7 @@
         {
             "id": "HydroCrackerT1",
             "name": "Cracking unit",
-            "category": "Distillation",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 12,
@@ -11729,7 +11750,7 @@
         {
             "id": "HydrogenReformer",
             "name": "Hydrogen reformer",
-            "category": "Derivatives",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 8,
@@ -11810,7 +11831,7 @@
         {
             "id": "SourWaterStripper",
             "name": "Sour water stripper",
-            "category": "Distillation",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 8,
@@ -11866,7 +11887,7 @@
         {
             "id": "PolymerizationPlant",
             "name": "Polymerization plant",
-            "category": "Derivatives",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 12,
@@ -11943,7 +11964,7 @@
         {
             "id": "SmokeStackLarge",
             "name": "Smoke stack (large)",
-            "category": "Titanium",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -12080,7 +12101,7 @@
         {
             "id": "SmokeStack",
             "name": "Smoke stack",
-            "category": "Titanium",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -12213,7 +12234,7 @@
         {
             "id": "WasteDump",
             "name": "Liquid dump",
-            "category": "Basic",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 1,
@@ -12412,7 +12433,7 @@
         {
             "id": "Flare",
             "name": "Flare",
-            "category": "Derivatives",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 1,
@@ -12570,7 +12591,7 @@
         {
             "id": "ExhaustScrubber",
             "name": "Exhaust scrubber",
-            "category": "Fluid",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 8,
@@ -12595,33 +12616,33 @@
                 {
                     "id": "ExhaustFiltering",
                     "name": "Exhaust filtering",
-                    "duration": 10,
+                    "duration": 40,
                     "inputs": [
                         {
                             "name": "Exhaust",
-                            "quantity": 40
+                            "quantity": 160
                         },
                         {
                             "name": "Water",
-                            "quantity": 4
+                            "quantity": 16
                         }
                     ],
                     "outputs": [
                         {
                             "name": "Sulfur",
-                            "quantity": 1
+                            "quantity": 4
                         },
                         {
                             "name": "Carbon dioxide",
-                            "quantity": 16
+                            "quantity": 64
                         },
                         {
                             "name": "Steam (low)",
-                            "quantity": 4
+                            "quantity": 16
                         },
                         {
                             "name": "Air pollution",
-                            "quantity": 4
+                            "quantity": 16
                         }
                     ]
                 },
@@ -12667,7 +12688,7 @@
         {
             "id": "WaterTreatmentPlant",
             "name": "Wastewater treatment",
-            "category": "Fluid",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 26,
@@ -12781,7 +12802,7 @@
         {
             "id": "Burner",
             "name": "Burner (solid)",
-            "category": "Solid",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 1,
@@ -12944,7 +12965,7 @@
         {
             "id": "IncinerationPlant",
             "name": "Incineration plant",
-            "category": "Solid",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 16,
@@ -13087,7 +13108,7 @@
         {
             "id": "Shredder",
             "name": "Shredder",
-            "category": "Forestry",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 1,
@@ -13267,7 +13288,7 @@
         {
             "id": "Compactor",
             "name": "Compactor",
-            "category": "Solid",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 1,
@@ -13396,7 +13417,7 @@
         {
             "id": "AnaerobicDigester",
             "name": "Anaerobic digester",
-            "category": "Solid",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 4,
@@ -13627,13 +13648,34 @@
                             "quantity": 2
                         }
                     ]
+                },
+                {
+                    "id": "EggsDigestion",
+                    "name": "Digestion",
+                    "duration": 60,
+                    "inputs": [
+                        {
+                            "name": "Eggs",
+                            "quantity": 12
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Fuel gas",
+                            "quantity": 12
+                        },
+                        {
+                            "name": "Compost",
+                            "quantity": 1
+                        }
+                    ]
                 }
             ]
         },
         {
             "id": "AirSeparator",
             "name": "Air separator",
-            "category": "Iron",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -13676,7 +13718,7 @@
         {
             "id": "MaintenanceDepotT1",
             "name": "Maintenance depot",
-            "category": "Maintenance",
+            "category": "",
             "previous_tier": "MaintenanceDepotT0",
             "next_tier": "",
             "workers": 12,
@@ -13749,7 +13791,7 @@
         {
             "id": "MaintenanceDepotT0",
             "name": "Maintenance depot (basic)",
-            "category": "Maintenance",
+            "category": "",
             "previous_tier": "",
             "next_tier": "MaintenanceDepotT1",
             "workers": 6,
@@ -13797,7 +13839,7 @@
         {
             "id": "MaintenanceDepotT2",
             "name": "Maintenance II depot",
-            "category": "Maintenance",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 16,
@@ -13874,7 +13916,7 @@
         {
             "id": "MaintenanceDepotT3",
             "name": "Maintenance III depot",
-            "category": "Maintenance",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 20,
@@ -13951,7 +13993,7 @@
         {
             "id": "FarmT4",
             "name": "Greenhouse II",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "FarmT3",
             "next_tier": "",
             "workers": 20,
@@ -14675,7 +14717,7 @@
         {
             "id": "FarmT3",
             "name": "Greenhouse",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "FarmT2",
             "next_tier": "FarmT4",
             "workers": 16,
@@ -15399,7 +15441,7 @@
         {
             "id": "FarmT2",
             "name": "Irrigated Farm",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "FarmT1",
             "next_tier": "FarmT3",
             "workers": 10,
@@ -15867,7 +15909,7 @@
         {
             "id": "FarmT1",
             "name": "Farm",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "",
             "next_tier": "FarmT2",
             "workers": 8,
@@ -15978,7 +16020,7 @@
         {
             "id": "ChickenFarm",
             "name": "Chicken farm",
-            "category": "Food production",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 12,
@@ -16030,7 +16072,7 @@
         {
             "id": "CargoDepotT4",
             "name": "Cargo depot (8)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "CargoDepotT3",
             "next_tier": "",
             "workers": 0,
@@ -16060,7 +16102,7 @@
         {
             "id": "CargoDepotT3",
             "name": "Cargo depot (6)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "",
             "next_tier": "CargoDepotT4",
             "workers": 0,
@@ -16090,7 +16132,7 @@
         {
             "id": "CargoDepotT2",
             "name": "Cargo depot (4)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "CargoDepotT1",
             "next_tier": "",
             "workers": 0,
@@ -16120,7 +16162,7 @@
         {
             "id": "CargoDepotT1",
             "name": "Cargo depot (2)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "",
             "next_tier": "CargoDepotT2",
             "workers": 0,
@@ -16150,7 +16192,7 @@
         {
             "id": "CargoDepotModuleUnitT3",
             "name": "Unit module (L)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "CargoDepotModuleUnitT2",
             "next_tier": "",
             "workers": 5,
@@ -16176,7 +16218,7 @@
         {
             "id": "CargoDepotModuleUnitT2",
             "name": "Unit module (M)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "CargoDepotModuleUnitT1",
             "next_tier": "CargoDepotModuleUnitT3",
             "workers": 4,
@@ -16202,7 +16244,7 @@
         {
             "id": "CargoDepotModuleUnitT1",
             "name": "Unit module (S)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "",
             "next_tier": "CargoDepotModuleUnitT2",
             "workers": 3,
@@ -16228,7 +16270,7 @@
         {
             "id": "CargoDepotModuleLooseT3",
             "name": "Loose module (L)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "CargoDepotModuleLooseT2",
             "next_tier": "",
             "workers": 5,
@@ -16254,7 +16296,7 @@
         {
             "id": "CargoDepotModuleLooseT2",
             "name": "Loose module (M)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "CargoDepotModuleLooseT1",
             "next_tier": "CargoDepotModuleLooseT3",
             "workers": 4,
@@ -16280,7 +16322,7 @@
         {
             "id": "CargoDepotModuleLooseT1",
             "name": "Loose module (S)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "",
             "next_tier": "CargoDepotModuleLooseT2",
             "workers": 3,
@@ -16306,7 +16348,7 @@
         {
             "id": "CargoDepotModuleFluidT3",
             "name": "Fluid module (L)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "CargoDepotModuleFluidT2",
             "next_tier": "",
             "workers": 5,
@@ -16332,7 +16374,7 @@
         {
             "id": "CargoDepotModuleFluidT2",
             "name": "Fluid module (M)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "CargoDepotModuleFluidT1",
             "next_tier": "CargoDepotModuleFluidT3",
             "workers": 4,
@@ -16358,7 +16400,7 @@
         {
             "id": "CargoDepotModuleFluidT1",
             "name": "Fluid module (S)",
-            "category": "Cargo docks",
+            "category": "",
             "previous_tier": "",
             "next_tier": "CargoDepotModuleFluidT2",
             "workers": 3,
@@ -16384,7 +16426,7 @@
         {
             "id": "ResearchLab1",
             "name": "Research lab (basic)",
-            "category": "Buildings",
+            "category": "",
             "previous_tier": "",
             "next_tier": "ResearchLab2",
             "workers": 6,
@@ -16410,7 +16452,7 @@
         {
             "id": "ResearchLab2",
             "name": "Research lab I",
-            "category": "Buildings",
+            "category": "",
             "previous_tier": "ResearchLab1",
             "next_tier": "ResearchLab3",
             "workers": 12,
@@ -16470,7 +16512,7 @@
         {
             "id": "ResearchLab3",
             "name": "Research lab II",
-            "category": "Buildings",
+            "category": "",
             "previous_tier": "ResearchLab2",
             "next_tier": "ResearchLab4",
             "workers": 20,
@@ -16530,7 +16572,7 @@
         {
             "id": "ResearchLab4",
             "name": "Research lab III",
-            "category": "Buildings",
+            "category": "",
             "previous_tier": "ResearchLab3",
             "next_tier": "ResearchLab5",
             "workers": 46,
@@ -16590,7 +16632,7 @@
         {
             "id": "ResearchLab5",
             "name": "Research lab IV",
-            "category": "Buildings",
+            "category": "",
             "previous_tier": "ResearchLab4",
             "next_tier": "",
             "workers": 80,
@@ -16650,7 +16692,7 @@
         {
             "id": "VehiclesDepotT3",
             "name": "Vehicles depot III",
-            "category": "Vehicles",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 16,
@@ -16676,7 +16718,7 @@
         {
             "id": "VehiclesDepotT2",
             "name": "Vehicles depot II",
-            "category": "Vehicles",
+            "category": "",
             "previous_tier": "VehiclesDepot",
             "next_tier": "",
             "workers": 10,
@@ -16702,7 +16744,7 @@
         {
             "id": "VehiclesDepot",
             "name": "Vehicles depot",
-            "category": "Vehicles",
+            "category": "",
             "previous_tier": "",
             "next_tier": "VehiclesDepotT2",
             "workers": 6,
@@ -16728,7 +16770,7 @@
         {
             "id": "FuelStationHydrogenT1",
             "name": "Hydrogen fuel station",
-            "category": "Vehicles",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -16754,7 +16796,7 @@
         {
             "id": "FuelStationT3",
             "name": "Fuel station III",
-            "category": "Vehicles",
+            "category": "",
             "previous_tier": "FuelStationT2",
             "next_tier": "",
             "workers": 0,
@@ -16780,7 +16822,7 @@
         {
             "id": "FuelStationT2",
             "name": "Fuel station II",
-            "category": "Vehicles",
+            "category": "",
             "previous_tier": "FuelStationT1",
             "next_tier": "FuelStationT3",
             "workers": 0,
@@ -16806,7 +16848,7 @@
         {
             "id": "FuelStationT1",
             "name": "Fuel station",
-            "category": "Vehicles",
+            "category": "",
             "previous_tier": "",
             "next_tier": "FuelStationT2",
             "workers": 0,
@@ -16832,7 +16874,7 @@
         {
             "id": "StorageUnitT4",
             "name": "Unit storage IV",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "StorageUnitT3",
             "next_tier": "",
             "workers": 0,
@@ -16858,7 +16900,7 @@
         {
             "id": "StorageUnitT3",
             "name": "Unit storage III",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "",
             "next_tier": "StorageUnitT4",
             "workers": 0,
@@ -16884,7 +16926,7 @@
         {
             "id": "StorageUnitT2",
             "name": "Unit storage II",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "StorageUnit",
             "next_tier": "",
             "workers": 0,
@@ -16910,7 +16952,7 @@
         {
             "id": "StorageUnit",
             "name": "Unit storage",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "",
             "next_tier": "StorageUnitT2",
             "workers": 0,
@@ -16936,7 +16978,7 @@
         {
             "id": "StorageLooseT4",
             "name": "Loose storage IV",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "StorageLooseT3",
             "next_tier": "",
             "workers": 0,
@@ -16962,7 +17004,7 @@
         {
             "id": "StorageLooseT3",
             "name": "Loose storage III",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "",
             "next_tier": "StorageLooseT4",
             "workers": 0,
@@ -16988,7 +17030,7 @@
         {
             "id": "StorageLooseT2",
             "name": "Loose storage II",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "StorageLoose",
             "next_tier": "",
             "workers": 0,
@@ -17014,7 +17056,7 @@
         {
             "id": "StorageLoose",
             "name": "Loose storage",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "",
             "next_tier": "StorageLooseT2",
             "workers": 0,
@@ -17040,7 +17082,7 @@
         {
             "id": "StorageFluidT4",
             "name": "Fluid storage IV",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "StorageFluidT3",
             "next_tier": "",
             "workers": 0,
@@ -17066,7 +17108,7 @@
         {
             "id": "StorageFluidT3",
             "name": "Fluid storage III",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "",
             "next_tier": "StorageFluidT4",
             "workers": 0,
@@ -17092,7 +17134,7 @@
         {
             "id": "StorageFluidT2",
             "name": "Fluid storage II",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "StorageFluid",
             "next_tier": "",
             "workers": 0,
@@ -17118,7 +17160,7 @@
         {
             "id": "StorageFluid",
             "name": "Fluid storage",
-            "category": "Storage",
+            "category": "STORAGE",
             "previous_tier": "",
             "next_tier": "StorageFluidT2",
             "workers": 0,
@@ -17144,7 +17186,7 @@
         {
             "id": "NuclearWasteStorage",
             "name": "Radioactive waste storage",
-            "category": "Nuclear",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 10,
@@ -17174,7 +17216,7 @@
         {
             "id": "HousingT4",
             "name": "Housing IV",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -17208,7 +17250,7 @@
         {
             "id": "HousingT3",
             "name": "Housing III",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -17238,7 +17280,7 @@
         {
             "id": "HousingT2",
             "name": "Housing II",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -17264,7 +17306,7 @@
         {
             "id": "Housing",
             "name": "Housing",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -17290,7 +17332,7 @@
         {
             "id": "MineTower",
             "name": "Mine control tower",
-            "category": "Terraforming",
+            "category": "TERRAFORMING",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -17316,7 +17358,7 @@
         {
             "id": "SettlementLandfillModule",
             "name": "Waste collection",
-            "category": "Settlement",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 4,
@@ -17342,7 +17384,7 @@
         {
             "id": "SettlementRecyclablesModule",
             "name": "Recyclables collection",
-            "category": "Settlement",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 12,
@@ -17368,7 +17410,7 @@
         {
             "id": "SettlementBiomassModule",
             "name": "Biomass collection",
-            "category": "Settlement",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -17394,7 +17436,7 @@
         {
             "id": "SettlementFoodModuleT2",
             "name": "Food market II",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -17420,7 +17462,7 @@
         {
             "id": "SettlementFoodModule",
             "name": "Food market",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 3,
@@ -17446,7 +17488,7 @@
         {
             "id": "SettlementHouseholdGoodsModule",
             "name": "Household goods module",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 16,
@@ -17476,7 +17518,7 @@
         {
             "id": "SettlementHouseholdAppliancesModule",
             "name": "Household appliances module",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 20,
@@ -17506,7 +17548,7 @@
         {
             "id": "SettlementConsumerElectronicsModule",
             "name": "Consumer electronics module",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 24,
@@ -17536,7 +17578,7 @@
         {
             "id": "SettlementLuxuryGoodsModule",
             "name": "Luxury goods module",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 16,
@@ -17566,7 +17608,7 @@
         {
             "id": "SettlementWaterModule",
             "name": "Water facility",
-            "category": "Housing & services",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
@@ -17592,7 +17634,7 @@
         {
             "id": "NuclearReactorT2",
             "name": "Nuclear reactor II",
-            "category": "Nuclear",
+            "category": "",
             "previous_tier": "NuclearReactor",
             "next_tier": "",
             "workers": 110,
@@ -17719,7 +17761,7 @@
         {
             "id": "NuclearReactor",
             "name": "Nuclear reactor",
-            "category": "Nuclear",
+            "category": "",
             "previous_tier": "",
             "next_tier": "NuclearReactorT2",
             "workers": 80,
@@ -17796,7 +17838,7 @@
         {
             "id": "FastBreederReactor",
             "name": "Fast breeder reactor",
-            "category": "Nuclear",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 200,
@@ -17947,7 +17989,7 @@
         {
             "id": "RocketAssemblyDepot",
             "name": "Rocket assembly depot",
-            "category": "Rockets",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 160,
@@ -17977,7 +18019,7 @@
         {
             "id": "RocketLaunchPad",
             "name": "Rocket launch pad",
-            "category": "Rockets",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 30,
@@ -18011,7 +18053,7 @@
         {
             "id": "WasteSortingPlant",
             "name": "Waste sorting plant",
-            "category": "Solid",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 32,
@@ -18104,7 +18146,7 @@
         {
             "id": "RainwaterHarvester",
             "name": "Rainwater harvester",
-            "category": "Water extraction & processing",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 0,
@@ -18147,7 +18189,7 @@
         {
             "id": "DataCenter",
             "name": "Data center",
-            "category": "General",
+            "category": "",
             "previous_tier": "",
             "next_tier": "",
             "workers": 6,
