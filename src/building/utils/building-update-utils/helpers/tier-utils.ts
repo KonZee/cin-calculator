@@ -5,18 +5,14 @@ import {
 	type TLArrowShape,
 	type TLShapeId,
 } from "tldraw"
-import products from "@/data/products.json"
 import buildings from "@/data/machines_and_buildings.json"
-import { cardHeights } from "@/building/constants"
-import type { BuildCost, Building, Product, RecipeIO } from "@/building/types"
+import { cardMinHeight, cardPinStep } from "@/building/constants"
+import type { BuildCost, Building, RecipeIO } from "@/building/types"
 import { v4 as uuidv4 } from "uuid"
 import { removeConnectedShapeFromOutput } from "../removeConnectedShapeFromOutput"
 import { removeConnectedShapeFromInput } from "../removeConnectedShapeFromInput"
 import { updateConnectedShapes } from "../updateConnectedShapes"
-
-const getProductData = (name: string): Product => {
-	return products.products.find((p) => p.name === name) as Product
-}
+import { getProductData } from "@/building/utils/building-data-utils"
 
 function findMostSimilarRecipeIndex(
 	currentRecipe: BuildingShape["props"]["recipe"],
@@ -151,9 +147,10 @@ export function changeBuildingTier({
 	})
 
 	const height =
-		cardHeights[
-			Math.max(selectedRecipe.inputs.length, selectedRecipe.outputs.length) - 1
-		]
+		cardMinHeight +
+		cardPinStep *
+			(Math.max(selectedRecipe.inputs.length, selectedRecipe.outputs.length) -
+				1)
 
 	editor.updateShape<BuildingShape>({
 		id: buildingShape.id,

@@ -8,7 +8,8 @@ import {
 	getProductData,
 } from "@/building/utils/building-data-utils"
 import {
-	arrowPositions,
+	arrowZeroIndexPosition,
+	cardPinStep,
 	cardsHorizontalGap,
 	cardWidth,
 } from "@/building/constants"
@@ -110,8 +111,10 @@ export default function RelatedRecipeModal({
 			(r) => r.name === product,
 		)
 
+		if (indexFrom === -1 || indexTo === -1) return
+
 		createArrowConnection({ editor, supplier, consumer, indexFrom, indexTo })
-		updateConnectedShapes({ editor, supplier, consumer, indexFrom, indexTo })
+		applyInitialConnectionAmounts({ editor, supplier, consumer, indexFrom, indexTo })
 
 		setSelectedBuilding(null)
 		setExistingRequestedShape(null)
@@ -158,7 +161,9 @@ export default function RelatedRecipeModal({
 					isPrecise: true,
 					normalizedAnchor: {
 						x: 1,
-						y: arrowPositions[indexFrom] / supplier.props.h,
+						y:
+							(arrowZeroIndexPosition + cardPinStep * indexFrom) /
+							supplier.props.h,
 					},
 				},
 			},
@@ -172,15 +177,17 @@ export default function RelatedRecipeModal({
 					isPrecise: true,
 					normalizedAnchor: {
 						x: 0,
-						y: arrowPositions[indexTo] / consumer.props.h,
+						y:
+							(arrowZeroIndexPosition + cardPinStep * indexTo) /
+							consumer.props.h,
 					},
 				},
 			},
 		])
 	}
 
-	// Helper to update connected shapes
-	function updateConnectedShapes({
+	// Calculates the initial transfer amount and registers both sides of a new connection
+	function applyInitialConnectionAmounts({
 		editor,
 		supplier,
 		consumer,
@@ -257,8 +264,10 @@ export default function RelatedRecipeModal({
 			(r) => r.name === product,
 		)
 
+		if (indexFrom === -1 || indexTo === -1) return
+
 		createArrowConnection({ editor, supplier, consumer, indexFrom, indexTo })
-		updateConnectedShapes({ editor, supplier, consumer, indexFrom, indexTo })
+		applyInitialConnectionAmounts({ editor, supplier, consumer, indexFrom, indexTo })
 
 		onClose()
 	}

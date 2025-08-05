@@ -1,7 +1,12 @@
 import type { Editor } from "tldraw"
 import type { Building } from "../../types"
 import type { BuildingShape } from "@/shapes/building/buildingShape"
-import { cardHeights, cardVerticalGap, cardWidth } from "../../constants"
+import {
+	cardMinHeight,
+	cardPinStep,
+	cardVerticalGap,
+	cardWidth,
+} from "../../constants"
 
 // Helper function to check if two rectangles intersect
 const doRectanglesIntersect = (
@@ -18,13 +23,14 @@ const doRectanglesIntersect = (
 
 // Helper function to calculate building dimensions based on recipe
 export const calculateBuildingDimensions = (building: Building) => {
-	const maxConnections = Math.max(
-		building.recipes[0].inputs.length,
-		building.recipes[0].outputs.length,
-	)
-
-	// Use the same logic as in building-create-utils for height calculation
-	const height = cardHeights[Math.max(0, maxConnections - 1)]
+	const height =
+		cardMinHeight +
+		cardPinStep *
+			(Math.max(
+				building.recipes[0].inputs.length,
+				building.recipes[0].outputs.length,
+			) -
+				1)
 
 	return {
 		width: cardWidth,

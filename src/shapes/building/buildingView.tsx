@@ -7,7 +7,6 @@ import {
 	ArrowDownIcon,
 } from "@heroicons/react/24/outline"
 import { NumberInput } from "@mantine/core"
-import { useState } from "react"
 import { useEditor } from "tldraw"
 import type { BuildingShape } from "./buildingShape"
 import {
@@ -21,8 +20,6 @@ import { formatNumber } from "@/utils"
 
 export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 	const editor = useEditor()
-	const [quantity, setQuantity] = useState(shape.props.number_of_buildings)
-
 	const {
 		actions: { open },
 		setOriginShape,
@@ -57,7 +54,6 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 
 	const handleUpdateQuantity = (value: string | number) => {
 		const num = typeof value === "number" ? value : Number.parseInt(value)
-		setQuantity(num)
 		editor.updateShape<BuildingShape>({
 			id: shape.id,
 			type: shape.type,
@@ -146,10 +142,10 @@ export const BuildingView = ({ shape }: { shape: BuildingShape }) => {
 						decimalScale={0}
 						size="xs"
 						className="w-12"
-						value={quantity}
+						value={shape.props.number_of_buildings}
 						onChange={handleUpdateQuantity}
 						style={{ pointerEvents: "all" }}
-						onKeyUp={(e) => e.stopPropagation}
+						onKeyUp={(e) => e.stopPropagation()}
 					/>
 					{canChangeTier() && (
 						<>

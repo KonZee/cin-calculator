@@ -21,7 +21,7 @@ const CustomUi = track(({ openNewModal }: { openNewModal: () => void }) => {
 		return () => {
 			window.removeEventListener("keyup", handleKeyUp)
 		}
-	})
+	}, [])
 
 	const checkShapes = () => {
 		return !editor.getCurrentPageShapes().length

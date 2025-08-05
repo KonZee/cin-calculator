@@ -1,7 +1,7 @@
 import { Rectangle2d, ShapeUtil } from "tldraw"
 import type { BuildingShape } from "./buildingShape"
 import { BuildingView } from "./buildingView"
-import { cardHeights, cardWidth } from "@/building/constants"
+import { cardMinHeight, cardWidth } from "@/building/constants"
 
 export class BuildingShapeUtil extends ShapeUtil<BuildingShape> {
 	static override type = "building" as const
@@ -9,7 +9,7 @@ export class BuildingShapeUtil extends ShapeUtil<BuildingShape> {
 	getDefaultProps(): BuildingShape["props"] {
 		return {
 			w: cardWidth,
-			h: cardHeights[0],
+			h: cardMinHeight,
 			name: "default",
 			category: "default",
 			previous_tier: "",

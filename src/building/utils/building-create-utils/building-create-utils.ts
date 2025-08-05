@@ -1,12 +1,8 @@
 import type { Editor, TLShapeId } from "tldraw"
 import { v4 as uuidv4 } from "uuid"
-import type { Building, Product, BuildCost, RecipeIO } from "../../types"
-import { cardHeights, cardWidth } from "../../constants"
-import products from "@/data/products.json"
-
-const getProductData = (name: string): Product => {
-	return products.products.find((p) => p.name === name) as Product
-}
+import type { Building, BuildCost, RecipeIO } from "../../types"
+import { cardMinHeight, cardPinStep, cardWidth } from "../../constants"
+import { getProductData } from "../building-data-utils"
 
 export const createBuildingShape = (
 	editor: Editor,
@@ -18,12 +14,13 @@ export const createBuildingShape = (
 	},
 ): void => {
 	const height =
-		cardHeights[
-			Math.max(
+		cardMinHeight +
+		cardPinStep *
+			(Math.max(
 				building.recipes[0].inputs.length,
 				building.recipes[0].outputs.length,
-			) - 1
-		]
+			) -
+				1)
 
 	const shapeData = {
 		...(options?.id && { id: options.id }),
